@@ -30,6 +30,7 @@ app.post('/user', (req,res) => {
     })
 }); 
 
+//lav bruger
 app.post('/create', (req,res) => {
 
    let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
@@ -45,7 +46,27 @@ fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
 
 }); 
 
+app.put('/opdater', (req,res) => {
 
+    let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
+ 
+    for (let i = 0; i < userData.length; i++) { 
+        if(userData[i].id == req.body.id) {
+            userData[i].user = req.body.user
+            fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
+                if(err) res.send(err)
+                res.status(200).json({
+                    msg: "Succes"
+                })
+            })
+      }
+    }
+ 
+ 
+}); 
+
+
+ 
 
 // Start Server
 app.listen(port, () => {

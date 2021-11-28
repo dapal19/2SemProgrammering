@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
 
+    //lav bruger
     let submit = document.getElementById("submit")
 
     submit.addEventListener("click", (e) =>{
@@ -9,8 +10,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
         var uniq = 'id' + Date.now().toString(36)
         let newUser = {
-      id: uniq,
-      user: username
+            id: uniq,
+            user: username
      }
         console.log(newUser)
 
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function(){
         })
     })
 
+    //liste over brugere
     const getAllUsers = document.getElementById("getAllUsers")
     const allUsers = document.getElementById("allUsers")
 
@@ -53,5 +55,36 @@ document.addEventListener("DOMContentLoaded", function(){
     })
 
     })
+
+    //opdater bruger
+    const ChangeUserSubmit = document.getElementById("ChangeUserSubmit")
+
+    ChangeUserSubmit.addEventListener("click", (e) =>{
+        e.preventDefault();
+
+        let username = document.getElementById("changeUserName").value;
+        let uniq = document.getElementById("changeUserID").value;
+
+        let updatedUser = {
+            id: uniq,
+            user: username
+     }
+
+        fetch("/opdater",{
+            method: "PUT",
+            headers: {
+                'content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedUser)
+        }) .then(response => response.json())
+        .then(data => {
+        console.log(data)
+        alert("succes" + data.msg)
+        })
+        .catch((error) => {
+        console.log('error:', error)
+        })
+    })
+
 
 });
