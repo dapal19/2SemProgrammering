@@ -1,12 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(){
 
-    let button = document.getElementById("apiButton")
-
-    button.addEventListener("click",()=>{
-
-        console.log('hej')
-    })
-
     let submit = document.getElementById("submit")
 
     submit.addEventListener("click", (e) =>{
@@ -21,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function(){
      }
         console.log(newUser)
 
-        fetch("/user",{
+        fetch("/create",{
             method: "POST",
             headers: {
                 'content-Type': 'application/json'
@@ -36,4 +29,29 @@ document.addEventListener("DOMContentLoaded", function(){
         console.log('error:', error)
         })
     })
+
+    const getAllUsers = document.getElementById("getAllUsers")
+    const allUsers = document.getElementById("allUsers")
+
+    getAllUsers.addEventListener("click", (e) =>{
+        e.preventDefault();
+        fetch("/userList", {
+        method: "GET",
+        headers: {
+            'content-Type': 'application/json'
+        },
+    })
+    .then(res => res.json())
+    .then(data => {
+        allUsers.innerHTML = ""
+        data.forEach(element => {
+            allUsers.innerHTML += "<p> Username: " + element.user + " id: " + element.id + "</p>"
+        });
+    })
+    .catch((error) => {
+        console.log('error: ', error)
+    })
+
+    })
+
 });

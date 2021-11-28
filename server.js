@@ -30,10 +30,19 @@ app.post('/user', (req,res) => {
     })
 }); 
 
-app.post('/lavBruger', (req,res) => {
-   
+app.post('/create', (req,res) => {
 
-    
+   let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
+
+    userData.push(req.body)
+
+fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
+        if(err) res.send(err)
+        res.send({
+            msg: "Succes"
+        })
+    })
+
 }); 
 
 
