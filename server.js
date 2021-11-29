@@ -51,8 +51,33 @@ app.put('/opdater', (req,res) => {
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
  
     for (let i = 0; i < userData.length; i++) { 
+
         if(userData[i].id == req.body.id) {
             userData[i].user = req.body.user
+
+            fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
+                if(err) res.send(err)
+                res.status(200).json({
+                    msg: "Succes"
+                })
+            })
+      }
+    }
+    res.send({msg: "kunne ikke finde nogen bruger"})
+ 
+}); 
+
+//slet bruger
+app.delete('/delete/:id', (req,res) => {
+
+    let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
+ 
+    for (let i = 0; i < userData.length; i++) { 
+
+        if(userData[i].id == req.params.id) {
+            userData.splice(i, 1)
+
+
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
                 if(err) res.send(err)
                 res.status(200).json({
@@ -63,9 +88,7 @@ app.put('/opdater', (req,res) => {
     }
  
  
-}); 
-
-
+ }); 
  
 
 // Start Server

@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function(){
         }) .then(response => response.json())
         .then(data => {
         console.log(data)
-        alert("succes" + data.msg)
         })
         .catch((error) => {
         console.log('error:', error)
@@ -79,12 +78,33 @@ document.addEventListener("DOMContentLoaded", function(){
         }) .then(response => response.json())
         .then(data => {
         console.log(data)
-        alert("succes" + data.msg)
         })
         .catch((error) => {
         console.log('error:', error)
         })
     })
 
+
+//slet bruger
+const deleteSubmit = document.getElementById("deleteSubmit")
+
+deleteSubmit.addEventListener("click", (e) =>{
+    e.preventDefault();
+
+    let uniq = document.getElementById("deleteUser").value;
+
+    fetch("/delete/" + uniq,{
+        method: "DELETE",
+        headers: {
+            'content-Type': 'application/json'
+        },
+    }) .then(response => response.json())
+    .then(data => {
+    console.log(data)
+    })
+    .catch((error) => {
+    console.log('error:', error)
+    })
+})
 
 });
