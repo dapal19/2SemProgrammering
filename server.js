@@ -52,7 +52,7 @@ app.put('/opdater', (req,res) => {
  
     for (let i = 0; i < userData.length; i++) { 
 
-        if(userData[i].id == req.body.id) {
+        if(userData[i].password == req.body.password) {
             userData[i].user = req.body.user
 
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
@@ -74,7 +74,7 @@ app.delete('/delete/:id', (req,res) => {
  
     for (let i = 0; i < userData.length; i++) { 
 
-        if(userData[i].id == req.params.id) {
+        if(userData[i].password == req.params.password) {
             userData.splice(i, 1)
 
 

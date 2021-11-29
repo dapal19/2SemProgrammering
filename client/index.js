@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", function(){
         e.preventDefault();
 
         let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
 
-        var uniq = 'id' + Date.now().toString(36)
         let newUser = {
-            id: uniq,
+            id: password,
             user: username
      }
         console.log(newUser)
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .then(data => {
         allUsers.innerHTML = ""
         data.forEach(element => {
-            allUsers.innerHTML += "<p> Username: " + element.user + " id: " + element.id + "</p>"
+            allUsers.innerHTML += "<p> Username: " + element.user + ", Password: " + element.id + "</p>"
         });
     })
     .catch((error) => {
@@ -62,10 +62,10 @@ document.addEventListener("DOMContentLoaded", function(){
         e.preventDefault();
 
         let username = document.getElementById("changeUserName").value;
-        let uniq = document.getElementById("changeUserID").value;
+        let password = document.getElementById("changeUserPassword").value;
 
         let updatedUser = {
-            id: uniq,
+            id: password,
             user: username
      }
 
@@ -91,9 +91,9 @@ const deleteSubmit = document.getElementById("deleteSubmit")
 deleteSubmit.addEventListener("click", (e) =>{
     e.preventDefault();
 
-    let uniq = document.getElementById("deleteUser").value;
+    let password = document.getElementById("deleteUser").value;
 
-    fetch("/delete/" + uniq,{
+    fetch("/delete/" + password,{
         method: "DELETE",
         headers: {
             'content-Type': 'application/json'
