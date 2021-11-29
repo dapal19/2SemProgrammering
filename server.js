@@ -68,7 +68,7 @@ app.put('/opdater', (req,res) => {
 }); 
 
 //slet bruger
-app.delete('/delete/:id', (req,res) => {
+app.delete('/delete/:password', (req,res) => {
 
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
  

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function(){
         let password = document.getElementById("password").value;
 
         let newUser = {
-            id: password,
+            password: password,
             user: username
      }
         console.log(newUser)
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .then(data => {
         allUsers.innerHTML = ""
         data.forEach(element => {
-            allUsers.innerHTML += "<p> Username: " + element.user + ", Password: " + element.id + "</p>"
+            allUsers.innerHTML += "<p> Username: " + element.user + ", Password: " + element.password + "</p>"
         });
     })
     .catch((error) => {
