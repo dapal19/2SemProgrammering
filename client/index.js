@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         let newUser = {
             password: password,
-            user: username
+            username: username
      }
         console.log(newUser)
 
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .then(data => {
         allUsers.innerHTML = ""
         data.forEach(element => {
-            allUsers.innerHTML += "<p> Username: " + element.user + ", Password: " + element.password + "</p>"
+            allUsers.innerHTML += "<p> Username: " + element.username + ", Password: " + element.password + "</p>"
         });
     })
     .catch((error) => {
@@ -65,8 +65,8 @@ document.addEventListener("DOMContentLoaded", function(){
         let password = document.getElementById("changeUserPassword").value;
 
         let updatedUser = {
-            id: password,
-            user: username
+            password: password,
+            username: username
      }
 
         fetch("/opdater",{
@@ -76,35 +76,94 @@ document.addEventListener("DOMContentLoaded", function(){
             },
             body: JSON.stringify(updatedUser)
         }) .then(response => response.json())
-        .then(data => {
+       .then(data => {
         console.log(data)
-        })
+       })
         .catch((error) => {
         console.log('error:', error)
         })
     })
 
 
-//slet bruger
-const deleteSubmit = document.getElementById("deleteSubmit")
+    //slet bruger
+    const deleteSubmit = document.getElementById("deleteSubmit")
 
-deleteSubmit.addEventListener("click", (e) =>{
-    e.preventDefault();
+    deleteSubmit.addEventListener("click", (e) =>{
+        e.preventDefault();
 
-    let password = document.getElementById("deleteUser").value;
+        let password = document.getElementById("deleteUser").value;
 
-    fetch("/delete/" + password,{
+     fetch("/delete/" + password,{
         method: "DELETE",
         headers: {
             'content-Type': 'application/json'
         },
-    }) .then(response => response.json())
-    .then(data => {
-    console.log(data)
+        }) .then(response => response.json())
+        .then(data => {
+        console.log(data)
+         })
+        .catch((error) => {
+     console.log('error:', error)
+        })
     })
-    .catch((error) => {
-    console.log('error:', error)
-    })
+
+
+
+//login 
+let login = document.getElementById("login")
+login.addEventListener("click", (e) =>{
+    e.preventDefault();
+
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+
+    const loginUser = {
+      username: username,
+      password: password
+    };
+
+console.log(loginUser)
+fetch("http://localhost:4000/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(loginUser),
+})
+  .then((response) => {
+    if (response.status === 403) {
+      alert("Oplysninger forkert");
+  } else {
+    headers = response.headers
+    localStorage.setItem("username", headers.get("username"))
+    localStorage.setItem("password", headers.get("password"))
+    loginDisplay()
+  }
+
+    });
+
+    });
+});
+
+const h2 = document.querySelector('h2')
+
+//log ud
+document.getElementById("logOut").addEventListener("click", () => {
+    localStorage.removeItem("username")
+    localStorage.removeItem("password")
+    loginDisplay();
 })
 
-});
+function loginDisplay(){
+    if (localStorage.getItem("username")){
+        let username = localStorage.getItem("username")
+        h2.textContent= 'velkommen ' + username
+    } else {
+        h2.textContent = 'hvem er du?'
+ }
+}
+
+document.onload = loginDisplay()
+
+//hvad skal der vises når man logger ind
+

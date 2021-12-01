@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const app = express();
 const port = 4000;
@@ -19,7 +20,6 @@ app.get('/userList', (req,res) => {
     })
 }); 
  
-
 
 app.post('/user', (req,res) => {
     fs.writeFile('dataBase/users.json', JSON.stringify(req.body, null, 4), err => {
@@ -53,13 +53,10 @@ app.put('/opdater', (req,res) => {
     for (let i = 0; i < userData.length; i++) { 
 
         if(userData[i].password == req.body.password) {
-            userData[i].user = req.body.user
+            userData[i].username = req.body.username
 
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
                 if(err) res.send(err)
-                res.status(200).json({
-                    msg: "Succes"
-                })
             })
       }
     }
@@ -86,13 +83,27 @@ app.delete('/delete/:password', (req,res) => {
             })
       }
     }
- 
- 
- }); 
- 
+    }); 
+
+
+app.post('/login', (req,res) => {
+
+        let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
+
+        console.log(req.body)
+
+        for (let i = 0; i < userData.length; i++) { 
+            if(userData[i].password == req.body.password && userData[i].username == req.body.username) {
+                res.setHeader("username", req.body.username)
+                res.setHeader("password", req.body.password)
+                res.status(200).send(true);
+            } 
+        } 
+})
+
+
 
 // Start Server
 app.listen(port, () => {
     console.log(`Server lytter på port ${port}`);
  });
-
