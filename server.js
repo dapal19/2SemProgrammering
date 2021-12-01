@@ -9,11 +9,40 @@ const formData = require("express-form-data")
 app.use(express.json())
 
 app.use(express.static('client'))
+app.use("/uploads", express.static("uploads"))
 
+
+
+const options = {
+    uploadDir: './uploads'
+}
+
+app.use(formData.parse(options)); 
+
+const products = [];
 
 app.get('/opretVare', (req,res) => {
     res.sendFile(path.join(__dirname, "/client/opretVare.html"));
  }); 
+
+//opret vare håndtering
+app.post('/item', (req,res) => {
+
+    let {title, price, kategori} = req.body;
+    let thumbnail = req.files.thumbnail.path.replace('\\', '/');
+
+    products.push({title, price, kategori, thumbnail})
+    console.log(products);
+    res.redirect('/opretVare.html')
+}); 
+
+
+
+
+
+
+
+ //profil håndtering
 
 app.get('/', (req,res) => {
    res.sendFile(path.join(__dirname, "/client/index.html"));

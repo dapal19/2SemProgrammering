@@ -8,13 +8,14 @@
 </head>
 <body>
     fuck dig
-<form>
-        <input type="text" id="kategori" placeholder="kategori">
-        <input type="text" id="pris" placeholder="pris">
-        <button id="submit"> lav bruger </button>
+<form action="/item" method="POST" enctype="multipart/form-data">
+        Title <input type="input" name="title" id="title" placeholder="titel"> <br/>
+       Pris <input type="number" name="price" id="price" placeholder="pris"><br/>
+       Kategori  <input type="text" name="kategori" id="kategori" placeholder="kategori"><br/>
+       File <input type="file" name="thumbnail" placeholder="pris"><br/>
+       Submit <button type="submit"> opret </button>
 </form>
-    
 
-<script src="opretVare.js"></script>
+<script src="opretVare.js" async defer></script>
 </body>
 </html>
