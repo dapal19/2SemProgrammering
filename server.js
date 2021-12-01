@@ -3,11 +3,13 @@ const express = require("express");
 const app = express();
 const port = 4000;
 const fs = require("fs");
+const formData = require("express-form-data")
 
 
 app.use(express.json())
 
 app.use(express.static('client'))
+
 
 app.get('/opretVare', (req,res) => {
     res.sendFile(path.join(__dirname, "/client/opretVare.html"));
@@ -103,6 +105,10 @@ app.post('/login', (req,res) => {
             } 
         } 
 })
+
+//vare routes
+
+//opret vare
 
 
 

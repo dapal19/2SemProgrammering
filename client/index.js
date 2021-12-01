@@ -168,6 +168,7 @@ function loginDisplay(){
 }
 document.onload = loginDisplay()
 //opret vare sti
+
 document.getElementById("opretVareKnap").addEventListener("click", ()=>{
     if (localStorage.getItem("username")){
         location.href='http://localhost:4000/opretVare.html'
