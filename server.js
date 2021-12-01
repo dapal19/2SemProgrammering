@@ -9,6 +9,10 @@ app.use(express.json())
 
 app.use(express.static('client'))
 
+app.get('/opretVare', (req,res) => {
+    res.sendFile(path.join(__dirname, "/client/opretVare.html"));
+ }); 
+
 app.get('/', (req,res) => {
    res.sendFile(path.join(__dirname, "/client/index.html"));
 }); 
@@ -19,7 +23,6 @@ app.get('/userList', (req,res) => {
         res.send(data)
     })
 }); 
- 
 
 app.post('/user', (req,res) => {
     fs.writeFile('dataBase/users.json', JSON.stringify(req.body, null, 4), err => {

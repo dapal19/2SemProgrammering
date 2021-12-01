@@ -146,6 +146,7 @@ fetch("http://localhost:4000/login", {
 });
 
 const h2 = document.querySelector('h2')
+const a2 = document.querySelector('ha')
 
 //log ud
 document.getElementById("logOut").addEventListener("click", () => {
@@ -154,6 +155,9 @@ document.getElementById("logOut").addEventListener("click", () => {
     loginDisplay();
 })
 
+
+
+//hvad skal der vises når man logger ind
 function loginDisplay(){
     if (localStorage.getItem("username")){
         let username = localStorage.getItem("username")
@@ -162,8 +166,15 @@ function loginDisplay(){
         h2.textContent = 'hvem er du?'
  }
 }
-
 document.onload = loginDisplay()
+//opret vare sti
+document.getElementById("opretVareKnap").addEventListener("click", ()=>{
+    if (localStorage.getItem("username")){
+        location.href='http://localhost:4000/opretVare.html'
+    } else {
+        alert("Log In!")
+ }
+})
 
-//hvad skal der vises når man logger ind
+
 
