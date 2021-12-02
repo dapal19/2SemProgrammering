@@ -25,7 +25,7 @@ app.get('/opretVare', (req,res) => {
  }); 
 
 //opret vare håndtering
-app.post('/item', (req,res, next) => {
+app.post('/item', formData.parse(options), (req,res, next) => {
     let {title, price, kategori} = req.body;
     let thumbnail = req.files.thumbnail.path.replace('\\', '/');
 
@@ -33,19 +33,45 @@ app.post('/item', (req,res, next) => {
 
 
     productData.push({title, price, kategori, thumbnail})
+    console.log({title, price, kategori, thumbnail})
 
     fs.writeFile('dataBase/vare.json', JSON.stringify(productData, null, 4), err => {
         if(err) res.send(err)
-        res.sendFile(path.join(__dirname, "/client/opretVare.html"));
+ 
+    })
+    res.sendFile(path.join(__dirname, "/client/opretVare"));
+        res.send()
+}); 
+
+
+app.get('/items',(req,res) => {
+    fs.readFile('dataBase/vare.json', function(err, data) {
+        if(err) res.send(err)
+        res.send(data)
     })
 }); 
 
+//slet vare
+app.delete('/sletvare/:title', (req,res) => {
 
-/*
-app.post('/items',(req,res) => {
-    res.json(products);
-}); 
-*/
+    let vareData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
+ 
+    for (let i = 0; i < vareData.length; i++) { 
+
+        if(vareData[i].title == req.params.title) {
+            vareData.splice(i, 1)
+
+
+            fs.writeFile('dataBase/vare.json', JSON.stringify(vareData, null, 4), err => {
+                if(err) res.send(err)
+                res.status(200).json({
+                    msg: "Succes"
+                })
+            })
+      }
+    }
+    }); 
+
 
 
 

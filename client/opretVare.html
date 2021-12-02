@@ -8,21 +8,34 @@
 </head>
 <body>
     fuck dig
-<form action="/item" method="POST" enctype="multipart/form-data">
+<form id="submitForm">
         Title <input type="input" name="title" id="title" placeholder="titel"> <br/>
        Pris <input type="number" name="price" id="price" placeholder="pris"><br/>
-       Kategori  <input type="text" name="kategori" id="kategori" placeholder="kategori"><br/>
+       Kategori  <input type="input" name="kategori" id="kategori" placeholder="kategori"><br/>
        File <input type="file" name="thumbnail" placeholder="pris"><br/>
        Submit <button type="submit"> opret </button>
 </form>
 
-refresh <button type="refresh"> se vare </button>
+refresh <button id="refresh"> se vare </button>
 <table id="list"> 
 
 
 </table>
 
+<br/>
+<form>
+    <input type="text" id="deleteVare" placeholder="delete user">
+    <button id="deleteSubmit"> slet vare </button>
+</form>
 
+<br/>
+
+<form>
+    <input type="text" id="changeUserName" placeholder="change User Name">
+    <input type="text" id="changeUserPassword" placeholder="change User Password">
+    <button id="ChangeUserSubmit"> opdater bruger </button>
+</form>
+<br>
 
 <script src="opretVare.js" async defer></script>
 </body>

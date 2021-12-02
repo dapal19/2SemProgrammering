@@ -1,23 +1,16 @@
+let form = document.getElementById("submitForm");
 
-/*
-    let form = document.getElementById("submitForm");
-
-
-    form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const dataForm = new FormData(form);
 
-    const formData = new FormData(form);
+    await fetch('http://localhost:4000/item', {
+        method: 'POST',
+        body: dataForm
+    })
+})
 
-    await fetch("http://localhost:4000/item", {
-        method: "POST",
-        body: formData
-    })
-    .then((res) => res.json())
-    .then((res)=> {
-        console.log(res)
-    })
-    });
 
 
 
@@ -33,13 +26,50 @@ refresh.addEventListener('click', async () =>{
     <tr/>
     `;
 
-    await fetch ("http://localhost:4000/items", {
-        method: "GET"
+    await fetch ('http://localhost:4000/items', {
+        method: 'GET'
     })
     .then((res) => res.json())
     .then((res)=> {
         console.log(res)
+
+        res.forEach((e) => {
+            list.innerHTML += `
+            <tr>
+                <td> ${e.title}</td>
+                <td> ${e.price}</td>
+                <td> ${e.kategori}</td>
+                <td> <img src="${e.thumbnail}" style=height: 50px;width:50px;</td>
+            </tr>
+            `;
+        });
     })
 });
 
-*/
+
+
+
+
+
+//slet vare
+
+  const deleteSubmit = document.getElementById("deleteSubmit")
+
+  deleteSubmit.addEventListener("click", (e) =>{
+      e.preventDefault();
+
+      let title = document.getElementById("deleteVare").value;
+
+   fetch("/sletvare/" + title,{
+      method: "DELETE",
+      headers: {
+          'content-Type': 'application/json'
+      },
+      }) .then(response => response.json())
+      .then(data => {
+      console.log(data)
+       })
+      .catch((error) => {
+   console.log('error:', error)
+      })
+  })
