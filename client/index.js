@@ -178,3 +178,6 @@ document.getElementById("opretVareKnap").addEventListener("click", ()=>{
 
 
 
+//vare indstillinger
+
+

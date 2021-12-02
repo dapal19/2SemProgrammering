@@ -7,11 +7,17 @@
     <title>Document</title>
 </head>
 <body>
-    fuck dig
+    Opret vare
+    <input type="button" onClick="location.href='http://localhost:4000'" value="Hjem"></button>
 <form id="submitForm">
         Title <input type="input" name="title" id="title" placeholder="titel"> <br/>
        Pris <input type="number" name="price" id="price" placeholder="pris"><br/>
-       Kategori  <input type="input" name="kategori" id="kategori" placeholder="kategori"><br/>
+       Vælg kategori <select name="kategori" >
+        <option value="andet"> Andet </option>
+        <option value="tøj"> Tøj </option>
+        <option value="bil"> Bil </option>
+        <option value="ejendom"> Hus </option>
+        <br/>
        File <input type="file" name="thumbnail" placeholder="pris"><br/>
        Submit <button type="submit"> opret </button>
 </form>

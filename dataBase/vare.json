@@ -1,8 +1,14 @@
 [
     {
-        "title": "shorts",
-        "price": "3",
-        "kategori": "h",
-        "thumbnail": "uploads/UgotawbG6XMrGK32Nd_dypww.jpg"
+        "title": "Blå trøje",
+        "price": "99",
+        "kategori": "Trøje",
+        "thumbnail": "uploads/rE7tEGQ0XBPUK1Q1gskwjGF4.jpg"
+    },
+    {
+        "title": "",
+        "price": "",
+        "kategori": "bil",
+        "thumbnail": "uploads/z1lNVIf_XZy1wNkIJshfyR2Q"
     }
 ]
