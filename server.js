@@ -4,7 +4,7 @@ const app = express();
 const port = 4000;
 const fs = require("fs");
 const formData = require("express-form-data")
-
+const path = require('path');
 
 app.use(express.json())
 
@@ -16,8 +16,7 @@ app.use("/uploads", express.static("uploads"))
 const options = {
     uploadDir: './uploads'
 }
-
-app.use(formData.parse(options)); 
+app.use(formData.parse(options))
 
 const products = [];
 
@@ -26,19 +25,27 @@ app.get('/opretVare', (req,res) => {
  }); 
 
 //opret vare håndtering
-app.post('/item', (req,res) => {
-
+app.post('/item', (req,res, next) => {
     let {title, price, kategori} = req.body;
     let thumbnail = req.files.thumbnail.path.replace('\\', '/');
 
-    products.push({title, price, kategori, thumbnail})
-    console.log(products);
-    res.redirect('/opretVare.html')
+    let productData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
+
+
+    productData.push({title, price, kategori, thumbnail})
+
+    fs.writeFile('dataBase/vare.json', JSON.stringify(productData, null, 4), err => {
+        if(err) res.send(err)
+        res.sendFile(path.join(__dirname, "/client/opretVare.html"));
+    })
 }); 
 
 
-
-
+/*
+app.post('/items',(req,res) => {
+    res.json(products);
+}); 
+*/
 
 
 
