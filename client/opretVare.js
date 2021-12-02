@@ -1,17 +1,20 @@
+
 let form = document.getElementById("submitForm");
+
+let username = localStorage.getItem("username")
+
+document.getElementById('local').setAttribute('value', localStorage.getItem('username'));
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const dataForm = new FormData(form);
+    const dataForm = new FormData(form)
 
     await fetch('http://localhost:4000/item', {
         method: 'POST',
         body: dataForm
     })
 })
-
-
 
 
 let refresh = document.getElementById("refresh")

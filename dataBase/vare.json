@@ -1,14 +1,16 @@
 [
     {
-        "title": "Blå trøje",
-        "price": "99",
-        "kategori": "Trøje",
-        "thumbnail": "uploads/rE7tEGQ0XBPUK1Q1gskwjGF4.jpg"
+        "title": "",
+        "price": "",
+        "kategori": "andet",
+        "thumbnail": "uploads/ynpWfrZFQqwanfPMdIGSGcya",
+        "local": "d"
     },
     {
         "title": "",
         "price": "",
-        "kategori": "bil",
-        "thumbnail": "uploads/z1lNVIf_XZy1wNkIJshfyR2Q"
+        "kategori": "andet",
+        "thumbnail": "uploads/uP5atdCPJwVuC8Ie5odsJpME",
+        "local": "d"
     }
 ]

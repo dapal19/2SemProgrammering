@@ -26,14 +26,14 @@ app.get('/opretVare', (req,res) => {
 
 //opret vare håndtering
 app.post('/item', formData.parse(options), (req,res, next) => {
-    let {title, price, kategori} = req.body;
+    let {title, price, kategori, local} = req.body;
     let thumbnail = req.files.thumbnail.path.replace('\\', '/');
 
     let productData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
 
 
-    productData.push({title, price, kategori, thumbnail})
-    console.log({title, price, kategori, thumbnail})
+    productData.push({title, price, kategori, thumbnail, local})
+    console.log({title, price, kategori, thumbnail, local})
 
     fs.writeFile('dataBase/vare.json', JSON.stringify(productData, null, 4), err => {
         if(err) res.send(err)
