@@ -70,9 +70,29 @@ app.delete('/sletvare/:title', (req,res) => {
             })
       }
     }
-    }); 
+}); 
 
 
+
+app.put('/opdaterVare', (req,res) => {
+
+    let vareData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
+ 
+    for (let i = 0; i < vareData.length; i++) { 
+
+        if(vareData[i].title == req.body.title) {
+            vareData[i].kategori = req.body.kategori
+            vareData[i].price = req.body.price
+
+            fs.writeFile('dataBase/vare.json', JSON.stringify(vareData, null, 4), err => {
+                if(err) res.send(err)
+                console.log(vareData)
+            })
+      }
+    }
+    res.send({msg: "kunne ikke finde nogen bruger"})
+ 
+}); 
 
 
  //profil håndtering

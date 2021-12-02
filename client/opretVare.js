@@ -72,4 +72,38 @@ refresh.addEventListener('click', async () =>{
       .catch((error) => {
    console.log('error:', error)
       })
-  })
+})
+
+
+//opdater vare
+ 
+    const ChangeVareSubmit = document.getElementById("ChangeVare")
+
+    ChangeVareSubmit.addEventListener("click", (e) =>{
+        e.preventDefault();
+
+        let title = document.getElementById("changeTitle").value;
+        let price = document.getElementById("changePrice").value;
+        let kategori = document.getElementById("changeKategori").value;
+        
+
+        let updatedVare = {
+            title: title,
+            price: price,
+            kategori: kategori
+     }
+
+        fetch("/opdaterVare",{
+            method: "PUT",
+            headers: {
+                'content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedVare)
+        }) .then(response => response.json())
+       .then(data => {
+        console.log(data)
+       })
+        .catch((error) => {
+        console.log('error:', error)
+        })
+    })
