@@ -67,8 +67,6 @@ app.get('/kategori',(req,res) => {
 
 
 
-
-
 //slet vare
 app.delete('/sletvare/:title', (req,res) => {
 
@@ -79,7 +77,6 @@ app.delete('/sletvare/:title', (req,res) => {
         if(vareData[i].title == req.params.title) {
             fs.unlinkSync(vareData[i].thumbnail)
             vareData.splice(i, 1)
-
 
             fs.writeFile('dataBase/vare.json', JSON.stringify(vareData, null, 4), err => {
                 if(err) res.send(err)
@@ -92,7 +89,7 @@ app.delete('/sletvare/:title', (req,res) => {
 }); 
 
 
-
+//opadter vare
 app.put('/opdaterVare', (req,res) => {
 
     let vareData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
