@@ -77,6 +77,7 @@ app.delete('/sletvare/:title', (req,res) => {
     for (let i = 0; i < vareData.length; i++) { 
 
         if(vareData[i].title == req.params.title) {
+            fs.unlinkSync(vareData[i].thumbnail)
             vareData.splice(i, 1)
 
 
