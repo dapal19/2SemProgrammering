@@ -19,6 +19,7 @@ form.addEventListener('submit', async (e) => {
 
 let refresh = document.getElementById("refresh")
 let list = document.getElementById("list")
+let bruger = localStorage.getItem("username")
 refresh.addEventListener('click', async () =>{
     list.innerHTML = `
     <tr>
@@ -36,15 +37,16 @@ refresh.addEventListener('click', async () =>{
     .then((res)=> {
         console.log(res)
 
-        res.forEach((e) => {
-            list.innerHTML += `
+        res.forEach(e => {
+            if (e.local === bruger) {
+                list.innerHTML += `
             <tr>
                 <td> ${e.title}</td>
                 <td> ${e.price}</td>
                 <td> ${e.kategori}</td>
                 <td> <img src="${e.thumbnail}" style=height: 50px;width:50px;</td>
             </tr>
-            `;
+            `} 
         });
     })
 });

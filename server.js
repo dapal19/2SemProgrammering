@@ -12,7 +12,6 @@ app.use(express.static('client'))
 app.use("/uploads", express.static("uploads"))
 
 
-
 const options = {
     uploadDir: './uploads'
 }
@@ -43,13 +42,32 @@ app.post('/item', formData.parse(options), (req,res, next) => {
         res.send()
 }); 
 
-
+//alle vare
 app.get('/items',(req,res) => {
     fs.readFile('dataBase/vare.json', function(err, data) {
         if(err) res.send(err)
         res.send(data)
     })
 }); 
+
+//bestemt kategori vare
+app.get('/kategori',(req,res) => {
+    let vareData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
+
+    for (let i = 0; i < vareData.length; i++) { 
+        if(vareData[i].kategori == req.body.kategori) {
+            res.send(vareData)
+            console.log(vareData)
+      }
+    }
+    res.send({msg: "kunne ikke finde nogen bruger"})
+ 
+
+}); 
+
+
+
+
 
 //slet vare
 app.delete('/sletvare/:title', (req,res) => {

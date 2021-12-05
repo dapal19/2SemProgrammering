@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function(){
         },
     })
     .then(res => res.json())
+
     .then(data => {
         allUsers.innerHTML = ""
         data.forEach(element => {
@@ -180,4 +181,84 @@ document.getElementById("opretVareKnap").addEventListener("click", ()=>{
 
 //vare indstillinger
 
+let refresh = document.getElementById("refresh")
+let list = document.getElementById("list")
+let kategori4 = document.getElementById("kategori")
+let test = "bil"
+refresh.addEventListener('click', async () =>{
+    list.innerHTML = `
+    <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Kategori</th>
+        <th>Image</th>
+    <tr/>
+    `;
+    
+    await fetch ('http://localhost:4000/items', {
+        method: 'GET'
+    })
+    .then((res) => res.json())
+    .then((res)=> {
+        console.log(res)
+        
 
+        res.forEach(e => {
+            if (e.kategori === kategori4.value) {
+                list.innerHTML += `
+            <tr>
+                <td> ${e.title}</td>
+                <td> ${e.price}</td>
+                <td> ${e.kategori}</td>
+                <td> <img src="${e.thumbnail}" style=height: 50px;width:50px;</td>
+            </tr>
+            `} 
+        });
+    })
+});
+
+
+
+
+
+
+
+
+
+
+
+/*
+let refresh = document.getElementById("refresh")
+let list = document.getElementById("list")
+let kategori = document.getElementById("kategori")
+
+refresh.addEventListener('click', async () =>{
+    list.innerHTML = `
+    <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Kategori</th>
+        <th>Image</th>
+    <tr/>
+    `;
+
+    await fetch ('http://localhost:4000/items', {
+        method: 'GET'
+    })
+    .then((res) => res.json())
+    .then((res)=> {
+        console.log(res)
+
+        res.forEach((e) => {
+            list.innerHTML += `
+            <tr>
+                <td> ${e.title}</td>
+                <td> ${e.price}</td>
+                <td> ${e.kategori}</td>
+                <td> <img src="${e.thumbnail}" style=height: 50px;width:50px;</td>
+            </tr>
+            `;
+        });
+    })
+});
+*/
