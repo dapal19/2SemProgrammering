@@ -6,16 +6,18 @@ const fs = require("fs");
 const formData = require("express-form-data")
 const path = require('path');
 
+//opload billede til mappe "uploads"
 const imageUpload = {
     uploadDir: './uploads'
 }
 
-
+//middleware
 app.use(express.json())
 app.use(express.static('client'))
 app.use("/uploads", express.static("uploads"))
-app.use(formData.parse(imageUpload))
 
+
+//routes
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, "/client/index.html"));
  }); 
@@ -26,8 +28,9 @@ app.get('/opretVare', (req,res) => {
 
 
 
+//vare requestes
 
-//opret vare håndtering
+//opret vare
 app.post('/item', formData.parse(imageUpload), (req,res, next) => {
     let {title, price, kategori, local} = req.body;
     let image = req.files.image.path.replace('\\', '/');
@@ -44,27 +47,13 @@ app.post('/item', formData.parse(imageUpload), (req,res, next) => {
         res.send()
 }); 
 
-//alle vare
+//få alle vare
 app.get('/items',(req,res) => {
     fs.readFile('dataBase/vare.json', function(err, data) {
         if(err) res.send(err)
         res.send(data)
     })
 }); 
-
-//bestemt kategori vare
-app.get('/kategori',(req,res) => {
-    let vareData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
-
-    for (let i = 0; i < vareData.length; i++) { 
-        if(vareData[i].kategori == req.body.kategori) {
-            res.send(vareData)
-      }
-    }
-    res.send({msg: "kategori findes ikke"})
-}); 
-
-
 
 //slet vare
 app.delete('/sletvare/:title', (req,res) => {
@@ -74,7 +63,9 @@ app.delete('/sletvare/:title', (req,res) => {
     for (let i = 0; i < vareData.length; i++) { 
 
         if(vareData[i].title == req.params.title) {
+            //slet billede
             fs.unlinkSync(vareData[i].image)
+            //slet i database
             vareData.splice(i, 1)
 
             fs.writeFile('dataBase/vare.json', JSON.stringify(vareData, null, 4), err => {
@@ -96,6 +87,7 @@ app.put('/opdaterVare', (req,res) => {
     for (let i = 0; i < vareData.length; i++) { 
 
         if(vareData[i].title == req.body.title) {
+            
             vareData[i].kategori = req.body.kategori
             vareData[i].price = req.body.price
 
@@ -110,6 +102,7 @@ app.put('/opdaterVare', (req,res) => {
 
 //profil håndtering
 
+//få alle brugere
 app.get('/userList', (req,res) => {
     fs.readFile('dataBase/users.json', function(err, data) {
         if(err) res.send(err)
@@ -117,33 +110,18 @@ app.get('/userList', (req,res) => {
     })
 }); 
 
-//ved ikke om dette er nødvendigt
-/*
-app.post('/user', (req,res) => {
-    fs.writeFile('dataBase/users.json', JSON.stringify(req.body, null, 4), err => {
-        if(err) res.send(err)
-        res.send({
-            msg: "Succes"
-        })
-    })
-}); 
-*/
-
 
 //lav bruger
 app.post('/create', (req,res) => {
 
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
 
+    //tilføjer bruger til array
     userData.push(req.body)
 
     fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
         if(err) res.send(err)
-        res.send({
-            msg: "Succes"
-        })
     })
-
 }); 
 
 
@@ -153,6 +131,7 @@ app.put('/opdater', (req,res) => {
  
     for (let i = 0; i < userData.length; i++) { 
 
+        //leder efter password
         if(userData[i].password == req.body.password) {
             userData[i].username = req.body.username
 
@@ -175,6 +154,7 @@ app.delete('/delete/:password', (req,res) => {
     for (let i = 0; i < userData.length; i++) { 
 
         if(userData[i].password == req.params.password) {
+            //sletter bruger
             userData.splice(i, 1)
 
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
@@ -193,7 +173,11 @@ app.post('/login', (req,res) => {
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
 
     for (let i = 0; i < userData.length; i++) { 
+
+        //leder efter bruger med username og password
         if(userData[i].password == req.body.password && userData[i].username == req.body.username) {
+
+            //gemmer i localstorage
             res.setHeader("username", req.body.username)
             res.setHeader("password", req.body.password)
             res.status(200).send(true);
