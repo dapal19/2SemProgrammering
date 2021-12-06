@@ -6,34 +6,36 @@ const fs = require("fs");
 const formData = require("express-form-data")
 const path = require('path');
 
-app.use(express.json())
-
-app.use(express.static('client'))
-app.use("/uploads", express.static("uploads"))
-
-
-const options = {
+const imageUpload = {
     uploadDir: './uploads'
 }
-app.use(formData.parse(options))
 
-const products = [];
+
+app.use(express.json())
+app.use(express.static('client'))
+app.use("/uploads", express.static("uploads"))
+app.use(formData.parse(imageUpload))
+
+app.get('/', (req,res) => {
+    res.sendFile(path.join(__dirname, "/client/index.html"));
+ }); 
 
 app.get('/opretVare', (req,res) => {
     res.sendFile(path.join(__dirname, "/client/opretVare.html"));
  }); 
 
+
+
+
 //opret vare håndtering
-app.post('/item', formData.parse(options), (req,res, next) => {
+app.post('/item', formData.parse(imageUpload), (req,res, next) => {
     let {title, price, kategori, local} = req.body;
-    let thumbnail = req.files.thumbnail.path.replace('\\', '/');
+    let image = req.files.image.path.replace('\\', '/');
 
     let productData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
 
-
-    productData.push({title, price, kategori, thumbnail, local})
-    console.log({title, price, kategori, thumbnail, local})
-
+    productData.push({title, price, kategori, image, local})
+ 
     fs.writeFile('dataBase/vare.json', JSON.stringify(productData, null, 4), err => {
         if(err) res.send(err)
  
@@ -57,12 +59,9 @@ app.get('/kategori',(req,res) => {
     for (let i = 0; i < vareData.length; i++) { 
         if(vareData[i].kategori == req.body.kategori) {
             res.send(vareData)
-            console.log(vareData)
       }
     }
-    res.send({msg: "kunne ikke finde nogen bruger"})
- 
-
+    res.send({msg: "kategori findes ikke"})
 }); 
 
 
@@ -75,7 +74,7 @@ app.delete('/sletvare/:title', (req,res) => {
     for (let i = 0; i < vareData.length; i++) { 
 
         if(vareData[i].title == req.params.title) {
-            fs.unlinkSync(vareData[i].thumbnail)
+            fs.unlinkSync(vareData[i].image)
             vareData.splice(i, 1)
 
             fs.writeFile('dataBase/vare.json', JSON.stringify(vareData, null, 4), err => {
@@ -84,7 +83,7 @@ app.delete('/sletvare/:title', (req,res) => {
                     msg: "Succes"
                 })
             })
-      }
+        }
     }
 }); 
 
@@ -102,20 +101,14 @@ app.put('/opdaterVare', (req,res) => {
 
             fs.writeFile('dataBase/vare.json', JSON.stringify(vareData, null, 4), err => {
                 if(err) res.send(err)
-                console.log(vareData)
             })
-      }
+        }
     }
-    res.send({msg: "kunne ikke finde nogen bruger"})
- 
+    res.send({msg: "vare findes ikke"})
 }); 
 
 
- //profil håndtering
-
-app.get('/', (req,res) => {
-   res.sendFile(path.join(__dirname, "/client/index.html"));
-}); 
+//profil håndtering
 
 app.get('/userList', (req,res) => {
     fs.readFile('dataBase/users.json', function(err, data) {
@@ -124,6 +117,8 @@ app.get('/userList', (req,res) => {
     })
 }); 
 
+//ved ikke om dette er nødvendigt
+/*
 app.post('/user', (req,res) => {
     fs.writeFile('dataBase/users.json', JSON.stringify(req.body, null, 4), err => {
         if(err) res.send(err)
@@ -132,15 +127,17 @@ app.post('/user', (req,res) => {
         })
     })
 }); 
+*/
+
 
 //lav bruger
 app.post('/create', (req,res) => {
 
-   let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
+    let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
 
     userData.push(req.body)
 
-fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
+    fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
         if(err) res.send(err)
         res.send({
             msg: "Succes"
@@ -148,6 +145,7 @@ fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
     })
 
 }); 
+
 
 app.put('/opdater', (req,res) => {
 
@@ -161,11 +159,14 @@ app.put('/opdater', (req,res) => {
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
                 if(err) res.send(err)
             })
-      }
-    }
-    res.send({msg: "kunne ikke finde nogen bruger"})
- 
+            res.send({msg: "succes"})
+        } 
+    } 
+    res.send({msg: "fejl"})
 }); 
+
+
+
 
 //slet bruger
 app.delete('/delete/:password', (req,res) => {
@@ -177,37 +178,29 @@ app.delete('/delete/:password', (req,res) => {
         if(userData[i].password == req.params.password) {
             userData.splice(i, 1)
 
-
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
                 if(err) res.send(err)
                 res.status(200).json({
                     msg: "Succes"
                 })
             })
-      }
+        }
     }
-    }); 
+}); 
 
 
 app.post('/login', (req,res) => {
 
-        let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
+    let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
 
-        console.log(req.body)
-
-        for (let i = 0; i < userData.length; i++) { 
-            if(userData[i].password == req.body.password && userData[i].username == req.body.username) {
-                res.setHeader("username", req.body.username)
-                res.setHeader("password", req.body.password)
-                res.status(200).send(true);
-            } 
+    for (let i = 0; i < userData.length; i++) { 
+        if(userData[i].password == req.body.password && userData[i].username == req.body.username) {
+            res.setHeader("username", req.body.username)
+            res.setHeader("password", req.body.password)
+            res.status(200).send(true);
         } 
+    } 
 })
-
-//vare routes
-
-//opret vare
-
 
 
 // Start Server

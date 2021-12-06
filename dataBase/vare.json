@@ -1,1 +1,37 @@
-[]
+[
+    {
+        "title": "bukser",
+        "price": "4353",
+        "kategori": "tøj",
+        "image": "uploads/1Impx2PMG8eK9z900O1-fB9D.jpg",
+        "local": "ralle"
+    },
+    {
+        "title": "bukser",
+        "price": "4353",
+        "kategori": "ejendom",
+        "image": "uploads/2kIs7U6ZirNuy_YQuFVv-UOL.jpg",
+        "local": "ralle"
+    },
+    {
+        "title": "",
+        "price": "",
+        "kategori": "andet",
+        "image": "uploads/nRedDFn74uqyXv5B3LFIpLGr.jpg",
+        "local": "ralle"
+    },
+    {
+        "title": "",
+        "price": "",
+        "kategori": "andet",
+        "image": "uploads/96K9wRxyccosAQPU3LtM9UwX",
+        "local": "ralle"
+    },
+    {
+        "title": "",
+        "price": "",
+        "kategori": "andet",
+        "image": "uploads/o_BnpqC3YSkPuX3lGb1FqrrO",
+        "local": "ralle"
+    }
+]

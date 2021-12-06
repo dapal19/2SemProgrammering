@@ -1,6 +1,5 @@
 
 let form = document.getElementById("submitForm");
-
 let username = localStorage.getItem("username")
 
 document.getElementById('local').setAttribute('value', localStorage.getItem('username'));
@@ -13,20 +12,22 @@ form.addEventListener('submit', async (e) => {
     await fetch('http://localhost:4000/item', {
         method: 'POST',
         body: dataForm
-    })
+    }) 
 })
 
 
-let refresh = document.getElementById("refresh")
+let seVare = document.getElementById("seVare")
 let list = document.getElementById("list")
-let bruger = localStorage.getItem("username")
-refresh.addEventListener('click', async () =>{
+let localusername = localStorage.getItem("username")
+
+
+seVare.addEventListener('click', async () =>{
     list.innerHTML = `
     <tr>
         <th>Title</th>
         <th>Price</th>
         <th>Kategori</th>
-        <th>Image</th>
+        <th>imageUpload</th>
     <tr/>
     `;
 
@@ -35,16 +36,14 @@ refresh.addEventListener('click', async () =>{
     })
     .then((res) => res.json())
     .then((res)=> {
-        console.log(res)
-
         res.forEach(e => {
-            if (e.local === bruger) {
+            if (e.local === localusername) {
                 list.innerHTML += `
             <tr>
                 <td> ${e.title}</td>
                 <td> ${e.price}</td>
                 <td> ${e.kategori}</td>
-                <td> <img src="${e.thumbnail}" style=height: 50px;width:50px;</td>
+                <td> <img src="${e.image}" style=height: 50px;width:50px;</td>
             </tr>
             `} 
         });
@@ -57,23 +56,19 @@ refresh.addEventListener('click', async () =>{
 
 
 //slet vare
+const deleteSubmit = document.getElementById("deleteSubmit")
 
-  const deleteSubmit = document.getElementById("deleteSubmit")
-
-  deleteSubmit.addEventListener("click", (e) =>{
+deleteSubmit.addEventListener("click", (e) =>{
       e.preventDefault();
 
-      let title = document.getElementById("deleteVare").value;
+      let deleteTitle = document.getElementById("deleteVare").value;
 
-   fetch("/sletvare/" + title,{
+   fetch("/sletvare/" + deleteTitle,{
       method: "DELETE",
       headers: {
           'content-Type': 'application/json'
-      },
-      }) .then(response => response.json())
-      .then(data => {
-      console.log(data)
-       })
+    },
+    }) .then(response => response.json())
       .catch((error) => {
    console.log('error:', error)
       })
@@ -82,33 +77,31 @@ refresh.addEventListener('click', async () =>{
 
 //opdater vare
  
-    const ChangeVareSubmit = document.getElementById("ChangeVare")
+const ChangeVareSubmit = document.getElementById("ChangeVare")
 
-    ChangeVareSubmit.addEventListener("click", (e) =>{
-        e.preventDefault();
+ChangeVareSubmit.addEventListener("click", (e) =>{
+    e.preventDefault();
 
-        let title = document.getElementById("changeTitle").value;
-        let price = document.getElementById("changePrice").value;
-        let kategori = document.getElementById("changeKategori").value;
+    let title = document.getElementById("changeTitle").value;
+    let price = document.getElementById("changePrice").value;
+    let kategori = document.getElementById("changeKategori").value;
         
 
-        let updatedVare = {
+    let updatedVare = {
             title: title,
             price: price,
             kategori: kategori
-     }
+    }
 
-        fetch("/opdaterVare",{
-            method: "PUT",
-            headers: {
-                'content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedVare)
-        }) .then(response => response.json())
-       .then(data => {
-        console.log(data)
-       })
+    fetch("/opdaterVare",{
+        method: "PUT",
+        body: JSON.stringify(updatedVare),
+        headers: {
+            'content-Type': 'application/json'
+        },
+        }) 
+        .then(response => response.json())
         .catch((error) => {
         console.log('error:', error)
-        })
     })
+})
