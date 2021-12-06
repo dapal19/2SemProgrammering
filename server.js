@@ -159,7 +159,6 @@ app.put('/opdater', (req,res) => {
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
                 if(err) res.send(err)
             })
-            res.send({msg: "succes"})
         } 
     } 
     res.send({msg: "fejl"})

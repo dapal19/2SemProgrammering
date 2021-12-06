@@ -33,5 +33,54 @@
         "kategori": "andet",
         "image": "uploads/o_BnpqC3YSkPuX3lGb1FqrrO",
         "local": "ralle"
+    },
+    {
+        "title": "4564",
+        "price": "456456",
+        "kategori": "tøj",
+        "image": "uploads/pRhbsz2_l4DFzuVmLJnCl_vU",
+        "local": "mik"
+    },
+    {
+        "title": "4564",
+        "price": "456456",
+        "kategori": "tøj",
+        "image": "uploads/2EDjNqKpV5dehukdEBM6GVXM",
+        "local": "mik"
+    },
+    {
+        "title": "4564",
+        "price": "456456",
+        "kategori": "tøj",
+        "image": "uploads/NQ_cfY9LIL5OBbxnqnzBVSRJ",
+        "local": "mik"
+    },
+    {
+        "title": "4564",
+        "price": "456456",
+        "kategori": "tøj",
+        "image": "uploads/ChnaXLZdoyuNwPdk4n-ICUJy",
+        "local": "mik"
+    },
+    {
+        "title": "456",
+        "price": "456",
+        "kategori": "tøj",
+        "image": "uploads/Reo_hrTQ801DaoNU_UBRajuN",
+        "local": "mik"
+    },
+    {
+        "title": "456",
+        "price": "456",
+        "kategori": "bil",
+        "image": "uploads/V9uBOGyZbnX5uYiTzBk8IYe6",
+        "local": "mik"
+    },
+    {
+        "title": "456",
+        "price": "456",
+        "kategori": "bil",
+        "image": "uploads/aPFU3YVQSGEWfa3ukBWLHITl.jpg",
+        "local": "mik"
     }
 ]

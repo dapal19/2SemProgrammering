@@ -73,12 +73,12 @@ ChangeUserSubmit.addEventListener("click", (e) =>{
         },
         }) 
         .then(response => response.json())
-        .then(data => {
+       .then(data => {
         console.log(data)
        })
-       .catch(() => {
-        alert("Der skete en fejl");
-      });
+        .catch((error) => {
+        console.log('error:', error)
+    })
 })
 
 
