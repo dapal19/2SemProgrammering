@@ -1,30 +1,37 @@
-document.addEventListener("DOMContentLoaded", function(){
 
 //lav bruger
+
+//knap til formen lav bruger
 let submit = document.getElementById("submit")
 
+//knappen tildeles en funktion
 submit.addEventListener("click", (e) =>{
     e.preventDefault();
 
+    //henter input værdier fra formen
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
+    //Bruger obejct p baggrund af input værider 
     let newUser = {
         password: password,
         username: username
      }
 
+    //Sender request
     fetch("/create",{
         method: "POST",
         body: JSON.stringify(newUser),
         headers: {
             'content-Type': 'application/json'
             },
-        }) .then(response => response.json())
-        .catch((error) => {
-        console.log('error:', error)
+        }).then(response => response.json())
+        .catch((err) => {
+        console.log('error:', err)
     })
 })
+
+
 
 //liste over brugere
 const getAllUsers = document.getElementById("getAllUsers")
@@ -46,8 +53,8 @@ getAllUsers.addEventListener("click", (e) =>{
             allUsers.innerHTML += "<p> Username: " + element.username + ", Password: " + element.password + "</p>"
         });
     })
-    .catch((error) => {
-        console.log('error: ', error)
+    .catch((err) => {
+        console.log('error: ', err)
     })
 })
 
@@ -57,10 +64,12 @@ const ChangeUserSubmit = document.getElementById("ChangeUserSubmit")
 ChangeUserSubmit.addEventListener("click", (e) =>{
     e.preventDefault();
 
+    let oldPassword = document.getElementById("oldPassword").value;
     let username = document.getElementById("changeUserName").value;
     let password = document.getElementById("changeUserPassword").value;
 
     let updatedUser = {
+        oldPassword: oldPassword,
         password: password,
         username: username
     }
@@ -72,12 +81,8 @@ ChangeUserSubmit.addEventListener("click", (e) =>{
             'content-Type': 'application/json'
         },
         }) 
-        .then(response => response.json())
-       .then(data => {
-        console.log(data)
-       })
-        .catch((error) => {
-        console.log('error:', error)
+        .catch((err) => {
+        console.log('error:', err)
     })
 })
 
@@ -115,7 +120,7 @@ login.addEventListener("click", (e) =>{
     let username = document.getElementById("loginUsername").value;
     let password = document.getElementById("loginPassword").value;
 
-    const loginUser = {
+    let loginUser = {
       username: username,
       password: password
     };
@@ -123,24 +128,36 @@ login.addEventListener("click", (e) =>{
 
     fetch("http://localhost:4000/login", {
         method: "POST",
+        body: JSON.stringify(loginUser),
         headers: {
             "Content-Type": "application/json",
         },
-
-         body: JSON.stringify(loginUser),
         })
+        //håndtere promise fra fetch med then
         .then((response) => {
-        if (response.status === 403) {
-             alert("Oplysninger forkert");
-        } else {
+
+        //hvis oplsyningerne ikke findes sendes en alert
+            if (response.status === 403) {
+             alert("brugeren findes ikke!");
+            }   
+            
+        //ellers gemmes response i localstorage
+            else {
             headers = response.headers
             localStorage.setItem("username", headers.get("username"))
             localStorage.setItem("password", headers.get("password"))
+        //funktion der viser at man er logget ind
             loginDisplay()
-             }
+            }
         });
     });
-});
+
+
+
+
+
+
+
 
 const h2 = document.querySelector('h2')
 const a2 = document.querySelector('ha')
@@ -169,7 +186,7 @@ document.onload = loginDisplay()
 //opret vare sti
 document.getElementById("opretVareKnap").addEventListener("click", ()=>{
     if (localStorage.getItem("username")){
-        location.href='http://localhost:4000/opretVare.html'
+        location.href='http://localhost:4000/opretVare'
     } else {
         alert("Husk at log ind!")
     }

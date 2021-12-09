@@ -12,7 +12,7 @@
 
     Opret vare
     <form id="submitForm">
-        Title <input type="input" name="title" id="title" placeholder="titel"> <br/>
+       Titel <input type="input" name="title" id="title" placeholder="titel"> <br/>
        Pris <input type="number" name="price" id="price" placeholder="pris"><br/>
        Vælg kategori <select name="kategori" >
         <option value="andet"> Andet </option>
@@ -22,7 +22,7 @@
         <br/>
        <input type="hidden" value="" id="local" name="local"/><br/>
        File <input type="file" name="image" placeholder="pris"><br/>
-       Submit <button type="submit"> Opret vare </button>
+       <button type="submit"> Opret vare </button>
     </form>
 
     <br/>
@@ -33,6 +33,25 @@ Se alle dine vare <button id="seVare"> se vare </button>
 </table>
 
 <br/>
+
+
+
+<form> opdater dine vare<br/>
+    Gammel titel <input type="text" id="oldTitle" placeholder="titlen på vare der skal ændres"><br/>
+    Nye titel <input type="text" id="changeTitle" placeholder="ændre titel"><br/>
+    Nye pris <input type="number" id="changePrice" placeholder="ændre pris"><br/>
+     Vælg ny kategori <select id="changeKategori" >
+         <option value="andet"> Andet </option>
+         <option value="tøj"> Tøj </option>
+         <option value="bil"> Bil </option>
+         <option value="ejendom"> Ejendom </option>
+         <br/>
+     </select>
+     <button id="ChangeVare"> opdater vare </button>
+ </form>
+ 
+
+
 <form>
     <input type="text" id="deleteVare" placeholder="slet vare">
     <button id="deleteSubmit"> slet vare </button>
@@ -40,19 +59,7 @@ Se alle dine vare <button id="seVare"> se vare </button>
 
 <br/>
 
-<form>
-    <input type="text" id="changeTitle" placeholder="ændre titel">
-    <input type="number" id="changePrice" placeholder="ændre titel">
-    Vælg kategori <select id="changeKategori" >
-        <option value="andet"> Andet </option>
-        <option value="tøj"> Tøj </option>
-        <option value="bil"> Bil </option>
-        <option value="ejendom"> Ejendom </option>
-        <br/>
-    </select>
-    <button id="ChangeVare"> opdater vare </button>
-</form>
-<br>
+
 
 <script src="opretVare.js" async defer></script>
 </body>

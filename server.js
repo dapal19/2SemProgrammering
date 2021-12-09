@@ -30,22 +30,27 @@ app.get('/opretVare', (req,res) => {
 
 //vare requestes
 
-//opret vare
-app.post('/item', formData.parse(imageUpload), (req,res, next) => {
+//opret vare med middleware formData
+app.post('/item', formData.parse(imageUpload), (req,res) => {
+    //definere body'en fra requestet
     let {title, price, kategori, local} = req.body;
+    //gør bileldet kan vises 
     let image = req.files.image.path.replace('\\', '/');
 
     let productData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
 
+    //tilføjer vare til array
     productData.push({title, price, kategori, image, local})
  
     fs.writeFile('dataBase/vare.json', JSON.stringify(productData, null, 4), err => {
         if(err) res.send(err)
  
     })
+    //sender tilbage til html siden
     res.sendFile(path.join(__dirname, "/client/opretVare"));
         res.send()
 }); 
+
 
 //få alle vare
 app.get('/items',(req,res) => {
@@ -60,6 +65,7 @@ app.delete('/sletvare/:title', (req,res) => {
 
     let vareData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
  
+    //loop igennem vare array
     for (let i = 0; i < vareData.length; i++) { 
 
         if(vareData[i].title == req.params.title) {
@@ -79,15 +85,16 @@ app.delete('/sletvare/:title', (req,res) => {
 }); 
 
 
-//opadter vare
+//opdater vare
 app.put('/opdaterVare', (req,res) => {
 
     let vareData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
  
     for (let i = 0; i < vareData.length; i++) { 
 
-        if(vareData[i].title == req.body.title) {
+        if(vareData[i].title == req.body.oldTitle) {
             
+            vareData[i].title = req.body.title
             vareData[i].kategori = req.body.kategori
             vareData[i].price = req.body.price
 
@@ -105,8 +112,11 @@ app.put('/opdaterVare', (req,res) => {
 //få alle brugere
 app.get('/userList', (req,res) => {
     fs.readFile('dataBase/users.json', function(err, data) {
-        if(err) res.send(err)
+        if(err) {
+            res.send(err)
+        } else {
         res.send(data)
+        }
     })
 }); 
 
@@ -114,11 +124,13 @@ app.get('/userList', (req,res) => {
 //lav bruger
 app.post('/create', (req,res) => {
 
+    //hent json fil med user array fra database
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
 
     //tilføjer bruger til array
     userData.push(req.body)
 
+    //overskriv json fil med user array fra database med nyt bruger til array'et
     fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
         if(err) res.send(err)
     })
@@ -132,15 +144,19 @@ app.put('/opdater', (req,res) => {
     for (let i = 0; i < userData.length; i++) { 
 
         //leder efter password
-        if(userData[i].password == req.body.password) {
+        if(userData[i].password == req.body.oldPassword) {
+
+            //sætter nyt username og password
             userData[i].username = req.body.username
+            userData[i].password = req.body.password
 
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
                 if(err) res.send(err)
             })
+            res.sendStatus(200)
         } 
     } 
-    res.send({msg: "fejl"})
+    res.sendStatus(400)
 }); 
 
 
@@ -149,12 +165,16 @@ app.put('/opdater', (req,res) => {
 //slet bruger
 app.delete('/delete/:password', (req,res) => {
 
+
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
  
+    //loop igennem userData array
     for (let i = 0; i < userData.length; i++) { 
 
+        //finder der hvor password matcher med sendte password
         if(userData[i].password == req.params.password) {
-            //sletter bruger
+
+            //sletter bruger, på position i og 1 object
             userData.splice(i, 1)
 
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
@@ -168,6 +188,9 @@ app.delete('/delete/:password', (req,res) => {
 }); 
 
 
+
+
+//
 app.post('/login', (req,res) => {
 
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
@@ -177,13 +200,17 @@ app.post('/login', (req,res) => {
         //leder efter bruger med username og password
         if(userData[i].password == req.body.password && userData[i].username == req.body.username) {
 
-            //gemmer i localstorage
+            //sætter headers til username og password fra body
             res.setHeader("username", req.body.username)
             res.setHeader("password", req.body.password)
             res.status(200).send(true);
         } 
     } 
+    res.sendStatus(403)
 })
+
+
+
 
 
 // Start Server
