@@ -127,8 +127,10 @@ app.post('/create', (req,res) => {
     //hent json fil med user array fra database
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
 
+
     //tilføjer bruger til array
     userData.push(req.body)
+    res.status(201).send(req.body)
 
     //overskriv json fil med user array fra database med nyt bruger til array'et
     fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
@@ -176,6 +178,7 @@ app.delete('/delete/:password', (req,res) => {
 
             //sletter bruger, på position i og 1 object
             userData.splice(i, 1)
+            res.status(201)
 
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
                 if(err) res.send(err)
@@ -190,7 +193,7 @@ app.delete('/delete/:password', (req,res) => {
 
 
 
-//
+//login
 app.post('/login', (req,res) => {
 
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
@@ -206,7 +209,6 @@ app.post('/login', (req,res) => {
             res.status(200).send(true);
         } 
     } 
-    res.sendStatus(403)
 })
 
 
