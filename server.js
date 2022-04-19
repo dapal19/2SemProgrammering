@@ -1,4 +1,4 @@
-const { response } = require("express");
+//const { response } = require("express");
 const express = require("express");
 const app = express();
 const port = 4000;
@@ -18,6 +18,7 @@ app.use("/uploads", express.static("uploads"))
 
 
 //routes
+/*
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, "/client/index.html"));
  }); 
@@ -25,10 +26,10 @@ app.get('/', (req,res) => {
 app.get('/opretVare', (req,res) => {
     res.sendFile(path.join(__dirname, "/client/opretVare.html"));
  }); 
+*/
 
 
-
-//vare requestes
+//vare endpoints
 
 //opret vare med middleware formData
 app.post('/item', formData.parse(imageUpload), (req,res) => {
@@ -48,7 +49,7 @@ app.post('/item', formData.parse(imageUpload), (req,res) => {
     })
     //sender tilbage til html siden
     res.sendFile(path.join(__dirname, "/client/opretVare"));
-        res.send()
+    res.send()
 }); 
 
 
@@ -56,9 +57,11 @@ app.post('/item', formData.parse(imageUpload), (req,res) => {
 app.get('/items',(req,res) => {
     fs.readFile('dataBase/vare.json', function(err, data) {
         if(err) res.send(err)
+        //sender data fra databasen
         res.send(data)
     })
 }); 
+
 
 //slet vare
 app.delete('/sletvare/:title', (req,res) => {
@@ -71,7 +74,7 @@ app.delete('/sletvare/:title', (req,res) => {
         if(vareData[i].title == req.params.title) {
             //slet billede
             fs.unlinkSync(vareData[i].image)
-            //slet i database
+            //slet objekt i database
             vareData.splice(i, 1)
 
             fs.writeFile('dataBase/vare.json', JSON.stringify(vareData, null, 4), err => {
@@ -90,10 +93,13 @@ app.put('/opdaterVare', (req,res) => {
 
     let vareData = JSON.parse(fs.readFileSync("dataBase/vare.json"))
  
+    //loop igennem user data
     for (let i = 0; i < vareData.length; i++) { 
 
+        //leder efter der hvor oldTitle er det samme som den nuværende
         if(vareData[i].title == req.body.oldTitle) {
             
+            //sætter nye values
             vareData[i].title = req.body.title
             vareData[i].kategori = req.body.kategori
             vareData[i].price = req.body.price
@@ -108,6 +114,7 @@ app.put('/opdaterVare', (req,res) => {
 
 
 //profil håndtering
+
 
 //få alle brugere
 app.get('/userList', (req,res) => {
@@ -127,7 +134,6 @@ app.post('/create', (req,res) => {
     //hent json fil med user array fra database
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
 
-
     //tilføjer bruger til array
     userData.push(req.body)
     res.status(201).send(req.body)
@@ -139,13 +145,15 @@ app.post('/create', (req,res) => {
 }); 
 
 
+//opdater bruger
 app.put('/opdater', (req,res) => {
 
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
  
+    //loop igennem array
     for (let i = 0; i < userData.length; i++) { 
 
-        //leder efter password
+        //leder efter bestemt password 
         if(userData[i].password == req.body.oldPassword) {
 
             //sætter nyt username og password
@@ -154,7 +162,7 @@ app.put('/opdater', (req,res) => {
 
             fs.writeFile('dataBase/users.json', JSON.stringify(userData, null, 4), err => {
                 if(err) res.send(err)
-            })
+            }) 
             res.sendStatus(200)
         } 
     } 
@@ -162,11 +170,8 @@ app.put('/opdater', (req,res) => {
 }); 
 
 
-
-
 //slet bruger
 app.delete('/delete/:password', (req,res) => {
-
 
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
  
@@ -176,7 +181,7 @@ app.delete('/delete/:password', (req,res) => {
         //finder der hvor password matcher med sendte password
         if(userData[i].password == req.params.password) {
 
-            //sletter bruger, på position i og 1 object
+            //sletter bruger, på position i og 1 objekt
             userData.splice(i, 1)
             res.status(201)
 
@@ -191,16 +196,15 @@ app.delete('/delete/:password', (req,res) => {
 }); 
 
 
-
-
 //login
 app.post('/login', (req,res) => {
 
     let userData = JSON.parse(fs.readFileSync("dataBase/users.json"))
 
+    //loop igennem array
     for (let i = 0; i < userData.length; i++) { 
 
-        //leder efter bruger med username og password
+        //leder efter bruger med det indtastede username og password fra klient
         if(userData[i].password == req.body.password && userData[i].username == req.body.username) {
 
             //sætter headers til username og password fra body
@@ -212,10 +216,7 @@ app.post('/login', (req,res) => {
 })
 
 
-
-
-
-// Start Server
+//starter server
 app.listen(port, () => {
     console.log(`Server lytter på port ${port}`);
  });

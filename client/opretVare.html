@@ -10,8 +10,8 @@
     Tilbage til start
     <input type="button" onClick="location.href='http://localhost:4000'" value="Hjem"></button>
 
-    Opret vare
-    <form id="submitForm">
+
+    <form id="submitForm"> <h3>Opret vare</h3>
        Titel <input type="input" name="title" id="title" placeholder="titel"> <br/>
        Pris <input type="number" name="price" id="price" placeholder="pris"><br/>
        Vælg kategori <select name="kategori" >
@@ -27,39 +27,33 @@
 
     <br/>
 Se alle dine vare <button id="seVare"> se vare </button>
-<table id="list"> 
-
-
-</table>
-
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+</style>
+<table id="list"> </table>
 <br/>
-
-
-
-<form> opdater dine vare<br/>
+<form> <h3>Opdater vare</h3>
+    <h5>Sæt titlen ind på den vare som ønkses opdateret</h5>
     Gammel titel <input type="text" id="oldTitle" placeholder="titlen på vare der skal ændres"><br/>
     Nye titel <input type="text" id="changeTitle" placeholder="ændre titel"><br/>
     Nye pris <input type="number" id="changePrice" placeholder="ændre pris"><br/>
-     Vælg ny kategori <select id="changeKategori" >
+    Vælg ny kategori <select id="changeKategori" >
          <option value="andet"> Andet </option>
          <option value="tøj"> Tøj </option>
          <option value="bil"> Bil </option>
          <option value="ejendom"> Ejendom </option>
-         <br/>
-     </select>
+     </select><br/>
      <button id="ChangeVare"> opdater vare </button>
  </form>
  
+ <br/>
 
-
-<form>
+<form> <h3>Slet en vare</h3>
     <input type="text" id="deleteVare" placeholder="slet vare">
     <button id="deleteSubmit"> slet vare </button>
 </form>
-
-<br/>
-
-
 
 <script src="opretVare.js" async defer></script>
 </body>

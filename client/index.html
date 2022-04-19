@@ -11,40 +11,40 @@
         <button  id="getAllUsers"> allUsers </button>
     </div>
     <div id="allUsers"></div>
-
+    <h3>Opert bruger</h3>
 <form>
     Username: <input type="text" id="username" placeholder="Username">
     Password: <input type="text" id="password" placeholder="password">
     <button id="submit"> lav din bruger </button>
 </form>
+<br/>
 
-
-<form>
+<form>  <h3>Opdater din bruger</h3>
     <input type="text" id="oldPassword" placeholder="oldPassword">
-    <input type="text" id="changeUserName" placeholder="change User Name">
-    <input type="text" id="changeUserPassword" placeholder="change User Password">
+    <input type="text" id="changeUserName" placeholder="New username">
+    <input type="text" id="changeUserPassword" placeholder="New password">
     <button  id="ChangeUserSubmit"> opdater bruger </button>
 </form>
 <br>
-<form>
-    <input type="text" id="deleteUser" placeholder="delete user">
+<form> <h3>Slet din bruger</h3>
+    <input type="text" id="deleteUser" placeholder="Password">
     <button  id="deleteSubmit"> slet bruger </button>
 </form>
 <br>
 <br>
-<br>
-<h1>Login</h1>
+<h3>Login</h3>
         <form>
             <input type="text" id="loginUsername" placeholder="Username">
             <input type="text" id="loginPassword" placeholder="password">
             <button id="login"> login </button>
         </form>
-<h1>Logout</h1>
+<h3>Logout</h3>
         <button id="logOut"> logout </button>
 
+<h2 id="h2"></h2>
 
-<h2>Login</h2>
-<input type="button" id="opretVareKnap" value="opret vare her"></button>
+
+Tryk her for at oprette vare: <input type="button" id="opretVareKnap" value="opret vare her"></button>
 
 <br/>
 <br/>
@@ -58,8 +58,12 @@ vælg kategori <select type="text" name="kategori" id="kategori" >
 <br/>
 
 <button id="seVare"> se vare </button>
-<table id="list"> 
-</table>
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+</style>
+<table id="list"> </table>
 
 <script src="index.js"></script>
    

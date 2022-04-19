@@ -5,7 +5,7 @@ const should = chai.should()
 
 chai.use(chaiHTTP);
 
-//Post enpoint testes
+//Post endpoint testes
 const endPoint = "http://localhost:4000/create"
 
 describe(`POST new user ${endPoint}`, () => {

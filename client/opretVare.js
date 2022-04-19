@@ -1,11 +1,11 @@
 
+//opret en vare
+
 //henter localStroage value til key'en username
 let username = localStorage.getItem("username")
-
-
 //henter formen
 let form = document.getElementById("submitForm");
-//sætter hidden element "local" i formen til den value som key'en "username" har i localstorage
+//sætter hidden element "local" i formen til den valuen ril key'en "username" i localstorage
 document.getElementById('local').setAttribute('value', localStorage.getItem('username'));
 
 //giver formen en funktion når den "submittes"
@@ -22,6 +22,7 @@ form.addEventListener('submit', (e) => {
 })
 
 
+//tabel til vare
 
 //knap til at se vare
 let seVare = document.getElementById("seVare")
@@ -59,9 +60,9 @@ seVare.addEventListener('click', () =>{
                 `
             <tr>
                 <td> ${e.title}</td>
-                <td> ${e.price}</td>
+                <td> ${e.price} kr </td>
                 <td> ${e.kategori}</td>
-                <td> <img src="${e.image}" style=height: 50px;width:50px;</td>
+                <td> <img src="${e.image}" width="193" height="130";</td>
             </tr>
             `} 
         });
@@ -74,9 +75,6 @@ seVare.addEventListener('click', () =>{
 
 
 //slet vare
-
-
-
 const deleteSubmit = document.getElementById("deleteSubmit")
 
 deleteSubmit.addEventListener("click", (e) =>{
@@ -100,10 +98,11 @@ deleteSubmit.addEventListener("click", (e) =>{
 
 //sumbit knap fra form
 const ChangeVareSubmit = document.getElementById("ChangeVare")
+//giver knap funktion
 ChangeVareSubmit.addEventListener("click", (e) =>{
     e.preventDefault();
 
-    //henter værider fra formen
+    //henter værdier fra formen
     let title = document.getElementById("changeTitle").value;
     let price = document.getElementById("changePrice").value;
     let kategori = document.getElementById("changeKategori").value;
@@ -116,7 +115,6 @@ ChangeVareSubmit.addEventListener("click", (e) =>{
             kategori: kategori,
             oldTitle: oldTitle
     }
-
 
     fetch("/opdaterVare",{
         method: "PUT",
