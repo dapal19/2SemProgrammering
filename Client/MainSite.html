@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="Mainsite.css">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div id="container">
+        <button  id="getAllUsers"> allUsers </button>
+    </div>
+    <div id="allUsers"></div>
+    <form>  <h3>Opdater din bruger</h3>
+        <input type="text" id="oldPassword" placeholder="oldPassword">
+        <input type="text" id="changeUserName" placeholder="New username">
+        <input type="text" id="changeUserPassword" placeholder="New password">
+        <button  id="ChangeUserSubmit"> Opdater bruger </button>
+    </form>
+<br>
+<form> <h3>Slet din bruger</h3>
+    <input type="text" id="deleteUser" placeholder="Password">
+    <button  id="deleteSubmit"> slet bruger </button>
+</form>
+<br>
+<br>
+<h3>Logout</h3>
+        <button id="logOut"> logout </button>
+<h2 id="h2"></h2>
+Tryk her for at oprette vare: <input type="button" id="opretVareKnap" value="opret vare her"></button>
+<br/>
+<br/>
+vælg kategori <select type="text" name="kategori" id="kategori" >
+    <option value="andet"> Andet </option>
+    <option value="tøj"> Tøj </option>
+    <option value="bil"> Bil </option>
+    <option value="ejendom"> Hus </option>
+</select>
+<br/>
+<button id="seVare"> se vare </button>
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+</style>
+<table id="list"> </table>
+<script src="MainSite.js"></script>
+</body>
+</html>
+
+

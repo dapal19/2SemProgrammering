@@ -1,0 +1,15 @@
+{  
+    "server": "denblaaavisapp.database.windows.net", 
+    "authentication": {
+        "type": "default",
+        "options": {
+            "userName": "Daniel", 
+            "password": "Palsson123" 
+        }
+    },
+    "options": {
+        "encrypt": true,
+        "database": "Projekt",
+        "trustServerCertificate": true
+    }
+} 

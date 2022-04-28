@@ -33,5 +33,12 @@
         "kategori": "ejendom",
         "image": "uploads/qVEKVBp1kwA0To2S3n6rcwjo.jpeg",
         "local": "jacob"
+    },
+    {
+        "title": "sdad",
+        "price": "2231",
+        "kategori": "tøj",
+        "image": "uploads/ktzSqkBVZSApVkcafLFJOP34.png",
+        "local": "32"
     }
 ]

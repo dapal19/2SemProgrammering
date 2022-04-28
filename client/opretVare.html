@@ -8,9 +8,8 @@
 </head>
 <body>
     Tilbage til start
-    <input type="button" onClick="location.href='http://localhost:4000'" value="Hjem"></button>
-
-
+    <input type="button" onClick="location.href='http://localhost:4000/MainSite.html'" value="Hjem"></button>
+    Opret vare
     <form id="submitForm"> <h3>Opret vare</h3>
        Titel <input type="input" name="title" id="title" placeholder="titel"> <br/>
        Pris <input type="number" name="price" id="price" placeholder="pris"><br/>
@@ -27,6 +26,8 @@
 
     <br/>
 Se alle dine vare <button id="seVare"> se vare </button>
+<table id="list"> 
+</table>
 <style>
     table, th, td {
       border: 1px solid black;
@@ -39,22 +40,25 @@ Se alle dine vare <button id="seVare"> se vare </button>
     Gammel titel <input type="text" id="oldTitle" placeholder="titlen på vare der skal ændres"><br/>
     Nye titel <input type="text" id="changeTitle" placeholder="ændre titel"><br/>
     Nye pris <input type="number" id="changePrice" placeholder="ændre pris"><br/>
-    Vælg ny kategori <select id="changeKategori" >
-         <option value="andet"> Andet </option>
-         <option value="tøj"> Tøj </option>
-         <option value="bil"> Bil </option>
-         <option value="ejendom"> Ejendom </option>
-     </select><br/>
+    VVælg kategori <select name="kategori" >
+        <option value="andet"> Andet </option>
+        <option value="tøj"> Tøj </option>
+        <option value="bil"> Bil </option>
+        <option value="ejendom"> Hus </option>
+        <br/>
+       <input type="hidden" value="" id="local" name="local"/><br/>
+       File <input type="file" name="image" placeholder="pris"><br/>
+    </form>
      <button id="ChangeVare"> opdater vare </button>
  </form>
- 
  <br/>
-
+<form>
 <form> <h3>Slet en vare</h3>
     <input type="text" id="deleteVare" placeholder="slet vare">
     <button id="deleteSubmit"> slet vare </button>
 </form>
-
+<br/>
 <script src="opretVare.js" async defer></script>
 </body>
 </html>
+
