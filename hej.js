@@ -36,8 +36,6 @@ fetch("http://localhost:4000/login", {
 
 });
 
-
-
 app.post('/login', (req,res) => {
     loginUser = JSON.parse(JSON.stringify(req.body))
     loginUsername = loginUser.user
