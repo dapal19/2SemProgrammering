@@ -6,7 +6,7 @@ const fs = require("fs");
 const formData = require("express-form-data")
 const path = require('path');
 const cors = require("cors")
-
+url = require('url')
 
 const userRouter = require("./Routes/userRoutes")
 const {User} = require('./Models/User')
@@ -26,15 +26,22 @@ app.listen(port, () => {
 const imageUpload = {
     uploadDir: './uploads'
 }
-//middleware
-new User().getAllUsers
 
 app.use(express.static('client'))
 app.use("/uploads", express.static("uploads"))
 
-app.get('/users/:id', (req,res) => {
-    const allUsers = new User(req.params.id)
-    res.send(JSON.parse({User: allUsers}))
+app.get('/', (req,res) => {
+    res.sendFile(path.join(__dirname, "/client/index.html"));
+ }); 
+
+
+
+app.get('/users', async (req,res) => {    
+    const user1 = new User
+    const user2 = await user1.getAllUsers()
+    res.send(user2)
 })
+
+
 
 

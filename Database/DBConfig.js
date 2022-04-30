@@ -1,31 +1,36 @@
-var Connection = require('tedious').Connection;
-var Request = require('tedious').Request;
-var TYPES = require('tedious').TYPES;
+const { Connection, Request } = require('tedious');
 const config = require('./Config.json')
-// Create connection to database
-class DatabaseConfig {
-  constructor() {
-    this.sqlConnection = new Connection(config)
-  }
-  startDatabase() {
-    return new Promise((resolve, reject) => {
-      this.sqlConnection.on('connect', (err) => {
-        if (err) {
-          console.log("Connection failed")
-          reject(err)
-          throw err;
-        } else {
-          console.log("Connected")
-          resolve();
+
+//Klasse for connection til databasen
+//https://docs.microsoft.com/en-us/azure/azure-sql/database/connect-query-nodejs?view=azuresql&tabs=macos
+
+class DatabaseConnect {
+    constructor() {
+    this.connection = new Connection(config)
+    }
+    async connectTilDatabase() {
+        return new Promise((resolve, reject) => {
+            this.connection.on('connect', (err) => {
+                    if (err) {
+                      reject(err.message);
+                      console.log('Kan ikke connecte')
+                    } else {
+                    console.log('Connected')
+                      resolve(this);
+            };
+        })
+        this.connection.connect()
         }
-      })
-      this.sqlConnection.connect();
-    })
-  }
+        )}}
+
+async function tilknytDatabase() {
+const database1 = new DatabaseConnect()
+const database2 = await database1.connectTilDatabase()
+return database2
 }
 
+tilknytDatabase()
 
-module.exports = DatabaseConfig;
+//Vi eksporterer klassen og dermed også den tilhørende metode, så vi kan connecte i andre filer.
 
-module.exports = new DatabaseConfig().startDb
-
+module.exports = { DatabaseConnect }
