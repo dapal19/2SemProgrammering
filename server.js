@@ -10,6 +10,7 @@ url = require('url')
 
 const userRouter = require("./Routes/userRoutes")
 const {User} = require('./Models/User')
+const { Annoncer } = require('./Models/Annoncer')
 const { Connection, Request, TYPES } = require('tedious');
 // Modules
 const config = require('./Database/DBConfig')
@@ -35,12 +36,22 @@ app.get('/', (req,res) => {
  }); 
 
 
-
+//Henter alle users -> Kan bruges til admin
 app.get('/users', async (req,res) => {    
     const user1 = new User
     const user2 = await user1.getAllUsers()
     res.send(user2)
 })
+
+//Henter alle annoncer
+app.get('/annoncer', async (req,res) => {    
+    const annonce1 = new Annoncer
+    const annonce2 = await annonce1.alleAnnoncer()
+    res.send(annonce2)
+})
+
+
+
 
 
 
