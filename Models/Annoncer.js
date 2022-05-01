@@ -151,6 +151,7 @@ class Annoncer {
     }
     
 }
+
 async function annoncer() {
     const annonce1 = new Annoncer();
     const annonce2 = await annonce1.alleAnnoncer()
@@ -177,6 +178,8 @@ async function sletteMette() {
     const annonce2222 = await annonce1111.sletAnnonce()
     console.log(annonce2222)
 }
+
+
 sletteMette()
 
 
