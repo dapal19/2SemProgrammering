@@ -1,5 +1,3 @@
-
-
 //Opret en anonce
 
 var form = document.getElementById("form1")
@@ -47,30 +45,32 @@ form.addEventListener('submit', function(e) {
 
 //Slet annoncer
 
+
 const deleteSubmit = document.getElementById("deleteSubmit")
-//giver knap funktin
-deleteSubmit.addEventListener("click", (e) => {
+
+
+deleteSubmit.addEventListener("click", (e) =>{
     e.preventDefault();
-    console.log("hej")
-
+    
     let oldTitle = document.getElementById("deleteAnnonce").value;
+    let user_id = localStorage.getItem("user_id")
 
-    fetch(`http://localhost:1000/sletAnnonce/${oldTitle}`, {
+    fetch(`http://localhost:1000/sletAnnonce/${oldTitle}/${user_id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
     })
 
-        .then((response) => {
-            return response
-        })
-        .then((data) => {
-            console.log(data)
-        }).catch((err) => {
-            console.log(err)
-        })
+    .then((response) => {
+        return response
+    })
+     .catch((err) =>{
+         console.log(err)
+    })
 })
+    
+
 
 
 

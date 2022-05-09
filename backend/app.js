@@ -108,6 +108,7 @@ const imageUpload = {
     uploadDir: './uploads'
 }
 
+//////------ANONCER ENDPOINTS HER-------
 
  //opret annonce
  app.post("/lavAnnonce", async (req, res) => {
@@ -130,6 +131,22 @@ const imageUpload = {
     res.json(nyannonce);
 
   
+})
+
+
+app.delete("/sletAnnonce/:title/:user_id", async (req, res) =>{
+
+  const title = req.params.title;
+  const user_id = req.params.user_id;
+  
+
+  let result = await connectTilDb(`DELETE FROM dbo.annoncer WHERE title = '${title}' AND user_id = '${user_id}' `);
+
+  if(!result['1']){
+    res.json({error: 'Product not found'});
+  } else {
+    res.json({result: result});
+  }
 })
 
 
