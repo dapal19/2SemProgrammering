@@ -4,8 +4,12 @@ body {
     margin: 0px;
     background-color: #5175C0;
     ;
+    text-align: center;
 }
 
+form {
+    display: inline-block;
+}
 nav {
     margin-top: 40px;
     padding: 24px;
@@ -95,4 +99,8 @@ h5{
     color: white;
     text-align: center;
     font-family: Raleway;
+}
+
+form{
+   center: center;
 }

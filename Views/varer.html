@@ -20,9 +20,9 @@
     <div>
         <h1> Opret Annonce </h1>
         <form id="form1" method="post"> 
-            <input type="text" id="title" placeholder="title">
-            <input type="text" id="price" placeholder="price">
-            <input type="text" id="colour" placeholder="colour">
+            <input type="text" id="title" placeholder="Titel">
+            <input type="text" id="price" placeholder="Pris">
+            <input type="text" id="colour" placeholder="Farve">
 
             <select id = "category">
                 <option value="andet"> Andet </option>
@@ -32,35 +32,33 @@
               </select>
             
               <select id = "location">
-                <option value="Hovedstanden"> Hovedstanden </option>
+                <option value="Hovedstanden"> Hovedstaden </option>
                 <option value = "Sjælland"> Sjælland </option>
                 <option value = "Fyn"> Fyn </option>
                 <option value = "Jylland"> Jylland </option>
                 <option value = "Midtjylland"> Midtjylland </option>
-                <option value = "Syd-danmark"> Syd-danmark </option>
+                <option value = "Syd-danmark"> Syddanmark </option>
 
                 File <input type="file" id="billede"><br/>
 
               </select>
-            <button type="submit" name="submit"> Post annonce</button>
+            <button type="submit" name="submit"> Opret Annonce</button>
         </form>
     </div>
 
     <div>
-        <h1> Slet annonce </h1>
-        <input type="text" id="deleteAnnonce" placeholder="oldTitle">
-         <button  id="deleteSubmit"> slet brugersdfsdf </button>
+        <h1> Slet Annonce </h1>
+        <input type="text" id="deleteAnnonce" placeholder="Indtast annoncens titel">
+         <button  id="deleteSubmit"> Slet din gamle annonce </button>
     </div>
 
 <div>
+    <h1>Opdater Vare</h1>
 <form> 
-
-    <h1>Opdater vare</h1>
-    <h5>Sæt titlen ind på den vare som ønkses opdateret</h5>
-    Gammel titel <input type="text" id="oldTitle" placeholder="titlen på vare der skal ændres"><br/>
-    Nye titel <input type="text" id="changeTitle" placeholder="ændre titel"><br/>
-    Nye pris <input type="number" id="changePrice" placeholder="ændre pris"><br/>
-    <input type="text" id="changeColour" placeholder="colour">
+    Gammel titel <input type="text" id="oldTitle" placeholder="Titel på vare der skal ændres"><br/>
+    Nye titel <input type="text" id="changeTitle" placeholder="Ændre titel"><br/>
+    Nye pris <input type="number" id="changePrice" placeholder="Ændre pris"><br/>
+    <input type="text" id="changeColour" placeholder="Farve">
 
     <select id = "changeCategory">
         <option value="andet"> Andet </option>
@@ -78,9 +76,8 @@
         <option value = "Syd-danmark"> Syd-danmark </option>
       </select>
 
-      
            
-     <button id="ChangeVare"> opdater vare </button>
+     <button id="ChangeVare"> Opdater Annonce </button>
  </form>
 
 </div>
@@ -89,7 +86,7 @@
 <br/>
 <br/>
 
- Se alle dine vare <button id="seVare"> se vare </button>
+<h1>Se Alle Dine Annoncer </h1> <button id="seVare"> se vare </button>
 <style>
     table, th, td {
       border: 1px solid black;
