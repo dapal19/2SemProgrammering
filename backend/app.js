@@ -151,6 +151,7 @@ app.delete("/sletAnnonce/:title/:user_id", async (req, res) =>{
 
 
 
+
   //se brugers personlige vare
 
   app.get("/annoncer/:user_id", async (req, res) =>{
@@ -165,6 +166,43 @@ app.delete("/sletAnnonce/:title/:user_id", async (req, res) =>{
         res.send(annoncer);
       }
   })
+
+
+
+
+//Opdate annnonce
+
+app.put("/opdaterAnnonce", async (req, res) =>{
+
+  const payload = {
+      oldTitle: req.body.oldTitle,
+      title: req.body.title,
+      price: req.body.price,
+      location: req.body.location,
+      colour: req.body.colour,
+      category: req.body.category,
+      user_id: req.body.user_id
+    };
+
+
+  let annonce = await connectTilDb(`UPDATE dbo.annoncer 
+  SET title='${payload.title}', price='${payload.price}', location='${payload.location}'
+  , colour='${payload.colour}', category='${payload.category}'
+  WHERE title = '${payload.oldTitle}' AND user_id = '${payload.user_id}'`);
+
+  if(!annonce['1']){
+    res.status(999);
+    console.log("fail");
+  } else {
+    res.json(annonce);
+  }
+})
+
+
+
+
+
+
 
 
 

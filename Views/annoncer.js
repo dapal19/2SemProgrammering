@@ -71,15 +71,12 @@ deleteSubmit.addEventListener("click", (e) =>{
 })
     
 
-
-
-
 //opdater vare
 
 //sumbit knap fra form
 const ChangeVareSubmit = document.getElementById("ChangeVare")
 //giver knap funktion
-ChangeVareSubmit.addEventListener("click", (e) => {
+ChangeVareSubmit.addEventListener("click", (e) =>{
     e.preventDefault();
 
     //henter værdier fra formen
@@ -89,36 +86,55 @@ ChangeVareSubmit.addEventListener("click", (e) => {
     let oldTitle = document.getElementById("oldTitle").value;
     let colour = document.getElementById("colour").value
     let category = document.getElementById("category").value
-
+    let user_id = localStorage.getItem("user_id")
+    
     //obejkt der skal sendes
     let payload = {
-        title: title,
-        price: price,
-        location: location,
-        oldTitle: oldTitle,
-        colour: colour,
-        category: category
+            title: title,
+            price: price,
+            location: location,
+            oldTitle: oldTitle,
+            colour: colour,
+            category: category,
+            user_id: user_id
     }
 
-    fetch("http://localhost:1000/opdaterAnnonce", {
+    fetch("http://localhost:1000/opdaterAnnonce",{
         method: "PUT",
         body: JSON.stringify(payload),
         headers: {
             'content-Type': 'application/json'
         },
-    })
-        .then(response => response.json())
-        .catch((error) => {
-            console.log('error:')
+        }) 
+        .then((response) => {
+            //Hvis oplsyningerne ikke findes sendes en alert
+            if (response.status === 999) {
+                 alert("Varen findes ikke!");
+            }  else {
+                alert("VAren er opadteret, har du udfyldt alle felter?")
+            }
+
         })
+        .catch((error) => {
+        console.log(error)
+    })
 })
 
-//  -----------Få vare
-//tabel til vare
 
-//knap til at se vare
-//  -----------Få vare
-//tabel til vare
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //knap til at se vare
 let seVare = document.getElementById("seVare2")
