@@ -13,21 +13,12 @@ form34.addEventListener('submit', (e) => {
 
     console.log(dataForm)
 
-    fetch('http://localhost:3000/item', {
+    fetch('http://localhost:1000/item', {
         method: 'POST',
         body: dataForm
-    }) 
-   
+    })
+
 })
-
-
-
-
-
-
-
-
-
 
 /*const imageSubmit = document.getElementById("imageSubmit")
 //giver knap funktin
@@ -43,7 +34,7 @@ imageSubmit.addEventListener("click", (e) =>{
         billede: image
     }
 
-    fetch(`http://localhost:3000/billede`,{
+    fetch(`http://localhost:1000/billede`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -62,26 +53,11 @@ imageSubmit.addEventListener("click", (e) =>{
 */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 var form = document.getElementById("form1")
 
-form.addEventListener('submit', function(e) {
+form.addEventListener('submit', function (e) {
     e.preventDefault()
 
-
-    
     let title = document.getElementById("title").value
     let price = document.getElementById("price").value
     let colour = document.getElementById("colour").value
@@ -97,24 +73,23 @@ form.addEventListener('submit', function(e) {
         category: category,
         billede: billede
     }
-console.log(payload)
 
-
-    fetch("http://localhost:3000/lavAnnonce",  {
+    console.log(payload)
+    fetch("http://localhost:1000/annoncer", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload),
-    }) 
-    .then((response) => {
-        return response
     })
-    .then((data) => {
-        console.log(data)
-    }).catch((err) =>{
-        console.log(err)
-    })
+        .then((response) => {
+            return response
+        })
+        .then((data) => {
+            console.log(data)
+        }).catch((err) => {
+            console.log(err)
+        })
 })
 
 
@@ -124,30 +99,29 @@ console.log(payload)
 
 const deleteSubmit = document.getElementById("deleteSubmit")
 //giver knap funktin
-deleteSubmit.addEventListener("click", (e) =>{
+deleteSubmit.addEventListener("click", (e) => {
     e.preventDefault();
     console.log("hej")
 
     let oldTitle = document.getElementById("deleteAnnonce").value;
 
-    fetch(`http://localhost:3000/sletAnnonce/${oldTitle}`,{
+    fetch(`http://localhost:1000/sletAnnonce/${oldTitle}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
     })
 
+        .then((response) => {
+            return response
+        })
+        .then((data) => {
+            console.log(data)
+        }).catch((err) => {
+            console.log(err)
+        })
+})
 
-.then((response) => {
-    return response
-})
-.then((data) => {
-    console.log(data)
-}).catch((err) =>{
-    console.log(err)
-})
-})
-    
 
 
 //opdater vare
@@ -155,7 +129,7 @@ deleteSubmit.addEventListener("click", (e) =>{
 //sumbit knap fra form
 const ChangeVareSubmit = document.getElementById("ChangeVare")
 //giver knap funktion
-ChangeVareSubmit.addEventListener("click", (e) =>{
+ChangeVareSubmit.addEventListener("click", (e) => {
     e.preventDefault();
 
     //henter værdier fra formen
@@ -165,31 +139,29 @@ ChangeVareSubmit.addEventListener("click", (e) =>{
     let oldTitle = document.getElementById("oldTitle").value;
     let colour = document.getElementById("colour").value
     let category = document.getElementById("category").value
-    
+
     //obejkt der skal sendes
     let payload = {
-            title: title,
-            price: price,
-            location: location,
-            oldTitle: oldTitle,
-            colour: colour,
-            category: category
+        title: title,
+        price: price,
+        location: location,
+        oldTitle: oldTitle,
+        colour: colour,
+        category: category
     }
 
-    fetch("http://localhost:3000/opdaterAnnonce",{
+    fetch("http://localhost:1000/opdaterAnnonce", {
         method: "PUT",
         body: JSON.stringify(payload),
         headers: {
             'content-Type': 'application/json'
         },
-        }) 
+    })
         .then(response => response.json())
         .catch((error) => {
-        console.log('error:')
-    })
+            console.log('error:')
+        })
 })
-
-
 
 //  -----------Få vare
 //tabel til vare
@@ -199,7 +171,7 @@ let seVare = document.getElementById("seVare")
 //tabel hvor varene skal sættes ind
 let list = document.getElementById("list")
 
-seVare.addEventListener('click', () =>{
+seVare.addEventListener('click', () => {
 
     list.innerHTML = `
     <tr>
@@ -211,21 +183,21 @@ seVare.addEventListener('click', () =>{
         <th>Billede</th>
     <tr/>
     `;
-  
-   fetch ('http://localhost:3000/annoncer', {
+
+    fetch('http://localhost:1000/annoncer', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         },
     })
-  
-    .then(response => response.json())
-    .then(data => {
-        let annonce = data.result
-        for (i in data.result){
-            list.innerHTML += 
 
-            `
+        .then(response => response.json())
+        .then(data => {
+            let annonce = data.result
+            for (i in data.result) {
+                list.innerHTML +=
+
+                    `
         <tr>
             <td> ${annonce[i].title}</td>
             <td> ${annonce[i].price} kr </td>
@@ -233,10 +205,10 @@ seVare.addEventListener('click', () =>{
             <td> ${annonce[i].category}</td>
             <td> ${annonce[i].colour}</td>
         </tr>`
-        
-        }
-    
-    })
+
+            }
+
+        })
 })
 
 
