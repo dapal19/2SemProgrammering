@@ -8,3 +8,57 @@
   </nav>
 
 
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+  </head>
+  <body>
+      <div>
+          <h1> Filter Annonce </h1>
+          <form id="filtrer" method="post"> 
+              <select id = "category">
+                  <option value = "Biler"> Biler </option>
+                  <option value = "Fodboldkort"> Fodboldkort </option>
+                  <option value = "Tøj"> Tøj </option>
+                </select>
+  
+                <select id = "location">
+                  <option value="Hovedstanden"> Hovedstaden </option>
+                  <option value = "Sjælland"> Sjælland </option>
+                  <option value = "Fyn"> Fyn </option>
+                  <option value = "Jylland"> Jylland </option>
+                  <option value = "Midtjylland"> Midtjylland </option>
+                  <option value = "Syd-danmark"> Syddanmark </option>
+                </select>
+  
+                
+                <input type="text" id="price1" placeholder="Min pris">
+                <input type="text" id="price2" placeholder="Max pris">
+  
+                <input type="text" id="age" placeholder="Dage siden oprettelse">
+  
+  
+                <input type="text" id="colour" placeholder="Farve">
+  
+          </form>
+      </div><br/>
+      <br/>
+      <br/>
+  
+      Se alle dine vare <button id="sVare1"> se vare </button>
+      <style>
+          table, th, td {
+            border: 1px solid black;
+          }
+      </style>
+      <table id="annoncerList"> </table>
+  
+  
+  
+      <script src="sevare.js"></script>
+  </body>
+  </html>

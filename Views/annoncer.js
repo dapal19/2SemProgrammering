@@ -1,58 +1,4 @@
 
-
-//henter formen
-let form34 = document.getElementById("submitForm");
-//sætter hidden element "local" i formen til den valuen ril key'en "username" i localstorage
-
-//giver formen en funktion når den "submittes"
-form34.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    //formData representeret i key-values
-    const dataForm = new FormData(form)
-
-    console.log(dataForm)
-
-    fetch('http://localhost:1000/item', {
-        method: 'POST',
-        body: dataForm
-    })
-
-})
-
-/*const imageSubmit = document.getElementById("imageSubmit")
-//giver knap funktin
-imageSubmit.addEventListener("click", (e) =>{
-    e.preventDefault();
-    console.log("hej")
-
-    let image = document.getElementById("image").value;
-
-    console.log(image)
-
-    let payload = {
-        billede: image
-    }
-
-    fetch(`http://localhost:1000/billede`,{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    })
-    .then((response) => {
-        return response
-    })
-    .then((data) => {
-        console.log(data)
-    }).catch((err) =>{
-        console.log(err)
-    })
-})
-*/
-
-
 var form = document.getElementById("form1")
 
 form.addEventListener('submit', function (e) {
@@ -75,6 +21,7 @@ form.addEventListener('submit', function (e) {
     }
 
     console.log(payload)
+
     fetch("http://localhost:1000/annoncer", {
         method: "POST",
         headers: {

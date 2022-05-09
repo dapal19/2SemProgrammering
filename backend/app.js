@@ -84,6 +84,8 @@ app.get("/mainsite", async (req, res) => {
   res.send(updateUser)
   });
 
+
+//Slet din egen profil, hvorefter brugeren redirectes ud til opret siden.
   app.delete("/profil", async (req, res) => {
     const findPassword = {
       password: req.body.password
@@ -92,13 +94,10 @@ app.get("/mainsite", async (req, res) => {
     res.send(deletePassword)
   });
 
-
 //Varer Endpoints --> Get Req for varer
   app.get('/annoncer', (req,res) => {
     res.redirect("/annoncer.html");
  }); 
-
-
 
 //opload billede til mappe "uploads"
 const imageUpload = {
@@ -114,6 +113,7 @@ const imageUpload = {
       colour: req.body.colour,
       billede: req.body.billede
     };
+    
     console.log(payload);
 
     let storeProduct = await connectTilDb(
@@ -127,6 +127,46 @@ const imageUpload = {
       res.json({storeProduct: storeProduct});
     }
   })
+
+  //-----------------seAnnnonce---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------- -------------------------------
+
+  app.post("/mainsite", async (req, res) =>{
+    let payload = {
+      location: req.body.location,
+      price1: req.body.price1,
+      price2: req.body.price2,
+      age: req.body.age,
+      category: req.body.category,
+      colour: req.body.colour
+    }
+  
+      let antal = await connectTilDb (`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
+      FROM dbo.annoncer 
+      LEFT JOIN dbo.users ON annoncer.user_id = users.id
+      WHERE 
+      location =(CASE WHEN '${payload.location}' = '' THEN location ELSE '${payload.location}' END)
+      AND
+      price BETWEEN (CASE WHEN '${payload.price1}' = '' THEN 0 ELSE '${payload.price1}' END) AND (CASE WHEN '${payload.price2}' = '' THEN price ELSE '${payload.price2}' END)
+      AND
+      DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP)   = (CASE WHEN '${payload.age}' = '' THEN DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP)  ELSE '${payload.age}' END)
+      AND
+      category = (CASE WHEN '${payload.category}' = '' THEN category ELSE '${payload.category}' END)
+      AND
+      colour = (CASE WHEN '${payload.colour}' = '' THEN colour ELSE '${payload.colour}' END)
+      ORDER BY status ASC
+      `
+      );
+    
+      if(!antal['1']){
+        res.json({error: 'Product not found'});
+        res.send(error);
+      } else {
+        res.json(antal);
+      }
+      
+  })
+
+
 
 
   
