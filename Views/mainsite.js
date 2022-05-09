@@ -1,6 +1,5 @@
 //  -----------Få vare
 //tabel til vare
-
 //knap til at se vare
 let filtrer = document.getElementById("sVare1")
 //tabel hvor varene skal sættes ind
@@ -26,7 +25,6 @@ filtrer.addEventListener('click', () =>{
              category: category,
      }
 
-
      list.innerHTML = `
     <tr>
         <th>Titel</th>
@@ -43,8 +41,8 @@ filtrer.addEventListener('click', () =>{
    console.log(payload)
 
 
-   fetch ('http://localhost:1000/mainsite/filter', {
-        method: 'POST',
+   fetch ('http://localhost:1000/mainsite', {
+        method: 'GET',
         body: JSON.stringify(payload),
         headers: {
             'Content-Type': 'application/json'
@@ -78,8 +76,4 @@ filtrer.addEventListener('click', () =>{
 
 })
 
-//hvad skal der vises når man logger ind
-function følgLogik(){
-  console.log("Hej")
-}
 

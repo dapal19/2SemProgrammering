@@ -50,19 +50,15 @@ app.post('/login', async (req,res) => {
 app.get("/mainsite", async (req, res) => {
     res.redirect('mainsite.html')
 })
-  
-  
-  
   //DELETE reqeust for at slette en bruger.
-  app.delete("/mainsite", async (req, res) => {
+  app.delete("/profil", async (req, res) => {
     const findId = {
       password: req.body.password
     }
     let deleteId = await connectTilDb(`DELETE FROM dbo.users WHERE password = '${findId.password}' `)
     res.send(deleteId)
-    res.redirect('login.html')
+    res.redirect('opret.html')
   });
-  
   app.get("/mainsite", async (req, res) => {
     res.redirect('mainsite.html')
   })
@@ -83,8 +79,6 @@ app.get("/mainsite", async (req, res) => {
     WHERE name = '${userUpdate.oldname}' AND password = '${userUpdate.oldpassword}'`)
   res.send(updateUser)
   });
-
-
 //Slet din egen profil, hvorefter brugeren redirectes ud til opret siden.
   app.delete("/profil", async (req, res) => {
     const findPassword = {
@@ -93,13 +87,11 @@ app.get("/mainsite", async (req, res) => {
     let deletePassword = await connectTilDb(`DELETE FROM dbo.users WHERE password = '${findPassword.password}' `)
     res.send(deletePassword)
   });
-
 //Varer Endpoints --> Get Req for varer
   app.get('/annoncer', (req,res) => {
     res.redirect("/annoncer.html");
  }); 
-
-//opload billede til mappe "uploads"
+//Upload billede til mappe "uploads"
 const imageUpload = {
     uploadDir: './uploads'
 }
@@ -113,7 +105,6 @@ const imageUpload = {
       colour: req.body.colour,
       billede: req.body.billede
     };
-    
     console.log(payload);
 
     let storeProduct = await connectTilDb(
@@ -130,7 +121,7 @@ const imageUpload = {
 
   //-----------------seAnnnonce---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------- -------------------------------
 
-  app.post("/mainsite", async (req, res) =>{
+  app.get("/mainsite", async (req, res) =>{
     let payload = {
       location: req.body.location,
       price1: req.body.price1,
@@ -139,8 +130,7 @@ const imageUpload = {
       category: req.body.category,
       colour: req.body.colour
     }
-  
-      let antal = await connectTilDb (`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
+      let antal = await connectTilDb(`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
       FROM dbo.annoncer 
       LEFT JOIN dbo.users ON annoncer.user_id = users.id
       WHERE 
@@ -156,7 +146,7 @@ const imageUpload = {
       ORDER BY status ASC
       `
       );
-    
+      
       if(!antal['1']){
         res.json({error: 'Product not found'});
         res.send(error);
@@ -165,9 +155,61 @@ const imageUpload = {
       }
       
   })
-
+  
+  
+  
 
 
 
   
+
+
+
+//___________ADMIN_______________RIP_______________
+
+app.get("/admin", async (req, res) => {
+  res.redirect('admin.html')
+})
+
+//Put request så vi kan opdatere en bruger.
+  app.put("/adminOpdater", async (req, res) => {
+
+
+    const payload = {
+    name: req.body.name,
+    password: req.body.password,
+    id: req.body.id,
+    adminPassword: req.body.adminPassword,
+  }
+  
+  let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
+    if(!admin['1']){
+      res.json({error: 'wrong password'});
+    } else {
+      let updateUser = await connectTilDb(`UPDATE dbo.users SET name = '${payload.name}', password = '${payload.password}'
+    WHERE id = '${payload.id}'`)
+  res.send(updateUser)
+    }
+
+  console.log(payload)
+});
+  
+app.delete("/admin", async (req, res) => {
+  const payload = {
+  id: req.body.id,
+  adminPassword: req.body.adminPassword,
+}
+
+let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
+  if(!admin['1']){
+    res.json({error: 'wrong password'});
+  } else {
+    connectTilDb(`DELETE FROM dbo.users WHERE id = '${payload.id}'`)
+res.send("hej")
+  }
+
+console.log(payload)
+});
+
+
 
