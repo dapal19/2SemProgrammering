@@ -3,9 +3,13 @@ const express = require('express')
 const app = express()
 const formData = require("express-form-data")
 app.use(express.json());
-app.use(express.static("./Views"));
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 1;
+app.use(express.static("../Views"));
+
 const connectTilDb = require('../Database/DBConfig')
+
+
+
+
 //Definerer vores PORT GANG GANG 
 const PORT = 1000;
 app.listen(PORT, () => {
@@ -28,23 +32,31 @@ app.post("/", async (req, res) => {
 app.get('/login', async (req, res) => {
     res.redirect('../login.html')
   })
+
+
+  
 //--------BRUGER POST --> TIL LOGIN  ------------------
-app.post('/login', async (req,res) => {
-    let payload = {
-      name: req.body.name,
-      password: req.body.password,
-    };
-    let result = await connectTilDb(`SELECT * FROM dbo.users
-    WHERE name='${payload.name}' AND password='${payload.password}'`);
-    if(!result['1']){
-      res.status(999).send(payload);
-      console.log("fail");
-    } else {
-      res.setHeader("username", payload.name)
-      res.setHeader("password", payload.password)
-      res.status(200).send(true);
-    }
-  });
+app.post('/loginBruger', async (req,res) => {
+
+  let payload = {
+    name: req.body.name,
+    password: req.body.password,
+  };
+  
+  let user = await connectTilDb(`SELECT * FROM dbo.users
+  WHERE name='${payload.name}' AND password='${payload.password}'`);
+
+  //
+
+  if(!user['1']){
+    res.status(404).send('Brugeren findes ikke');
+  } else {
+    res.setHeader("username", payload.name)
+    res.setHeader("password", payload.password)
+    res.setHeader("user_id", user[1]["id"])
+    res.status(200).send(true);
+  }
+});
 
     //Get-request til main-site, hvor vi vil samle mange af sitets funktionaliteter.
 app.get("/mainsite", async (req, res) => {
