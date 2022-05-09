@@ -50,7 +50,7 @@ app.post("/testBruger", async (req, res) => {
   res.send("det lykkdes")
 })
 
-
+console.log("hje")
 
 //POST-request til databasen, der gør at vi kan indsætte data fra brugeren.
 app.post("/", async (req, res) => {
