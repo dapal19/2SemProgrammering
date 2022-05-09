@@ -339,6 +339,7 @@ app.get("/admin", async (req, res) => {
   res.redirect('admin.html')
 })
 
+
 //Put request så vi kan opdatere en bruger.
   app.put("/adminOpdater", async (req, res) => {
     const payload = {
@@ -347,9 +348,11 @@ app.get("/admin", async (req, res) => {
     id: req.body.id,
     adminPassword: req.body.adminPassword,
   }
+
+
   let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
     if(!admin['1']){
-      res.json({error: 'wrong password'});
+      res.json({error: 'log in'});
     } else {
       let updateUser = await connectTilDb(`UPDATE dbo.users SET name = '${payload.name}', password = '${payload.password}'
     WHERE id = '${payload.id}'`)
@@ -357,6 +360,10 @@ app.get("/admin", async (req, res) => {
     }
   console.log(payload)
 });
+
+
+
+//slet en burger som admin
 app.delete("/adminDelete", async (req, res) => {
   const payload = {
   id: req.body.id,
@@ -371,6 +378,12 @@ res.send("hej")
   }
 console.log(payload)
 });
+
+
+
+
+
+
 
 app.put("/adminOpgrader", async (req, res) => {
 
@@ -400,13 +413,15 @@ app.post("/adminStats", async (req, res) =>{
     if(!admin['1']){
       res.json({error: 'wrong password'});
     } else {
-      let antal = await connectTilDb(`SELECT COUNT(user_id) as total_annoncer
+      let antal = await connectTilDb(`SELECT COUNT(id) as total_annoncer
       FROM dbo.annoncer`)
       console.log(antal)
       res.json(antal);
 
     }
   })
+
+
 
 app.post("/adminStats2", async (req, res) =>{
     const payload = {

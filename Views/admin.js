@@ -35,22 +35,11 @@ login.addEventListener("click", (e) =>{
             headers = response.headers
             localStorage.setItem("username", headers.get("username"))
             localStorage.setItem("password", headers.get("password"))
-            localStorage.setItem("user_id", headers.get("admin_id"))
+            localStorage.setItem("admin_id", headers.get("admin_id"))
         //funktion der viser at man er logget ind
         }
     });
 })
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -65,7 +54,7 @@ changeUserInfo.addEventListener('click', function(e) {
     let id= document.getElementById("id").value;
     let name = document.getElementById("name").value;
     let password = document.getElementById("password").value;
-    let adminPassword = "1234"
+    let adminPassword = localStorage.getItem("password")
     //Objekt der sendes
     
     let payload = {
@@ -90,17 +79,16 @@ changeUserInfo.addEventListener('click', function(e) {
 
 
 
-
-
-
 var formSlet = document.getElementById("formslet")
 
 formSlet.addEventListener('submit', function(e) {
     e.preventDefault()
-    var id = document.getElementById("userid").value
+    let id = document.getElementById("userid").value
+    let adminPassword = localStorage.getItem("password")
+
       const payload = {
         id: id,
-        adminPassword: "1234",
+        adminPassword: adminPassword,
       };
       fetch(`http://localhost:1000/adminDelete`, {
         method: "DELETE",
@@ -113,6 +101,7 @@ formSlet.addEventListener('submit', function(e) {
 
 
 
+
   var opgraderUser = document.getElementById("form23")
   // Listening on all id in the update.html
   // using preventDefault, so the submit dosen't execute when the HTML page opens 
@@ -122,7 +111,7 @@ formSlet.addEventListener('submit', function(e) {
       let id= document.getElementById("userId").value;
       let status= document.getElementById("status").value;
   
-      let adminPassword = "1234"
+      let adminPassword = localStorage.getItem("password")
       //Objekt der sendes
       
       let payload = {
@@ -145,24 +134,13 @@ formSlet.addEventListener('submit', function(e) {
   
   
   
-  //text fra html
-  
-  
-  
-  
-  
-  /*
-  document.getElementById("hejhej").addEventListener("click", () => {
-      document.getElementById("p1").innerHTML = "New text!";
-  })
-  */
-  
   document.getElementById("hejhej").addEventListener('click', () =>{
     
-      document.getElementById("p1").innerHTML = "New text!";
-  
+      document.getElementById("p1").innerHTML = "Vent venligst";
+      let adminPassword = localStorage.getItem("password")
+
       let payload = {
-          adminPassword: "1234"
+          adminPassword: adminPassword
       }
   
      fetch ('http://localhost:1000/adminStats', {
@@ -188,9 +166,11 @@ formSlet.addEventListener('submit', function(e) {
   let listStat = document.getElementById("listStat")
   
   seStat.addEventListener('click', () =>{
-  
+    
+    let adminPassword = localStorage.getItem("password")
+
       let payload = {
-          adminPassword: "1234"
+          adminPassword: adminPassword
       }
   
       listStat.innerHTML = `
