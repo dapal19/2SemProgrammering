@@ -283,13 +283,57 @@ app.post("/follow", async (req, res) =>{
   
   
 
+///----------Se annocne følger--------------------
 
+
+app.post("/whoFollow", async (req, res) =>{
+  const payload = {
+    password: req.body.password,
+  }
+  
+  let admin = await connectTilDb(`SELECT dbo.users.id as follower_id, dbo.users.password, dbo.annoncer.* FROM dbo.users
+  INNER JOIN dbo.follow ON users.id = follow.user_id
+  INNER JOIN dbo.annoncer ON follow.annonce_id = annoncer.id
+  WHERE password = '${payload.password}' 
+  `)
+    if(!admin['1']){
+      
+    } else {
+    res.send(admin)
+    console.log(admin)
+    }
+  })
 
   
 
 
 
 //___________ADMIN_______________RIP_______________
+
+app.post('/loginAdmin', async (req,res) => {
+
+  let payload = {
+    name: req.body.name,
+    password: req.body.password,
+  };
+  
+  let admin = await connectTilDb(`SELECT * FROM dbo.admin
+  WHERE name='${payload.name}' AND password='${payload.password}'`);
+
+  //
+
+  if(!admin['1']){
+    res.status(404).send('Brugeren findes ikke');
+  } else {
+    res.setHeader("username", payload.name)
+    res.setHeader("password", payload.password)
+    res.setHeader("admin_id", admin[1]["id"])
+    res.status(200).send(true);
+  }
+});
+
+
+
 
 app.get("/admin", async (req, res) => {
   res.redirect('admin.html')

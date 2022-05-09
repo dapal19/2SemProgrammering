@@ -57,3 +57,55 @@ form.addEventListener('submit', function(e) {
 
 
 
+///----HVEM FØLGER DU?-----
+//knap til at se vare
+let seVare = document.getElementById("seVare")
+//tabel hvor varene skal sættes ind
+let list = document.getElementById("list")
+
+seVare.addEventListener('click', () =>{
+
+    password = localStorage.getItem("password")
+
+    payload = {
+        password: password
+    }
+
+    list.innerHTML = `
+    <tr>
+        <th>Titel</th>
+        <th>Pris</th>
+        <th>Location</th>
+        <th>Kategori</th>
+        <th>Farve</th>
+        <th>Billede</th>
+    <tr/>
+    `;
+  
+   fetch ('http://localhost:1000/whoFollow', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+  
+    .then(response => response.json())
+    .then(annonce => {
+        console.log(annonce[1])
+        for (i in annonce){
+            list.innerHTML += 
+
+            `
+        <tr>
+            <td> ${annonce[i].title}</td>
+            <td> ${annonce[i].price} kr </td>
+            <td> ${annonce[i].location}</td>
+            <td> ${annonce[i].category}</td>
+            <td> ${annonce[i].colour}</td>
+        </tr>`
+        
+        }
+    
+    })
+})
