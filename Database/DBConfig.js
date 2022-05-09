@@ -2,7 +2,7 @@ var Connection = require('tedious').Connection;
 var Request = require('tedious').Request
 const config = require('./Config.json')
 
-async function connectTilDb(sql) {
+async function connectTilDb (sql) {
   return new Promise((resolve, reject) => {
     var connection = new Connection(config)
     connection.on('connect', function (err) {
@@ -26,11 +26,13 @@ async function connectTilDb(sql) {
         });
         request.on('requestCompleted', () => {
           resolve(response)
+          console.log('vierker')
         });
       }
     });
     connection.connect()
   });
 }
-module.exports = { connectTilDb }
+module.exports = connectTilDb
 
+console.log(connectTilDb)

@@ -9,10 +9,9 @@ form.addEventListener('submit', function(e) {
       const bruger = {
         name:name,
         password: password,
-        status_id: 1,
       };
 
-      fetch(`http://localhost:3000/`, {
+      fetch(`http://localhost:1000/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
