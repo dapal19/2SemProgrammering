@@ -1,15 +1,19 @@
 
+
+//Opret en anonce
+
 var form = document.getElementById("form1")
 
-form.addEventListener('submit', function (e) {
+form.addEventListener('submit', function(e) {
     e.preventDefault()
-
+    
     let title = document.getElementById("title").value
     let price = document.getElementById("price").value
     let colour = document.getElementById("colour").value
     let category = document.getElementById("category").value
     let location = document.getElementById("location").value
     let billede = document.getElementById("billede").value
+    let user_id = localStorage.getItem("user_id")
 
     let payload = {
         title: title,
@@ -17,26 +21,25 @@ form.addEventListener('submit', function (e) {
         location: location,
         colour: colour,
         category: category,
-        billede: billede
+        billede: billede,
+        user_id: user_id
     }
 
-    console.log(payload)
-
-    fetch("http://localhost:1000/annoncer", {
+    fetch("http://localhost:1000/lavAnnonce",  {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload),
+    }) 
+
+    .then((response) => {
+        return response
     })
-        .then((response) => {
-            return response
-        })
-        .then((data) => {
-            console.log(data)
-        }).catch((err) => {
-            console.log(err)
-        })
+    .catch((err) =>{
+        console.log(err)
+    })
+
 })
 
 

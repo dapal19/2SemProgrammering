@@ -107,29 +107,30 @@ app.get("/mainsite", async (req, res) => {
 const imageUpload = {
     uploadDir: './uploads'
 }
- //opret annonce
- app.post("/annoncer", async (req, res) => {
-    const payload = {
-      title: req.body.title,
-      price: req.body.price,
-      location: req.body.location,
-      category: req.body.category,
-      colour: req.body.colour,
-      billede: req.body.billede
-    };
-    console.log(payload);
 
-    let storeProduct = await connectTilDb(
-      `INSERT INTO dbo.annoncer (title, price, location, category, colour, billede) VALUES (
-          '${payload.title}', '${payload.price}', '${payload.location}', '${payload.category}', 
-          '${payload.colour}', '${payload.billede}');`
-    );
-    if(!storeProduct['1']){
-      res.json({error: 'Product not found'});
-    } else {
-      res.json({storeProduct: storeProduct});
-    }
-  })
+
+ //opret annonce
+ app.post("/lavAnnonce", async (req, res) => {
+
+  const payload = {
+    title: req.body.title,
+    price: req.body.price,
+    location: req.body.location,
+    category: req.body.category,
+    colour: req.body.colour,
+    billede: req.body.billede,
+    user_id: req.body.user_id
+  };
+
+  let nyannonce = await connectTilDb(
+    `INSERT INTO dbo.annoncer (title, price, user_id, location, category, colour, billede) VALUES (
+        '${payload.title}', '${payload.price}', '${payload.user_id}', '${payload.location}', '${payload.category}', 
+        '${payload.colour}', '${payload.billede}');`
+  );
+    res.json(nyannonce);
+
+  
+})
 
 
 
