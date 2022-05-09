@@ -1,5 +1,6 @@
 //  -----------Få vare
 //tabel til vare
+
 //knap til at se vare
 let filtrer = document.getElementById("sVare1")
 //tabel hvor varene skal sættes ind
@@ -25,6 +26,7 @@ filtrer.addEventListener('click', () =>{
              category: category,
      }
 
+
      list.innerHTML = `
     <tr>
         <th>Titel</th>
@@ -41,8 +43,8 @@ filtrer.addEventListener('click', () =>{
    console.log(payload)
 
 
-   fetch ('http://localhost:1000/mainsite', {
-        method: 'GET',
+   fetch ('http://localhost:3000/filter', {
+        method: 'POST',
         body: JSON.stringify(payload),
         headers: {
             'Content-Type': 'application/json'
@@ -56,24 +58,60 @@ filtrer.addEventListener('click', () =>{
 
             `
         <tr>
-            <td> ${antal[i].title}</td>
+            <td id="fuck"value="hej"> ${antal[i].title}</td>
             <td> ${antal[i].price} </td>
             <td> ${antal[i].location} </td>
             <td> ${antal[i].category} </td>
             <td> ${antal[i].colour} </td>
             <td> ${antal[i].age} </td>
             <td> ${antal[i].name} </td>
-            <td> <button id="følg"> se vare </button> </td>
-        </tr>`
-        let følg = document.getElementById("følg")
-
-            følg.addEventListener('click', () =>{
-            følgLogik()
-        })
+            <td> <button onclick=følg("${antal[i].id}")> Følg?</button> </td>
+        </tr>
+        `
+        
     }
+   
+
     })
     .catch(error => {error.message = "hej"})
 
 })
 
 
+
+function følg(id) {
+
+    let user_id = localStorage.getItem("user_id")
+
+    let payload = {
+        annonce_id: id,
+        user_id: user_id,
+    }
+
+
+console.log(payload)
+
+
+    fetch("http://localhost:3000/follow",  {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+    }) 
+    .then((response) => {
+        return response
+    })
+    .then((data) => {
+        console.log(data)
+    }).catch((err) =>{
+        console.log(err)
+    })
+
+
+
+
+
+
+
+}

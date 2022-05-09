@@ -3,9 +3,13 @@ const express = require('express')
 const app = express()
 const formData = require("express-form-data")
 app.use(express.json());
-app.use(express.static("./Views"));
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 1;
+app.use(express.static("../Views"));
+
 const connectTilDb = require('../Database/DBConfig')
+
+
+
+
 //Definerer vores PORT GANG GANG 
 const PORT = 1000;
 app.listen(PORT, () => {
@@ -28,23 +32,31 @@ app.post("/", async (req, res) => {
 app.get('/login', async (req, res) => {
     res.redirect('../login.html')
   })
+
+
+
 //--------BRUGER POST --> TIL LOGIN  ------------------
-app.post('/login', async (req,res) => {
-    let payload = {
-      name: req.body.name,
-      password: req.body.password,
-    };
-    let result = await connectTilDb(`SELECT * FROM dbo.users
-    WHERE name='${payload.name}' AND password='${payload.password}'`);
-    if(!result['1']){
-      res.status(999).send(payload);
-      console.log("fail");
-    } else {
-      res.setHeader("username", payload.name)
-      res.setHeader("password", payload.password)
-      res.status(200).send(true);
-    }
-  });
+app.post('/loginBruger', async (req,res) => {
+
+  let payload = {
+    name: req.body.name,
+    password: req.body.password,
+  };
+  
+  let user = await connectTilDb(`SELECT * FROM dbo.users
+  WHERE name='${payload.name}' AND password='${payload.password}'`);
+
+  //
+
+  if(!user['1']){
+    res.status(404).send('Brugeren findes ikke');
+  } else {
+    res.setHeader("username", payload.name)
+    res.setHeader("password", payload.password)
+    res.setHeader("user_id", user[1]["id"])
+    res.status(200).send(true);
+  }
+});
 
     //Get-request til main-site, hvor vi vil samle mange af sitets funktionaliteter.
 app.get("/mainsite", async (req, res) => {
@@ -119,42 +131,64 @@ const imageUpload = {
     }
   })
 
+
+
+
   //-----------------seAnnnonce---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------- -------------------------------
 
-  app.get("/mainsite", async (req, res) =>{
-    let payload = {
-      location: req.body.location,
-      price1: req.body.price1,
-      price2: req.body.price2,
-      age: req.body.age,
-      category: req.body.category,
-      colour: req.body.colour
+  app.post("/filter", async (req, res) =>{
+
+  let payload = {
+    location: req.body.location,
+    price1: req.body.price1,
+    price2: req.body.price2,
+    age: req.body.age,
+    category: req.body.category,
+    colour: req.body.colour
+  }
+
+
+    let antal = await connectTilDb(`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
+    FROM dbo.annoncer 
+    LEFT JOIN dbo.users ON annoncer.user_id = users.id
+    WHERE 
+    location =(CASE WHEN '${payload.location}' = '' THEN location ELSE '${payload.location}' END)
+    AND
+    price BETWEEN (CASE WHEN '${payload.price1}' = '' THEN 0 ELSE '${payload.price1}' END) AND (CASE WHEN '${payload.price2}' = '' THEN price ELSE '${payload.price2}' END)
+    AND
+    DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP)   = (CASE WHEN '${payload.age}' = '' THEN DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP)  ELSE '${payload.age}' END)
+    AND
+    category = (CASE WHEN '${payload.category}' = '' THEN category ELSE '${payload.category}' END)
+    AND
+    colour = (CASE WHEN '${payload.colour}' = '' THEN colour ELSE '${payload.colour}' END)
+    ORDER BY status ASC
+    `
+    );
+    
+    if(!antal['1']){
+      res.json({error: 'Product not found'});
+      res.send(error);
+    } else {
+      res.json(antal);
     }
-      let antal = await connectTilDb(`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
-      FROM dbo.annoncer 
-      LEFT JOIN dbo.users ON annoncer.user_id = users.id
-      WHERE 
-      location =(CASE WHEN '${payload.location}' = '' THEN location ELSE '${payload.location}' END)
-      AND
-      price BETWEEN (CASE WHEN '${payload.price1}' = '' THEN 0 ELSE '${payload.price1}' END) AND (CASE WHEN '${payload.price2}' = '' THEN price ELSE '${payload.price2}' END)
-      AND
-      DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP)   = (CASE WHEN '${payload.age}' = '' THEN DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP)  ELSE '${payload.age}' END)
-      AND
-      category = (CASE WHEN '${payload.category}' = '' THEN category ELSE '${payload.category}' END)
-      AND
-      colour = (CASE WHEN '${payload.colour}' = '' THEN colour ELSE '${payload.colour}' END)
-      ORDER BY status ASC
-      `
-      );
-      
-      if(!antal['1']){
-        res.json({error: 'Product not found'});
-        res.send(error);
-      } else {
-        res.json(antal);
-      }
-      
-  })
+    
+})
+
+
+app.post("/follow", async (req, res) =>{
+
+  payload = {
+    user_id: req.body.user_id,
+    annonce_id: req.body.annonce_id
+  }
+  
+  let følg = await connectTilDb(`INSERT INTO dbo.follow (user_id, annonce_id)
+  VALUES ('${payload.user_id}', '${payload.annonce_id}') `);
+
+    console.log(følg)
+    res.json(følg);
+
+})
   
   
   
