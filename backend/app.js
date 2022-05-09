@@ -15,19 +15,57 @@ const PORT = 1000;
 app.listen(PORT, () => {
     console.log(`server lytter på http://localhost:${PORT}`);
 });
+
+
+
 //Definerer vores første endpoint som skal fungere som opretside.
 app.get("/", async (req, res) => {
     res.redirect("../opret.html")
 })
+
+
+class User {
+  constructor(name, password) {
+      this.name = name;
+      this.password = password;
+  }
+
+  
+  lavUser(){
+    connectTilDb(`INSERT INTO dbo.users (name, password) VALUES ('${this.name}', '${this.password}');`)
+  }
+
+}
+
+const user1 = new User("fuck", "af");
+user1.lavUser()
+
+
+app.post("/testBruger", async (req, res) => {
+
+  const nyUser = new User(req.body.name, req.body.password)
+
+  nyUser.lavUser()
+
+  res.send("det lykkdes")
+})
+
+
+
 //POST-request til databasen, der gør at vi kan indsætte data fra brugeren.
 app.post("/", async (req, res) => {
-    const brugerData = {
+    const payload = {
         name: req.body.name,
         password: req.body.password,
     };
-    let insertUser = await connectTilDb(`INSERT INTO dbo.users (name, password) VALUES ('${brugerData.name}', '${brugerData.password}');`);
+    let insertUser = await connectTilDb(`INSERT INTO dbo.users (name, password) VALUES ('${payload.name}', '${payload.password}');`);
     res.send(insertUser)
 })
+
+
+
+
+
 //Definerer routen for login som skal blive brugt efter brugeren har brugt opretsiden
 app.get('/login', async (req, res) => {
     res.redirect('../login.html')
