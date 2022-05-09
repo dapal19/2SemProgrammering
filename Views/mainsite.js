@@ -109,3 +109,13 @@ console.log(payload)
     })
 
 }
+
+
+
+//log ud
+document.getElementById("logUD").addEventListener("click", () => {
+    localStorage.removeItem("username")
+    localStorage.removeItem("password")
+    localStorage.removeItem("user_id")
+  })
+  
