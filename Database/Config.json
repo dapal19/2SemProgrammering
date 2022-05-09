@@ -9,7 +9,7 @@
     },
     "options": {
         "encrypt": true, 
-        "database": "Projekt",
+        "database": "Prog",
         "trustServerCertificate": true
     }
 }

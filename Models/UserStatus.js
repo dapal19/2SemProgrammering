@@ -3,5 +3,4 @@ class UserStatus {
         this.status_id = status_id;
         this.status = status;
     }
-// Find methods for UserStatus
 }
