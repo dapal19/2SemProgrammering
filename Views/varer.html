@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="varer.css">
+
+<nav id="nav-1">
+    <a class="link-1" href="mainsite.html">Hjem</a>
+    <a class="link-1" href="varer.html">Varer</a>
+    <a class="link-1" href="profile.html">Profil</a>
+    <a class="link-1" href="login.html">Log ud</a>
+  </nav>
+
+    <title>Varer</title>
+</head>
+<body>
+    <div>
+        <h1> Opret Annonce </h1>
+        <form id="form1" method="post"> 
+            <input type="text" id="title" placeholder="title">
+            <input type="text" id="price" placeholder="price">
+            <input type="text" id="colour" placeholder="colour">
+
+            <select id = "category">
+                <option value="andet"> Andet </option>
+                <option value = "Biler"> Biler </option>
+                <option value = "Fodboldkort"> Fodboldkort </option>
+                <option value = "Tøj"> Tøj </option>
+              </select>
+            
+              <select id = "location">
+                <option value="Hovedstanden"> Hovedstanden </option>
+                <option value = "Sjælland"> Sjælland </option>
+                <option value = "Fyn"> Fyn </option>
+                <option value = "Jylland"> Jylland </option>
+                <option value = "Midtjylland"> Midtjylland </option>
+                <option value = "Syd-danmark"> Syd-danmark </option>
+
+                File <input type="file" id="billede"><br/>
+
+              </select>
+            <button type="submit" name="submit"> Post annonce</button>
+        </form>
+    </div>
+
+    <div>
+        <h1> Slet annonce </h1>
+        <input type="text" id="deleteAnnonce" placeholder="oldTitle">
+         <button  id="deleteSubmit"> slet brugersdfsdf </button>
+    </div>
+
+<div>
+<form> 
+
+    <h1>Opdater vare</h1>
+    <h5>Sæt titlen ind på den vare som ønkses opdateret</h5>
+    Gammel titel <input type="text" id="oldTitle" placeholder="titlen på vare der skal ændres"><br/>
+    Nye titel <input type="text" id="changeTitle" placeholder="ændre titel"><br/>
+    Nye pris <input type="number" id="changePrice" placeholder="ændre pris"><br/>
+    <input type="text" id="changeColour" placeholder="colour">
+
+    <select id = "changeCategory">
+        <option value="andet"> Andet </option>
+        <option value = "Biler"> Biler </option>
+        <option value = "Fodboldkort"> Fodboldkort </option>
+        <option value = "Tøj"> Tøj </option>
+      </select>
+
+      <select id = "changeLocation">
+        <option value="Hovedstanden"> Hovedstanden </option>
+        <option value = "Sjælland"> Sjælland </option>
+        <option value = "Fyn"> Fyn </option>
+        <option value = "Jylland"> Jylland </option>
+        <option value = "Midtjylland"> Midtjylland </option>
+        <option value = "Syd-danmark"> Syd-danmark </option>
+      </select>
+
+      
+           
+     <button id="ChangeVare"> opdater vare </button>
+ </form>
+
+</div>
+
+<br/>
+<br/>
+<br/>
+
+ Se alle dine vare <button id="seVare"> se vare </button>
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+</style>
+<table id="list"> </table>
+<br/>
+
+
+
+
+
+
+
+
+    <script src="varer.js"></script>
+</body>
+</html>
