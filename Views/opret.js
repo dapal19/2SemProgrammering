@@ -18,6 +18,6 @@ form.addEventListener('submit', function(e) {
         },
         body: JSON.stringify(bruger),
       });
-      window.location.replace("http://localhost:1000/login.html"); 
+      location.href='http://localhost:1000/login.html'
   });
   
