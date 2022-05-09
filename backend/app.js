@@ -160,10 +160,11 @@ app.delete("/sletAnnonce/:title/:user_id", async (req, res) =>{
 
   let result = await connectTilDb(`DELETE FROM dbo.annoncer WHERE title = '${title}' AND user_id = '${user_id}' `);
 
+
   if(!result['1']){
     res.json({error: 'Product not found'});
   } else {
-    res.json({result: result});
+    res.json(result, deleteFollow);
   }
 })
 
