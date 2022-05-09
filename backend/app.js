@@ -133,6 +133,22 @@ const imageUpload = {
 
 
 
+  //se brugers personlige vare
+
+  app.get("/annoncer/:user_id", async (req, res) =>{
+
+    const user_id = req.params.user_id
+      let annoncer = await connectTilDb(`SELECT * FROM dbo.annoncer WHERE user_id = '${user_id}'`);
+  
+
+      if(!annoncer['1']){
+        res.json({error: 'Product not found'});
+      } else {
+        res.send(annoncer);
+      }
+  })
+
+
 
   //-----------------seAnnnonce---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------- -------------------------------
 

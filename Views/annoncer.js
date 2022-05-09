@@ -114,11 +114,19 @@ ChangeVareSubmit.addEventListener("click", (e) => {
 //tabel til vare
 
 //knap til at se vare
-let seVare = document.getElementById("seVare")
-//tabel hvor varene skal sættes ind
-let list = document.getElementById("list")
+//  -----------Få vare
+//tabel til vare
 
-seVare.addEventListener('click', () => {
+//knap til at se vare
+let seVare = document.getElementById("seVare2")
+//tabel hvor varene skal sættes ind
+let list = document.getElementById("list3")
+
+seVare.addEventListener('click', () =>{
+
+    let user_id = localStorage.getItem("user_id")
+    console.log(user_id)
+
 
     list.innerHTML = `
     <tr>
@@ -131,20 +139,21 @@ seVare.addEventListener('click', () => {
     <tr/>
     `;
 
-    fetch('http://localhost:1000/annoncer', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+
+
+   fetch (`http://localhost:1000/annoncer/${user_id}`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    },
     })
+    .then(response => response.json())
+    .then(annonce => {
+        console.log(annonce[1])
+        for (i in annonce){
+            list.innerHTML += 
 
-        .then(response => response.json())
-        .then(data => {
-            let annonce = data.result
-            for (i in data.result) {
-                list.innerHTML +=
-
-                    `
+            `
         <tr>
             <td> ${annonce[i].title}</td>
             <td> ${annonce[i].price} kr </td>
@@ -152,13 +161,11 @@ seVare.addEventListener('click', () => {
             <td> ${annonce[i].category}</td>
             <td> ${annonce[i].colour}</td>
         </tr>`
-
-            }
-
-        })
+        
+        }
+    
+    })
 })
-
-
 
 
 
