@@ -79,18 +79,27 @@ app.get("/mainsite", async (req, res) => {
     res.redirect('profil.html')
   })
   //Put request så vi kan opdatere en bruger.
-  app.put("/profil", async (req, res) => {
+
+  app.put("/opdater", async (req, res) => {
     const userUpdate = {
     name: req.body.name,
     password: req.body.password,
     oldname: req.body.oldname,
     oldpassword: req.body.oldpassword,
   }
+  
   console.log(userUpdate)
+  
   let updateUser = await connectTilDb(`UPDATE dbo.users SET name = '${userUpdate.name}', password = '${userUpdate.password}'
     WHERE name = '${userUpdate.oldname}' AND password = '${userUpdate.oldpassword}'`)
   res.send(updateUser)
   });
+  
+
+
+
+
+
 //Slet din egen profil, hvorefter brugeren redirectes ud til opret siden.
   app.delete("/profil", async (req, res) => {
     const findPassword = {

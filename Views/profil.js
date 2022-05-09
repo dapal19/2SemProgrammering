@@ -17,7 +17,7 @@ changeUserInfo.addEventListener('click', function(e) {
         password: password,
     }
 
-    fetch("http://localhost:1000/profil",{
+    fetch("http://localhost:1000/opdater",{
         method: "PUT",
         body: JSON.stringify(updatedUser),
         headers: {
