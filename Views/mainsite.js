@@ -43,7 +43,7 @@ filtrer.addEventListener('click', () =>{
    console.log(payload)
 
 
-   fetch ('http://localhost:3000/filter', {
+   fetch ('http://localhost:1000/filter', {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: {
@@ -92,7 +92,7 @@ function følg(id) {
 console.log(payload)
 
 
-    fetch("http://localhost:3000/follow",  {
+    fetch("http://localhost:1000/follow",  {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
