@@ -30,15 +30,20 @@ changeUserInfo.addEventListener('click', function(e) {
 })
 
 
+//----- slet bruger
 var form = document.getElementById("form")
 
 form.addEventListener('submit', function(e) {
     e.preventDefault()
     var password = document.getElementById("password").value
+
+    
       const user = {
         password: password,
       };
-      fetch(`http://localhost:1000/profil`, {
+
+
+      fetch(`http://localhost:1000/mainsite`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -47,4 +52,8 @@ form.addEventListener('submit', function(e) {
       });
       window.location.replace('http://localhost:1000/opret.html')
   });
+
+
+
+
 

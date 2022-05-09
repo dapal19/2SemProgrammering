@@ -101,13 +101,22 @@ app.get("/mainsite", async (req, res) => {
 
 
 //Slet din egen profil, hvorefter brugeren redirectes ud til opret siden.
-  app.delete("/profil", async (req, res) => {
-    const findPassword = {
-      password: req.body.password
-    }
-    let deletePassword = await connectTilDb(`DELETE FROM dbo.users WHERE password = '${findPassword.password}' `)
-    res.send(deletePassword)
-  });
+ //DELETE reqeust for at slette en bruger.
+ app.delete("/mainsite", async (req, res) => {
+  const payload = {
+    password: req.body.password
+  }
+  let deleteUser = await connectTilDb(`DELETE FROM dbo.users WHERE password = '${payload.password}' `)
+  res.send(deleteUser)
+});
+
+
+
+
+
+
+
+
 //Varer Endpoints --> Get Req for varer
   app.get('/annoncer', (req,res) => {
     res.redirect("/annoncer.html");
