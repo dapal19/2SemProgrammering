@@ -5,18 +5,15 @@ app.use(express.json());
 app.use(express.static("./Views"));
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 1;
 const connectTilDb = require('../Database/DBConfig')
-
 //Definerer vores PORT GANG GANG 
 const PORT = 1000;
 app.listen(PORT, () => {
     console.log(`server lytter på http://localhost:${PORT}`);
 });
-
 //Definerer vores første endpoint som skal fungere som opretside.
 app.get("/", async (req, res) => {
     res.redirect("../opret.html")
 })
-
 //POST-request til databasen, der gør at vi kan indsætte data fra brugeren.
 app.post("/", async (req, res) => {
     const brugerData = {
@@ -30,7 +27,6 @@ app.post("/", async (req, res) => {
 app.get('/login', async (req, res) => {
     res.redirect('../login.html')
   })
-
 //--------BRUGER POST --> TIL LOGIN  ------------------
 app.post('/login', async (req,res) => {
     let payload = {

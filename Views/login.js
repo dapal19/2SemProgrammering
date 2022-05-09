@@ -21,7 +21,7 @@ login.addEventListener("click", (e) =>{
         //Håndterer promise fra fetch med then
         .then((response) => {
         //Hvis oplsyningerne ikke findes sendes en alert
-        if (response.status === 400) {
+        if (response.status === 999) {
              alert("brugeren findes ikke!");
         }   
         //Ellers gemmes response i localstorage
@@ -31,7 +31,6 @@ login.addEventListener("click", (e) =>{
             localStorage.setItem("password", headers.get("word"))
             location.href='http://localhost:1000/mainsite.html'
         //Funktion der viser at man er logget ind
-
             loginDisplay()
             
         }})})
