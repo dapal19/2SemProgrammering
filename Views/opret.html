@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="opret.css">
     <title>Opret din profil</title>
 </head>
-<body>
-<h1>Opret din bruger her.</h1>
-<form id = "form" >
-    <input type="text" id="name" placeholder="Name">
-    <input type="text" id="password" placeholder="Password">
-    <button type="submit" name ="Submit"> Opret bruger </button>
-</form>
-<script src="opret.js"></script>
+<div class="login">
+
+    <div class="login-triangle"></div>
+    
+    <h2 class="login-header">Opret din bruger</h2>
+  
+    <form id = "form" class="login-container">
+      <p><input id="name" placeholder="Name"></p>
+      <p><input type="password" id = "password" placeholder="Password"></p>
+      <p><input id= "submit" type="submit" value="Opret"></p>
+    </form>
+    <script src="opret.js"></script>
+  </div>
+  
 </body>
-</html>
