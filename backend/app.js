@@ -173,15 +173,12 @@ app.get("/admin", async (req, res) => {
 
 //Put request så vi kan opdatere en bruger.
   app.put("/adminOpdater", async (req, res) => {
-
-
     const payload = {
     name: req.body.name,
     password: req.body.password,
     id: req.body.id,
     adminPassword: req.body.adminPassword,
   }
-  
   let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
     if(!admin['1']){
       res.json({error: 'wrong password'});
@@ -190,16 +187,13 @@ app.get("/admin", async (req, res) => {
     WHERE id = '${payload.id}'`)
   res.send(updateUser)
     }
-
   console.log(payload)
 });
-  
-app.delete("/admin", async (req, res) => {
+app.delete("/adminDelete", async (req, res) => {
   const payload = {
   id: req.body.id,
   adminPassword: req.body.adminPassword,
-}
-
+  }
 let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
   if(!admin['1']){
     res.json({error: 'wrong password'});
@@ -207,9 +201,62 @@ let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payl
     connectTilDb(`DELETE FROM dbo.users WHERE id = '${payload.id}'`)
 res.send("hej")
   }
-
 console.log(payload)
 });
+
+app.put("/adminOpgrader", async (req, res) => {
+
+  const payload = {
+  id: req.body.id,
+  status: req.body.status,
+  adminPassword: req.body.adminPassword,
+}
+
+let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
+  if(!admin['1']){
+    res.json({error: 'wrong password'});
+  } else {
+    await connectTilDb(`UPDATE dbo.users SET status = '${payload.status}'
+  WHERE id = '${payload.id}'`)
+res.send(payload)
+  }
+})
+
+//------STATS----ADMIN------------
+app.post("/adminStats", async (req, res) =>{
+  const payload = {
+    adminPassword: req.body.adminPassword,
+  }
+  
+  let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
+    if(!admin['1']){
+      res.json({error: 'wrong password'});
+    } else {
+      let antal = await connectTilDb(`SELECT COUNT(user_id) as total_annoncer
+      FROM dbo.annoncer`)
+      console.log(antal)
+      res.json(antal);
+
+    }
+  })
+
+app.post("/adminStats2", async (req, res) =>{
+    const payload = {
+      adminPassword: req.body.adminPassword,
+    }
+    
+    let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
+      if(!admin['1']){
+        res.json({error: 'wrong password'});
+      } else {
+        let antal = await connectTilDb(`SELECT user_id, COUNT(title) as antal_annoncer FROM dbo.annoncer
+          GROUP BY user_id
+          ORDER BY antal_annoncer DESC`)
+        console.log(antal)
+        res.json(antal);
+      }
+    })
+
 
 
 
