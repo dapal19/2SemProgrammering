@@ -164,7 +164,7 @@ app.delete("/sletAnnonce/:title/:user_id", async (req, res) =>{
   if(!result['1']){
     res.json({error: 'Product not found'});
   } else {
-    res.json(result, deleteFollow);
+    res.json(result);
   }
 })
 
