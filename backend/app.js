@@ -21,7 +21,16 @@ app.listen(PORT, () => {
   console.log(`server lytter på http://localhost:${PORT}`);
 });
 
+//Get-request til main-site, hvor vi vil samle mange af sitets funktionaliteter.
+app.get("/mainsite", async (req, res) => {
+  res.redirect('mainsite.html')
+})
 
+
+//Router til opdater siden
+app.get("/profil", async (req, res) => {
+  res.redirect('profil.html')
+})
 
 //Definerer vores første endpoint som skal fungere som opretside.
 app.get("/", async (req, res) => {
@@ -29,8 +38,23 @@ app.get("/", async (req, res) => {
 })
 
 
+//Definerer routen for login som skal blive brugt efter brugeren har brugt opretsiden
+app.get('/login', async (req, res) => {
+  res.redirect('../login.html')
+})
+
+//Varer Endpoints --> Get Req for varer
+app.get('/annoncer', (req, res) => {
+  res.redirect("/annoncer.html");
+});
 
 
+app.get("/admin", async (req, res) => {
+  res.redirect('admin.html')
+})
+
+//---------BRUGER ENDPOINS----------
+//laver er ny bruger
 app.post("/nyBruger", async (req, res) => {
 
   const nyUser = new User(req.body.name, req.body.password)
@@ -41,6 +65,7 @@ app.post("/nyBruger", async (req, res) => {
 
 })
 
+//sletter en bruger
 app.delete("/deleteBruger", async (req, res) => {
 
   const delUser = new User("ligemeget", req.body.password)
@@ -51,34 +76,26 @@ app.delete("/deleteBruger", async (req, res) => {
 });
 
 
+//opdater bruger
 app.put("/updateBruger", async (req, res) => {
 
   let oldInfo = {
     name: req.body.oldname,
     password: req.body.oldpassword
   }
-  console.log(oldInfo)
 
   let newUser = new User(req.body.name, req.body.password)
 
   await newUser.updateUser(oldInfo)
 
-  res.send("hej")
 });
 
 
 
 
+//--------LOGIN  ------------------
 
-
-//Definerer routen for login som skal blive brugt efter brugeren har brugt opretsiden
-app.get('/login', async (req, res) => {
-  res.redirect('../login.html')
-})
-
-
-
-//--------BRUGER POST --> TIL LOGIN  ------------------
+//bruger login
 app.post('/loginBruger', async (req, res) => {
 
   let payload = {
@@ -101,32 +118,10 @@ app.post('/loginBruger', async (req, res) => {
   }
 });
 
-//Get-request til main-site, hvor vi vil samle mange af sitets funktionaliteter.
-app.get("/mainsite", async (req, res) => {
-  res.redirect('mainsite.html')
-})
-
-app.get("/mainsite", async (req, res) => {
-  res.redirect('mainsite.html')
-})
-//Router til opdater siden
-app.get("/profil", async (req, res) => {
-  res.redirect('profil.html')
-})
-//Put request så vi kan opdatere en bruger.
 
 
 
 
-
-//Varer Endpoints --> Get Req for varer
-app.get('/annoncer', (req, res) => {
-  res.redirect("/annoncer.html");
-});
-//Upload billede til mappe "uploads"
-const imageUpload = {
-  uploadDir: './uploads'
-}
 
 //////------ANONCER ENDPOINTS HER-------
 
@@ -137,11 +132,10 @@ app.post("/lavAnnonce", async (req, res) => {
 
   await nyAnnonce.lavAnnonce()
 
-  res.json("det virker");
 
 })
 
-
+//slet annonce
 app.delete("/sletAnnonce/:title/:user_id", async (req, res) => {
 
   let delAnnonce = new Annonce()
@@ -151,12 +145,11 @@ app.delete("/sletAnnonce/:title/:user_id", async (req, res) => {
 
   await delAnnonce.delAnnonce()
 
-  res.send(res.status)
+
 })
 
 
-//Opdate annnonce
-
+//Opdater annnonce
 app.put("/opdaterAnnonce", async (req, res) => {
 
   let oldTitle = req.body.oldTitle
@@ -170,8 +163,10 @@ app.put("/opdaterAnnonce", async (req, res) => {
 
 
 
-//se brugers personlige vare
 
+//---------ANNONCE TABELLER--------
+
+//se brugers personlige vare
 app.get("/annoncer/:user_id", async (req, res) => {
 
   const payload = new Annonce()
@@ -183,19 +178,13 @@ app.get("/annoncer/:user_id", async (req, res) => {
 })
 
 
-
-//-----------------seAnnnonce---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------- -------------------------------
-
+//Annonce filter
 app.post("/filter", async (req, res) => {
 
   let price1 = req.body.price1
   let age = req.body.age
 
-
-
   const filterAnnonce = new Annonce("hej", req.body.price2, req.body.colour, req.body.location, req.body.category, 123)
-
-  filterAnnonce.filter(price1, age)
 
   res.json(await filterAnnonce.filter(price1, age))
 })
@@ -204,6 +193,8 @@ app.post("/filter", async (req, res) => {
 
 
 ///------------follow ----------
+
+//følg annonce
 app.post("/follow", async (req, res) => {
 
   let payload = new Follow(req.body.user_id,req.body.annonce_id)
@@ -213,9 +204,7 @@ app.post("/follow", async (req, res) => {
 })
 
 
-///----------Se annocne følger--------------------
-
-
+//se annonce som følges
 app.post("/whoFollow", async (req, res) => {
   
   let follow = new Follow()
@@ -231,14 +220,14 @@ app.post("/whoFollow", async (req, res) => {
 
 
 
+//------------ADMIN-----------
 
 
+//login admin
 app.post('/loginAdmin', async (req, res) => {
   let adminLog = new Admin(req.body.name, req.body.password)
 
   let result = await adminLog.adminLogin()
-
-  console.log(result[1].name)
 
   if (!result['1']) {
     res.status(404).send('Brugeren findes ikke');
@@ -252,18 +241,19 @@ app.post('/loginAdmin', async (req, res) => {
 });
 
 
-//slet en burger som admin
+//slet en bruger som admin
 app.delete("/adminDelete", async (req, res) => {
 
     const admin = new Admin()
   
     id = req.body.id,
+
     admin.deleteUser(id)
 
 })
 
 
-
+//opgrder en bruger
 app.put("/adminOpgrader", async (req, res) => {
 
    const admin = new Admin()
@@ -277,7 +267,7 @@ app.put("/adminOpgrader", async (req, res) => {
 
 
 
-//Put request så vi kan opdatere en bruger.
+//Admin - opdatere en bruger.
 app.put("/adminOpdater", async (req, res) => {
 
   username = req.body.name
@@ -294,18 +284,15 @@ app.put("/adminOpdater", async (req, res) => {
 
 
 //------STATS----ADMIN------------
+//i alt annoncer
 app.post("/adminStats", async (req, res) => {
   const admin = new Admin()
 
-console.log(admin.userStats())
-
-res.json(await admin.userStats())
-
+  res.json(await admin.userStats())
 
 })
 
-
-
+//se annoncer pr bruger
 app.post("/adminStats2", async (req, res) => {
   const admin = new Admin()
 
@@ -314,11 +301,6 @@ app.post("/adminStats2", async (req, res) => {
 })
 
 
-
-
-app.get("/admin", async (req, res) => {
-  res.redirect('admin.html')
-})
 
 
 
