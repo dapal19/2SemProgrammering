@@ -14,9 +14,8 @@ class Follow {
       this.annonce_id = annonce_id;
     }
   
-  
+    
     async følg() {
-  
       let payload = await connectTilDb(`INSERT INTO dbo.follow (user_id, annonce_id)
       VALUES ('${this.user_id}', '${this.annonce_id}') `);
       return payload

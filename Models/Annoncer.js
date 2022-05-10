@@ -74,12 +74,6 @@ class Annonce {
 }
 
 
-
-
-
-
-
-
 module.exports = { Annonce }
 
 

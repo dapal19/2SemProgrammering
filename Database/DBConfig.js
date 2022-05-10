@@ -26,7 +26,7 @@ async function connectTilDb (sql) {
         });
         request.on('requestCompleted', () => {
           resolve(response)
-          console.log('vierker')
+          console.log('virker')
         });
       }
     });

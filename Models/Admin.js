@@ -14,6 +14,8 @@ class Admin {
       this.name = name;
       this.password = password;
     }
+
+
     async adminLogin() {
       let admin = await connectTilDb(`SELECT * FROM dbo.admin
     WHERE name='${this.name}' AND password='${this.password}'`);
@@ -32,16 +34,13 @@ class Admin {
       return admin
     }
   
-  
-  
-  
+
   
     async adminUpdateUser(name, password, id) {
       let admin =  await connectTilDb(`UPDATE dbo.users SET name = '${name}', password = '${password}'
         WHERE id = '${id}'`)
         return admin
     }
-  
   
   
   
