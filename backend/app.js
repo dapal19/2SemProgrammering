@@ -1,7 +1,8 @@
 //Importerer de forskellige libraries
 const express = require('express')
 const app = express()
-const formData = require("express-form-data")
+const formData = require("express-form-data");
+const { del } = require('express/lib/application');
 app.use(express.json());
 app.use(express.static("../Views"));
 
@@ -30,27 +31,82 @@ class User {
       this.password = password;
   }
 
-  
-  lavUser(){
-    connectTilDb(`INSERT INTO dbo.users (name, password) VALUES ('${this.name}', '${this.password}');`)
+  setPassword(password) {
+    this.password = password;
   }
+
+  async lavUser() {
+    let insertUser = await connectTilDb(`INSERT INTO dbo.users (name, password) VALUES ('${this.name}', '${this.password}');`)
+    return insertUser
+  }
+
+  async deleteUser() {
+    let deleteUser = await connectTilDb(`DELETE FROM dbo.users WHERE password = '${this.password}' `)
+    return deleteUser
+  }
+
+
+  async updateUser(oldInfo) {
+    let result = await connectTilDb(`UPDATE dbo.users SET name = '${this.name}', password = '${this.password}'
+    WHERE name = '${oldInfo.name}' AND password = '${oldInfo.password}'`)
+  }
+  
+  async getUser() {
+    let result = await connectTilDb(`SELECT * FROM dbo.users`)
+    console.log(result)
+    return result
+  }
+
 
 }
 
-const user1 = new User("fuck", "af");
-user1.lavUser()
+
+app.get("/testBruger", async (req, res) => {
+
+  const nyUser = new User()
+
+  res.json(await nyUser.getUser())
+
+})
 
 
 app.post("/testBruger", async (req, res) => {
 
   const nyUser = new User(req.body.name, req.body.password)
 
-  nyUser.lavUser()
+   nyUser.lavUser()
 
   res.send("det lykkdes")
+
 })
 
-console.log("hje")
+app.delete("/delTest", async (req, res) => {
+
+  const delUser = new User ("ligemeget", req.body.password)
+
+  delUser.deleteUser()
+
+  res.send("hej")
+});
+
+
+app.put("/testOpdater", async (req, res) => {
+ 
+  let oldInfo = {
+    name: req.body.oldname,
+    password: req.body.oldpassword
+  }
+  console.log(oldInfo)
+
+  let newUser = new User (req.body.name, req.body.password)
+
+  newUser.updateUser(oldInfo)
+
+    res.send(result)
+});
+
+
+
 
 //POST-request til databasen, der gør at vi kan indsætte data fra brugeren.
 app.post("/", async (req, res) => {
