@@ -41,6 +41,12 @@ class User {
       return result
     }
   
+
+    async loginUser() {
+        let user = await connectTilDb(`SELECT * FROM dbo.users
+        WHERE name='${this.name}' AND password='${this.password}'`)
+        return user
+      }
   
   }
 

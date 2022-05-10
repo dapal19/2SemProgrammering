@@ -52,7 +52,7 @@ class Annonce {
     }
   
     async filter(price1, age) {
-      let antal = await connectTilDb(`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
+      let filter = await connectTilDb(`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
       FROM dbo.annoncer 
       LEFT JOIN dbo.users ON annoncer.user_id = users.id
       WHERE 
@@ -68,8 +68,7 @@ class Annonce {
       ORDER BY status ASC
       `
       );
-      console.log("lort")
-      return antal
+      return filter
     }
 }
 

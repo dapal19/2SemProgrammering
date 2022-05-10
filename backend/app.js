@@ -98,22 +98,16 @@ app.put("/updateBruger", async (req, res) => {
 //bruger login
 app.post('/loginBruger', async (req, res) => {
 
-  let payload = {
-    name: req.body.name,
-    password: req.body.password,
-  };
+  let userLog = new User(req.body.name, req.body.password)
 
-  let user = await connectTilDb(`SELECT * FROM dbo.users
-  WHERE name='${payload.name}' AND password='${payload.password}'`);
+  let result = await userLog.loginUser()
 
-  //
-
-  if (!user['1']) {
+  if (!result['1']) {
     res.status(404).send('Brugeren findes ikke');
   } else {
-    res.setHeader("username", payload.name)
-    res.setHeader("password", payload.password)
-    res.setHeader("user_id", user[1]["id"])
+    res.setHeader("username", result[1].name)
+    res.setHeader("password", result[1].password)
+    res.setHeader("user_id", result[1].id)
     res.status(200).send(true);
   }
 });

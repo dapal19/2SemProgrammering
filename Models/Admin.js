@@ -45,17 +45,16 @@ class Admin {
   
   
     async userStats() {
-      let admin =  await connectTilDb(`SELECT COUNT(id) as total_annoncer
-        FROM dbo.annoncer`)
+      let admin =  await connectTilDb(`SELECT COUNT(id) as total_annoncer FROM dbo.annoncer`)
         return admin
        
     }
   
   
   
-  
     async annoncePrUser() {
-      let admin = await connectTilDb(`SELECT user_id, COUNT(title) as antal_annoncer FROM dbo.annoncer
+      let admin = await connectTilDb(`
+            SELECT user_id, COUNT(id) as antal_annoncer FROM dbo.annoncer
             GROUP BY user_id
             ORDER BY antal_annoncer DESC`)
         return admin
