@@ -203,10 +203,10 @@ app.post("/whoFollow", async (req, res) => {
   
   let follow = new Follow()
 
-    password = req.body.password,
+    user_id = req.body.user_id,
 
 
-    res.json(await follow.getFølge(password))
+    res.json(await follow.getFølge(user_id))
 
 })
 

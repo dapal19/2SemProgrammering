@@ -65,10 +65,10 @@ let list = document.getElementById("list")
 
 seVare.addEventListener('click', () =>{
 
-    password = localStorage.getItem("password")
+    user_id = localStorage.getItem("user_id")
 
     payload = {
-        password: password
+        user_id: user_id,
     }
 
     list.innerHTML = `

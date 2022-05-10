@@ -21,12 +21,11 @@ class Follow {
       return payload
     }
   
-    async getFølge(password) {
+    async getFølge(user_id) {
   
-      let payload = await connectTilDb(`SELECT dbo.users.id as follower_id, dbo.users.password, dbo.annoncer.* FROM dbo.users
-      INNER JOIN dbo.follow ON users.id = follow.user_id
-      INNER JOIN dbo.annoncer ON follow.annonce_id = annoncer.id
-      WHERE password = '${password}' 
+      let payload = await connectTilDb(`SELECT dbo.follow.user_id as follower_id, dbo.annoncer.* FROM dbo.annoncer
+         INNER JOIN dbo.follow ON follow.annonce_id = annoncer.id
+        WHERE dbo.follow.user_id = ${user_id}
     `)
         return payload
     }
