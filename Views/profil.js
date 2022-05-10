@@ -17,7 +17,7 @@ changeUserInfo.addEventListener('click', function(e) {
         password: password,
     }
 
-    fetch("http://localhost:1000/opdater",{
+    fetch("http://localhost:1000/updateBruger",{
         method: "PUT",
         body: JSON.stringify(updatedUser),
         headers: {
@@ -43,7 +43,7 @@ form.addEventListener('submit', function(e) {
       };
 
 
-      fetch(`http://localhost:1000/mainsite`, {
+      fetch(`http://localhost:1000/deleteBruger`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

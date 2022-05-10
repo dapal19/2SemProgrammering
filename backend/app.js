@@ -3,120 +3,69 @@ const express = require('express')
 const app = express()
 const formData = require("express-form-data");
 const { del } = require('express/lib/application');
+const res = require('express/lib/response');
 app.use(express.json());
 app.use(express.static("../Views"));
 
 const connectTilDb = require('../Database/DBConfig')
 
 
-
+const { User } = require('../Models/User.js')
+const { Annonce } = require('../Models/Annoncer.js')
+const { Admin } = require('../Models/Admin.js')
+const { Follow } = require('../Models/Follow.js')
 
 //Definerer vores PORT GANG GANG 
 const PORT = 1000;
 app.listen(PORT, () => {
-    console.log(`server lytter på http://localhost:${PORT}`);
+  console.log(`server lytter på http://localhost:${PORT}`);
 });
 
 
 
 //Definerer vores første endpoint som skal fungere som opretside.
 app.get("/", async (req, res) => {
-    res.redirect("../opret.html")
+  res.redirect("../opret.html")
 })
 
 
-class User {
-  constructor(name, password) {
-      this.name = name;
-      this.password = password;
-  }
-
-  setPassword(password) {
-    this.password = password;
-  }
-
-  async lavUser() {
-    let insertUser = await connectTilDb(`INSERT INTO dbo.users (name, password) VALUES ('${this.name}', '${this.password}');`)
-    return insertUser
-  }
-
-  async deleteUser() {
-    let deleteUser = await connectTilDb(`DELETE FROM dbo.users WHERE password = '${this.password}' `)
-    return deleteUser
-  }
 
 
-  async updateUser(oldInfo) {
-    let result = await connectTilDb(`UPDATE dbo.users SET name = '${this.name}', password = '${this.password}'
-    WHERE name = '${oldInfo.name}' AND password = '${oldInfo.password}'`)
-  }
-  
-  async getUser() {
-    let result = await connectTilDb(`SELECT * FROM dbo.users`)
-    console.log(result)
-    return result
-  }
-
-
-}
-
-
-app.get("/testBruger", async (req, res) => {
-
-  const nyUser = new User()
-
-  res.json(await nyUser.getUser())
-
-})
-
-
-app.post("/testBruger", async (req, res) => {
+app.post("/nyBruger", async (req, res) => {
 
   const nyUser = new User(req.body.name, req.body.password)
 
-   nyUser.lavUser()
+  await nyUser.lavUser()
 
   res.send("det lykkdes")
 
 })
 
-app.delete("/delTest", async (req, res) => {
+app.delete("/deleteBruger", async (req, res) => {
 
-  const delUser = new User ("ligemeget", req.body.password)
+  const delUser = new User("ligemeget", req.body.password)
 
-  delUser.deleteUser()
+  await delUser.deleteUser()
 
   res.send("hej")
 });
 
 
-app.put("/testOpdater", async (req, res) => {
- 
+app.put("/updateBruger", async (req, res) => {
+
   let oldInfo = {
     name: req.body.oldname,
     password: req.body.oldpassword
   }
   console.log(oldInfo)
 
-  let newUser = new User (req.body.name, req.body.password)
+  let newUser = new User(req.body.name, req.body.password)
 
-  newUser.updateUser(oldInfo)
+  await newUser.updateUser(oldInfo)
 
-    res.send(result)
+  res.send("hej")
 });
 
-
-
-
-//POST-request til databasen, der gør at vi kan indsætte data fra brugeren.
-app.post("/", async (req, res) => {
-    const payload = {
-        name: req.body.name,
-        password: req.body.password,
-    };
-    let insertUser = await connectTilDb(`INSERT INTO dbo.users (name, password) VALUES ('${payload.name}', '${payload.password}');`);
-    res.send(insertUser)
-})
 
 
 
@@ -124,25 +73,25 @@ app.post("/", async (req, res) => {
 
 //Definerer routen for login som skal blive brugt efter brugeren har brugt opretsiden
 app.get('/login', async (req, res) => {
-    res.redirect('../login.html')
-  })
+  res.redirect('../login.html')
+})
 
 
 
 //--------BRUGER POST --> TIL LOGIN  ------------------
-app.post('/loginBruger', async (req,res) => {
+app.post('/loginBruger', async (req, res) => {
 
   let payload = {
     name: req.body.name,
     password: req.body.password,
   };
-  
+
   let user = await connectTilDb(`SELECT * FROM dbo.users
   WHERE name='${payload.name}' AND password='${payload.password}'`);
 
   //
 
-  if(!user['1']){
+  if (!user['1']) {
     res.status(404).send('Brugeren findes ikke');
   } else {
     res.setHeader("username", payload.name)
@@ -152,280 +101,217 @@ app.post('/loginBruger', async (req,res) => {
   }
 });
 
-    //Get-request til main-site, hvor vi vil samle mange af sitets funktionaliteter.
+//Get-request til main-site, hvor vi vil samle mange af sitets funktionaliteter.
 app.get("/mainsite", async (req, res) => {
-    res.redirect('mainsite.html')
+  res.redirect('mainsite.html')
 })
-  //DELETE reqeust for at slette en bruger.
-  app.delete("/profil", async (req, res) => {
-    const findId = {
-      password: req.body.password
-    }
-    let deleteId = await connectTilDb(`DELETE FROM dbo.users WHERE password = '${findId.password}' `)
-    res.send(deleteId)
-    res.redirect('opret.html')
-  });
-  app.get("/mainsite", async (req, res) => {
-    res.redirect('mainsite.html')
-  })
-  //Router til opdater siden
-  app.get("/profil", async (req, res) => {
-    res.redirect('profil.html')
-  })
-  //Put request så vi kan opdatere en bruger.
 
-  app.put("/opdater", async (req, res) => {
-    const userUpdate = {
-    name: req.body.name,
-    password: req.body.password,
-    oldname: req.body.oldname,
-    oldpassword: req.body.oldpassword,
-  }
-  
-  console.log(userUpdate)
-  
-  let updateUser = await connectTilDb(`UPDATE dbo.users SET name = '${userUpdate.name}', password = '${userUpdate.password}'
-    WHERE name = '${userUpdate.oldname}' AND password = '${userUpdate.oldpassword}'`)
-  res.send(updateUser)
-  });
-  
-
-
-
-
-
-//Slet din egen profil, hvorefter brugeren redirectes ud til opret siden.
- //DELETE reqeust for at slette en bruger.
- app.delete("/mainsite", async (req, res) => {
-  const payload = {
-    password: req.body.password
-  }
-  let deleteUser = await connectTilDb(`DELETE FROM dbo.users WHERE password = '${payload.password}' `)
-  res.send(deleteUser)
-});
-
-
-
+app.get("/mainsite", async (req, res) => {
+  res.redirect('mainsite.html')
+})
+//Router til opdater siden
+app.get("/profil", async (req, res) => {
+  res.redirect('profil.html')
+})
+//Put request så vi kan opdatere en bruger.
 
 
 
 
 
 //Varer Endpoints --> Get Req for varer
-  app.get('/annoncer', (req,res) => {
-    res.redirect("/annoncer.html");
- }); 
+app.get('/annoncer', (req, res) => {
+  res.redirect("/annoncer.html");
+});
 //Upload billede til mappe "uploads"
 const imageUpload = {
-    uploadDir: './uploads'
+  uploadDir: './uploads'
 }
 
 //////------ANONCER ENDPOINTS HER-------
 
- //opret annonce
- app.post("/lavAnnonce", async (req, res) => {
+//opret annonce
+app.post("/lavAnnonce", async (req, res) => {
 
-  const payload = {
-    title: req.body.title,
-    price: req.body.price,
-    location: req.body.location,
-    category: req.body.category,
-    colour: req.body.colour,
-    billede: req.body.billede,
-    user_id: req.body.user_id
-  };
+  const nyAnnonce = new Annonce(req.body.title, req.body.price, req.body.location, req.body.category, req.body.colour, req.body.user_id, req.body.billede)
 
-  let nyannonce = await connectTilDb(
-    `INSERT INTO dbo.annoncer (title, price, user_id, location, category, colour, billede) VALUES (
-        '${payload.title}', '${payload.price}', '${payload.user_id}', '${payload.location}', '${payload.category}', 
-        '${payload.colour}', '${payload.billede}');`
-  );
-    res.json(nyannonce);
+  await nyAnnonce.lavAnnonce()
 
-  
+  res.json("det virker");
+
 })
 
 
-app.delete("/sletAnnonce/:title/:user_id", async (req, res) =>{
+app.delete("/sletAnnonce/:title/:user_id", async (req, res) => {
 
-  const title = req.params.title;
-  const user_id = req.params.user_id;
-  
+  let delAnnonce = new Annonce()
 
-  let result = await connectTilDb(`DELETE FROM dbo.annoncer WHERE title = '${title}' AND user_id = '${user_id}' `);
+  delAnnonce.setTitle(req.params.title)
+  delAnnonce.setUserID(req.params.user_id)
 
+  await delAnnonce.delAnnonce()
 
-  if(!result['1']){
-    res.json({error: 'Product not found'});
-  } else {
-    res.json(result);
-  }
+  res.send(res.status)
 })
-
-
-
-
-  //se brugers personlige vare
-
-  app.get("/annoncer/:user_id", async (req, res) =>{
-
-    const user_id = req.params.user_id
-      let annoncer = await connectTilDb(`SELECT * FROM dbo.annoncer WHERE user_id = '${user_id}'`);
-  
-
-      if(!annoncer['1']){
-        res.json({error: 'Product not found'});
-      } else {
-        res.send(annoncer);
-      }
-  })
-
-
 
 
 //Opdate annnonce
 
-app.put("/opdaterAnnonce", async (req, res) =>{
+app.put("/opdaterAnnonce", async (req, res) => {
 
-  const payload = {
-      oldTitle: req.body.oldTitle,
-      title: req.body.title,
-      price: req.body.price,
-      location: req.body.location,
-      colour: req.body.colour,
-      category: req.body.category,
-      user_id: req.body.user_id
-    };
+  let oldTitle = req.body.oldTitle
+
+  let upAnnocne = new Annonce(req.body.title, req.body.price, req.body.colour, req.body.location, req.body.category, req.body.user_id)
+
+  await upAnnocne.opdaterAnnonce(oldTitle)
 
 
-  let annonce = await connectTilDb(`UPDATE dbo.annoncer 
-  SET title='${payload.title}', price='${payload.price}', location='${payload.location}'
-  , colour='${payload.colour}', category='${payload.category}'
-  WHERE title = '${payload.oldTitle}' AND user_id = '${payload.user_id}'`);
+})
 
-  if(!annonce['1']){
-    res.status(999);
-    console.log("fail");
-  } else {
-    res.json(annonce);
-  }
+
+
+//se brugers personlige vare
+
+app.get("/annoncer/:user_id", async (req, res) => {
+
+  const payload = new Annonce()
+  payload.setUserID(req.params.user_id)
+
+
+  res.json(await payload.personligAnnon())
+
+})
+
+
+
+//-----------------seAnnnonce---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------- -------------------------------
+
+app.post("/filter", async (req, res) => {
+
+  let price1 = req.body.price1
+  let age = req.body.age
+
+
+
+  const filterAnnonce = new Annonce("hej", req.body.price2, req.body.colour, req.body.location, req.body.category, 123)
+
+  filterAnnonce.filter(price1, age)
+
+  res.json(await filterAnnonce.filter(price1, age))
 })
 
 
 
 
+///------------follow ----------
+app.post("/follow", async (req, res) => {
 
+  let payload = new Follow(req.body.user_id,req.body.annonce_id)
 
-
-
-
-  //-----------------seAnnnonce---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------- -------------------------------
-
-  app.post("/filter", async (req, res) =>{
-
-  let payload = {
-    location: req.body.location,
-    price1: req.body.price1,
-    price2: req.body.price2,
-    age: req.body.age,
-    category: req.body.category,
-    colour: req.body.colour
-  }
-
-
-    let antal = await connectTilDb(`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
-    FROM dbo.annoncer 
-    LEFT JOIN dbo.users ON annoncer.user_id = users.id
-    WHERE 
-    location =(CASE WHEN '${payload.location}' = '' THEN location ELSE '${payload.location}' END)
-    AND
-    price BETWEEN (CASE WHEN '${payload.price1}' = '' THEN 0 ELSE '${payload.price1}' END) AND (CASE WHEN '${payload.price2}' = '' THEN price ELSE '${payload.price2}' END)
-    AND
-    DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP)   = (CASE WHEN '${payload.age}' = '' THEN DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP)  ELSE '${payload.age}' END)
-    AND
-    category = (CASE WHEN '${payload.category}' = '' THEN category ELSE '${payload.category}' END)
-    AND
-    colour = (CASE WHEN '${payload.colour}' = '' THEN colour ELSE '${payload.colour}' END)
-    ORDER BY status ASC
-    `
-    );
-    
-    if(!antal['1']){
-      res.json({error: 'Product not found'});
-      res.send(error);
-    } else {
-      res.json(antal);
-    }
-    
-})
-
-
-app.post("/follow", async (req, res) =>{
-
-  payload = {
-    user_id: req.body.user_id,
-    annonce_id: req.body.annonce_id
-  }
-  
-  let følg = await connectTilDb(`INSERT INTO dbo.follow (user_id, annonce_id)
-  VALUES ('${payload.user_id}', '${payload.annonce_id}') `);
-
-    console.log(følg)
-    res.json(følg);
+  res.json(await payload.følg())
 
 })
-  
-  
-  
+
 
 ///----------Se annocne følger--------------------
 
 
-app.post("/whoFollow", async (req, res) =>{
-  const payload = {
-    password: req.body.password,
-  }
+app.post("/whoFollow", async (req, res) => {
   
-  let admin = await connectTilDb(`SELECT dbo.users.id as follower_id, dbo.users.password, dbo.annoncer.* FROM dbo.users
-  INNER JOIN dbo.follow ON users.id = follow.user_id
-  INNER JOIN dbo.annoncer ON follow.annonce_id = annoncer.id
-  WHERE password = '${payload.password}' 
-  `)
-    if(!admin['1']){
-      
-    } else {
-    res.send(admin)
-    console.log(admin)
-    }
-  })
+  let follow = new Follow()
 
-  
+    password = req.body.password,
+
+
+    res.json(await follow.getFølge(password))
+
+})
 
 
 
-//___________ADMIN_______________RIP_______________
 
-app.post('/loginAdmin', async (req,res) => {
 
-  let payload = {
-    name: req.body.name,
-    password: req.body.password,
-  };
-  
-  let admin = await connectTilDb(`SELECT * FROM dbo.admin
-  WHERE name='${payload.name}' AND password='${payload.password}'`);
 
-  //
 
-  if(!admin['1']){
+app.post('/loginAdmin', async (req, res) => {
+  let adminLog = new Admin(req.body.name, req.body.password)
+
+  let result = await adminLog.adminLogin()
+
+  console.log(result[1].name)
+
+  if (!result['1']) {
     res.status(404).send('Brugeren findes ikke');
   } else {
-    res.setHeader("username", payload.name)
-    res.setHeader("password", payload.password)
-    res.setHeader("admin_id", admin[1]["id"])
+    res.setHeader("name", result[1].name)
+    res.setHeader("password", result[1].password)
+    res.setHeader("admin_id", result[1].id)
     res.status(200).send(true);
   }
+
 });
+
+
+//slet en burger som admin
+app.delete("/adminDelete", async (req, res) => {
+
+    const admin = new Admin()
+  
+    id = req.body.id,
+    admin.deleteUser(id)
+
+})
+
+
+
+app.put("/adminOpgrader", async (req, res) => {
+
+   const admin = new Admin()
+
+    let id = req.body.id
+    let status = req.body.status
+
+  await admin.upgradeUser(status,id)
+  
+})
+
+
+
+//Put request så vi kan opdatere en bruger.
+app.put("/adminOpdater", async (req, res) => {
+
+  username = req.body.name
+  password = req.body.password
+  id = req.body.id
+
+  const admin = new Admin()
+
+  admin.adminUpdateUser(username, password, id)
+
+});
+
+
+
+
+//------STATS----ADMIN------------
+app.post("/adminStats", async (req, res) => {
+  const admin = new Admin()
+
+console.log(admin.userStats())
+
+res.json(await admin.userStats())
+
+
+})
+
+
+
+app.post("/adminStats2", async (req, res) => {
+  const admin = new Admin()
+
+  res.json(await admin.annoncePrUser())
+
+})
 
 
 
@@ -433,108 +319,6 @@ app.post('/loginAdmin', async (req,res) => {
 app.get("/admin", async (req, res) => {
   res.redirect('admin.html')
 })
-
-
-//Put request så vi kan opdatere en bruger.
-  app.put("/adminOpdater", async (req, res) => {
-    const payload = {
-    name: req.body.name,
-    password: req.body.password,
-    id: req.body.id,
-    adminPassword: req.body.adminPassword,
-  }
-
-
-  let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
-    if(!admin['1']){
-      res.json({error: 'log in'});
-    } else {
-      let updateUser = await connectTilDb(`UPDATE dbo.users SET name = '${payload.name}', password = '${payload.password}'
-    WHERE id = '${payload.id}'`)
-  res.send(updateUser)
-    }
-  console.log(payload)
-});
-
-
-
-//slet en burger som admin
-app.delete("/adminDelete", async (req, res) => {
-  const payload = {
-  id: req.body.id,
-  adminPassword: req.body.adminPassword,
-  }
-let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
-  if(!admin['1']){
-    res.json({error: 'wrong password'});
-  } else {
-    connectTilDb(`DELETE FROM dbo.users WHERE id = '${payload.id}'`)
-res.send("hej")
-  }
-console.log(payload)
-});
-
-
-
-
-
-
-
-app.put("/adminOpgrader", async (req, res) => {
-
-  const payload = {
-  id: req.body.id,
-  status: req.body.status,
-  adminPassword: req.body.adminPassword,
-}
-
-let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
-  if(!admin['1']){
-    res.json({error: 'wrong password'});
-  } else {
-    await connectTilDb(`UPDATE dbo.users SET status = '${payload.status}'
-  WHERE id = '${payload.id}'`)
-res.send(payload)
-  }
-})
-
-//------STATS----ADMIN------------
-app.post("/adminStats", async (req, res) =>{
-  const payload = {
-    adminPassword: req.body.adminPassword,
-  }
-  
-  let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
-    if(!admin['1']){
-      res.json({error: 'wrong password'});
-    } else {
-      let antal = await connectTilDb(`SELECT COUNT(id) as total_annoncer
-      FROM dbo.annoncer`)
-      console.log(antal)
-      res.json(antal);
-
-    }
-  })
-
-
-
-app.post("/adminStats2", async (req, res) =>{
-    const payload = {
-      adminPassword: req.body.adminPassword,
-    }
-    
-    let admin = await connectTilDb(`SELECT * FROM dbo.admin WHERE password = '${payload.adminPassword}'`)
-      if(!admin['1']){
-        res.json({error: 'wrong password'});
-      } else {
-        let antal = await connectTilDb(`SELECT user_id, COUNT(title) as antal_annoncer FROM dbo.annoncer
-          GROUP BY user_id
-          ORDER BY antal_annoncer DESC`)
-        console.log(antal)
-        res.json(antal);
-      }
-    })
-
 
 
 
