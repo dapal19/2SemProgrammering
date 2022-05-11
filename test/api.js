@@ -6,29 +6,27 @@ const should = chai.should()
 chai.use(chaiHTTP);
 
 //Post endpoint testes
-const endPoint = "http://localhost:4000/create"
+const endPoint = "http://localhost:1000/nyBruger"
 
 describe(`POST new user ${endPoint}`, () => {
     it('should post a new user', (done) => {
-        const newUser = {
-            username: "Mikkel",
+        const payload = {
+            name: "Mikkel",
             password: "1234"
         };
         chai
         .request(endPoint)
         .post("")
         .set("content-type", "application/json")
-        .send(newUser)
+        .send(payload)
         .end((err, res) => {
             //general
             expect(err).to.be.null;
             //check if status is good
-            res.should.have.status(201);
+            res.should.have.status(200);
             //check if body is an obejct
             res.body.should.be.a('object')
             //check object has right properties
-            res.body.should.have.property('username').eq("Mikkel")
-            res.body.should.have.property('password').eq("1234")
         done();
         });
     });

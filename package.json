@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "func host start --cors*",
-    "test": "echo \"No tests yet...\""
+    "test": "mocha"
   },
   "dependencies": {
     "bew": "^0.0.1",

@@ -34,12 +34,6 @@ class User {
       let result = await connectTilDb(`UPDATE dbo.users SET name = '${this.name}', password = '${this.password}'
       WHERE name = '${oldInfo.name}' AND password = '${oldInfo.password}'`)
     }
-    
-    async getUser() {
-      let result = await connectTilDb(`SELECT * FROM dbo.users`)
-      console.log(result)
-      return result
-    }
   
 
     async loginUser() {
