@@ -1,10 +1,4 @@
-const express = require('express')
-const app = express()
-const formData = require("express-form-data");
-const { del } = require('express/lib/application');
-app.use(express.json());
-app.use(express.static("../Views"));
-
+//henter connection til DB
 const connectTilDb = require('../Database/DBConfig')
 
 
@@ -15,35 +9,34 @@ class Admin {
       this.password = password;
     }
 
-
+    //admin login
     async adminLogin() {
       let admin = await connectTilDb(`SELECT * FROM dbo.admin
     WHERE name='${this.name}' AND password='${this.password}'`);
       return admin
     };
   
+    //delete en bruger
     async deleteUser(id) {
       let deleUser = connectTilDb(`DELETE FROM dbo.users WHERE id = '${id}'`)
         return deleUser
     }
   
-  
+    //opgrader en bruger
     async upgradeUser(status, id) {
       let admin = await connectTilDb(`UPDATE dbo.users SET status = '${status}'
          WHERE id = '${id}'`)
       return admin
     }
   
-
-  
+    //opdater en bruger
     async adminUpdateUser(name, password, id) {
       let admin =  await connectTilDb(`UPDATE dbo.users SET name = '${name}', password = '${password}'
         WHERE id = '${id}'`)
         return admin
     }
   
-  
-  
+    //hvor mange annocner der er i alt
     async userStats() {
       let admin =  await connectTilDb(`SELECT COUNT(id) as total_annoncer FROM dbo.annoncer`)
         return admin
@@ -51,7 +44,7 @@ class Admin {
     }
   
   
-  
+  //hvor mange annnocner der er pr bruger
     async annoncePrUser() {
       let admin = await connectTilDb(`
             SELECT user_id, COUNT(id) as antal_annoncer FROM dbo.annoncer
@@ -63,5 +56,7 @@ class Admin {
     
   }
 
+
+  //eksportere klassen
   module.exports = { Admin }
   

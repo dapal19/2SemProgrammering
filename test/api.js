@@ -8,7 +8,7 @@ chai.use(chaiHTTP);
 //Post endpoint testes
 const endPoint = "http://localhost:1000/nyBruger"
 
-describe(`POST new user ${endPoint}`, () => {
+describe(`POST new user ${endPoint}`, (done) => {
     it('should post a new user', (done) => {
         const payload = {
             name: "Mikkel",
@@ -31,5 +31,4 @@ describe(`POST new user ${endPoint}`, () => {
         });
     });
 });
-
 

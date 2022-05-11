@@ -1,4 +1,4 @@
-//Opret en anonce
+//-------Opret en anonce-------
 
 let form = document.getElementById("submitForm");
 
@@ -20,9 +20,7 @@ form.addEventListener('submit', (e) => {
 
 
 
-//Slet annoncer
-
-
+//--------Slet annoncer-------- 
 const deleteSubmit = document.getElementById("deleteSubmit")
 
 
@@ -48,7 +46,7 @@ deleteSubmit.addEventListener("click", (e) =>{
 })
     
 
-//opdater vare
+//---------opdater vare--------------------------------
 
 //sumbit knap fra form
 const ChangeVareSubmit = document.getElementById("ChangeVare")

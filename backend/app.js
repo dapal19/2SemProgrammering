@@ -9,30 +9,32 @@ app.use(express.static("../Views"));
 
 const connectTilDb = require('../Database/DBConfig')
 
-
+//til at gemme 
 app.use("/uploads", express.static("uploads"))
 const imageUpload = {
   uploadDir: './uploads'
 }
 
 
-
+//importere klasser
 const { User } = require('../Models/User.js')
 const { Annonce } = require('../Models/Annoncer.js')
 const { Admin } = require('../Models/Admin.js')
 const { Follow } = require('../Models/Follow.js')
 
-//Definerer vores PORT GANG GANG 
+//Definerer vores port
 const PORT = 1000;
+
+//hvor server skal lyyte
 app.listen(PORT, () => {
   console.log(`server lytter på http://localhost:${PORT}`);
 });
+
 
 //Get-request til main-site, hvor vi vil samle mange af sitets funktionaliteter.
 app.get("/mainsite", async (req, res) => {
   res.redirect('mainsite.html')
 })
-
 
 //Router til opdater siden
 app.get("/profil", async (req, res) => {
@@ -55,12 +57,13 @@ app.get('/annoncer', (req, res) => {
   res.redirect("/annoncer.html");
 });
 
-
+//route til admin
 app.get("/admin", async (req, res) => {
   res.redirect('admin.html')
 })
 
-//---------BRUGER ENDPOINS----------
+
+//-------------------BRUGER ENDPOINS----------
 //laver er ny bruger
 app.post("/nyBruger", async (req, res) => {
 
@@ -79,7 +82,7 @@ app.delete("/deleteBruger", async (req, res) => {
 
   await delUser.deleteUser()
 
-  res.send("hej")
+  res.send("det lykkedes")
 });
 
 
@@ -109,8 +112,10 @@ app.post('/loginBruger', async (req, res) => {
 
   let result = await userLog.loginUser()
 
+  //hvis object ikke findes
   if (!result['1']) {
     res.status(404).send('Brugeren findes ikke');
+    //ellers setHeader tilbage til frontend
   } else {
     res.setHeader("username", result[1].name)
     res.setHeader("password", result[1].password)
@@ -118,8 +123,6 @@ app.post('/loginBruger', async (req, res) => {
     res.status(200).send(true);
   }
 });
-
-
 
 
 
@@ -225,7 +228,7 @@ app.post("/whoFollow", async (req, res) => {
 
 
 
-//------------ADMIN-----------
+//------------ADMIN---------------------  
 
 
 //login admin

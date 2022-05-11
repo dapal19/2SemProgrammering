@@ -1,5 +1,5 @@
 
-//------LOGIN-----
+//------------LOGIN----------
 
 //login 
 //knap til login

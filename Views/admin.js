@@ -1,6 +1,10 @@
+//-----------OPDATER BRUGER--------
+//henter knap til at opdatere
 var changeUserInfo = document.getElementById("changeUserInfo")
-// Listening on all id in the update.html
-// using preventDefault, so the submit dosen't execute when the HTML page opens 
+
+
+//opdater en bruger som admin
+//giver den funktion
 changeUserInfo.addEventListener('click', function(e) {
     e.preventDefault()
     //Henter værdier fra form
@@ -8,8 +12,8 @@ changeUserInfo.addEventListener('click', function(e) {
     let name = document.getElementById("name").value;
     let password = document.getElementById("password").value;
     let adminPassword = localStorage.getItem("password")
-    //Objekt der sendes
     
+    //Objekt der sendes
     let payload = {
         id: id,
         name: name,
@@ -32,8 +36,11 @@ changeUserInfo.addEventListener('click', function(e) {
 
 
 
+//--------------------------SLET EN BRUGER-----
+//henter from
 var formSlet = document.getElementById("formslet")
 
+//giver funktion til form
 formSlet.addEventListener('submit', function(e) {
     e.preventDefault()
     let id = document.getElementById("userid").value
@@ -53,11 +60,11 @@ formSlet.addEventListener('submit', function(e) {
   });
 
 
-
+//--------ADMIN OPGRADER-----------------------------
 
   var opgraderUser = document.getElementById("form23")
-  // Listening on all id in the update.html
-  // using preventDefault, so the submit dosen't execute when the HTML page opens 
+ 
+
   opgraderSubmit.addEventListener('click', function(e) {
       e.preventDefault()
       //Henter værdier fra form
@@ -86,6 +93,7 @@ formSlet.addEventListener('submit', function(e) {
   })
   
   
+  //---------------SE ADMIN STATS - I ALT ANNONCER-------------------------------------------------
   
   document.getElementById("hejhej").addEventListener('click', () =>{
     
@@ -112,7 +120,7 @@ formSlet.addEventListener('submit', function(e) {
   })
   
   
-  ///----STAT PR BRUGER
+  ///----STAT PR BRUGER------------
   //knap til at se vare
   let seStat = document.getElementById("seStat")
   //tabel hvor varene skal sættes ind
@@ -125,7 +133,8 @@ formSlet.addEventListener('submit', function(e) {
       let payload = {
           adminPassword: adminPassword
       }
-  
+      
+      //LAVER TABEL
       listStat.innerHTML = `
       <tr>
           <th>Bruger</th>

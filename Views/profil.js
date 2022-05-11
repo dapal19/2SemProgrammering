@@ -1,6 +1,7 @@
+
+//--------------opdater en bruger------
 var changeUserInfo = document.getElementById("changeUserInfo")
-// Listening on all id in the update.html
-// using preventDefault, so the submit dosen't execute when the HTML page opens 
+
 changeUserInfo.addEventListener('click', function(e) {
     e.preventDefault()
     //Henter værdier fra form
@@ -30,7 +31,7 @@ changeUserInfo.addEventListener('click', function(e) {
 })
 
 
-//----- slet bruger
+//----- slet bruger----------
 var form = document.getElementById("form")
 
 form.addEventListener('submit', function(e) {
@@ -57,7 +58,7 @@ form.addEventListener('submit', function(e) {
 
 
 
-///----HVEM FØLGER DU?-----
+///---- SE HVEM DU FØLGER----------
 //knap til at se vare
 let seVare = document.getElementById("seVare")
 //tabel hvor varene skal sættes ind

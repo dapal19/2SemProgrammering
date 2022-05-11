@@ -1,10 +1,3 @@
-const express = require('express')
-const app = express()
-const formData = require("express-form-data");
-const { del } = require('express/lib/application');
-app.use(express.json());
-app.use(express.static("../Views"));
-
 const connectTilDb = require('../Database/DBConfig')
 
 
@@ -14,13 +7,14 @@ class Follow {
       this.annonce_id = annonce_id;
     }
   
-    
+    //følg en anonce
     async følg() {
       let payload = await connectTilDb(`INSERT INTO dbo.follow (user_id, annonce_id)
       VALUES ('${this.user_id}', '${this.annonce_id}') `);
       return payload
     }
   
+    //få de annoncer man følger
     async getFølge(user_id) {
   
       let payload = await connectTilDb(`
@@ -33,5 +27,5 @@ class Follow {
   
 }
 
-
+//eksportere klassen
 module.exports = { Follow }

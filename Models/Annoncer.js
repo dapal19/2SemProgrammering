@@ -1,11 +1,6 @@
-const express = require('express')
-const app = express()
-const formData = require("express-form-data");
-const { del } = require('express/lib/application');
-app.use(express.json());
-app.use(express.static("../Views"));
-
+//henter DB
 const connectTilDb = require('../Database/DBConfig')
+
 
 class Annonce {
     constructor(title, price, location, category, colour, user_id, billede) {
@@ -18,26 +13,30 @@ class Annonce {
       this.billede = billede;
   
     }
-  
+    //kan sætte titlen til ønsket værdi
     setTitle(title) {
       this.title = title;
     }
+
+    //kan sættte user_id til ønsket værdi
     setUserID(user_id) {
       this.user_id = user_id;
     }
   
-  
+    //Kan lave en annonce
     async lavAnnonce() {
       await connectTilDb(`INSERT INTO dbo.annoncer (title, price, location, category, colour, user_id, billede) VALUES (
             '${this.title}', '${this.price}', '${this.location}', '${this.category}', 
             '${this.colour}', '${this.user_id}', '${this.billede}');`)
     }
   
+    //slette sin egen annonce
     async delAnnonce() {
       let result = await connectTilDb(`DELETE FROM dbo.annoncer WHERE title = '${this.title}' AND user_id = '${this.user_id}' `);
       return result
     }
   
+    //opdatere sin egen anonce
     async opdaterAnnonce(oldTitle) {
       let annonce = await connectTilDb(`UPDATE dbo.annoncer 
       SET title='${this.title}', price='${this.price}', location='${this.location}'
@@ -46,12 +45,13 @@ class Annonce {
       return annonce
     }
   
-  
+    //se de annocner man selv har lavet
     async personligAnnon() {
       let annoncer = await connectTilDb(`SELECT * FROM dbo.annoncer WHERE user_id = '${this.user_id}'`);
       return annoncer
     }
   
+    //filteret til mainsite
     async filter(price1, age) {
       let filter = await connectTilDb(`SELECT dbo.annoncer.*, dbo.users.status, dbo.users.name, age = DATEDIFF(DAY, created_at, CURRENT_TIMESTAMP) 
       FROM dbo.annoncer 
@@ -73,7 +73,7 @@ class Annonce {
     }
 }
 
-
+//ekpsortere klassen
 module.exports = { Annonce }
 
 

@@ -1,4 +1,4 @@
-//Henter formen fra HTML
+//------OPRET BRUGER--------------------------------
 var form = document.getElementById("form")
 form.addEventListener('submit', function(e) {
     e.preventDefault()

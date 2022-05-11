@@ -1,4 +1,4 @@
-//  -----------Få vare
+//  -----------Få vare--------
 //tabel til vare
 
 //knap til at se vare
@@ -80,6 +80,8 @@ filtrer.addEventListener('click', () =>{
 })
 
 
+
+//funktion der udføres når knappen i tabllen trykkse
 
 function følg(id) {
 
