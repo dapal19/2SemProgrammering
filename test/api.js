@@ -1,34 +1,82 @@
-const { expect } = require('chai');
-const chai = require('chai');
-const chaiHTTP = require('chai-http');
-const should = chai.should()
+var chai = require("chai")
+var chaiHttp = require('chai-http');
+const should = chai.should();
 
-chai.use(chaiHTTP);
+chai.use(chaiHttp);
 
-//Post endpoint testes
-const endPoint = "http://localhost:1000/nyBruger"
-
-describe(`POST new user ${endPoint}`, (done) => {
-    it('should post a new user', (done) => {
+const endPoint = 'http://localhost:1000/loginBruger'
+describe("Tester om bruger kan logge ind", () => {
+    it("skal have status 200, da payloaden indeholder rigtige oplysninger ", function (done) {
         const payload = {
-            name: "Mikkel",
-            password: "1234"
+            name: "s",
+            password: "s"
         };
         chai
-        .request(endPoint)
-        .post("")
-        .set("content-type", "application/json")
-        .send(payload)
-        .end((err, res) => {
-            //general
-            expect(err).to.be.null;
-            //check if status is good
-            res.should.have.status(200);
-            //check if body is an obejct
-            res.body.should.be.a('object')
-            //check object has right properties
-        done();
-        });
-    });
-});
+            .request(endPoint)
+            .post("")
+            .set("content-type", "application/json")
+            .send(payload)
+            .end((err, res) => {
+                res.should.have.status(200)
+                done();
+            });
+    })
+})
+//FORKERT LOGIN
+const endPoint2 = 'http://localhost:1000/loginBruger'
+describe("Tester om bruger kan logge ind med forkerte oplysninger", () => {
+    it("skal have status 404, da payloaden indeholder forkerte oplysninger ", function (done) {
+        const payload = {
+            name: "sss",
+            password: "sss"
+        };
+        chai
+            .request(endPoint2)
+            .post("")
+            .set("content-type", "application/json")
+            .send(payload)
+            .end((err, res) => {
+                res.should.have.status(404)
+                done();
+            });
+    })
+})
+//rigtigt navn men forkert password
+const endPoint3 = 'http://localhost:1000/loginBruger'
+describe("Tester om bruger kan logge ind", () => {
+    it("skal have status 404, da payloaden indeholder rigtigt navn men forkert password ", function (done) {
+        const payload = {
+            name: "s",
+            password: "sss"
+        };
+        chai
+            .request(endPoint3)
+            .post("")
+            .set("content-type", "application/json")
+            .send(payload)
+            .end((err, res) => {
+                res.should.have.status(404)
+                done();
+            });
+    })
+})
+//rigtgt password men forkert navn
+const endPoint4 = 'http://localhost:1000/loginBruger'
+describe("Tester om bruger kan logge ind", () => {
+    it("skal have status 404, da payloaden indeholder rigtigt password men forkert navn ", function (done) {
+        const payload = {
+            name: "sss",
+            password: "s"
+        };
+        chai
+            .request(endPoint4)
+            .post("")
+            .set("content-type", "application/json")
+            .send(payload)
+            .end((err, res) => {
+                res.should.have.status(404)
+                done();
+            });
+    })
+})
 
