@@ -1,3 +1,8 @@
+//Importerer de forskellige libraries
+const express = require('express')
+const app = express()
+app.use(express.json());
+
 //henter DB
 const connectTilDb = require('../Database/DBConfig')
 

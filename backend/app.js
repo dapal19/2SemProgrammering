@@ -126,7 +126,6 @@ app.post('/loginBruger', async (req, res) => {
 
 
 
-
 //////------ANONCER ENDPOINTS HER-------
 
 //opret annonce
@@ -162,14 +161,12 @@ app.put("/opdaterAnnonce", async (req, res) => {
 
   let oldTitle = req.body.oldTitle
 
-  let upAnnocne = new Annonce(req.body.title, req.body.price, req.body.colour, req.body.location, req.body.category, req.body.user_id)
+  let upAnnocne = new Annonce(req.body.title, req.body.price, req.body.colour, req.body.location, req.body.category, req.body.user_id, "hej")
 
   await upAnnocne.opdaterAnnonce(oldTitle)
 
 
 })
-
-
 
 
 //---------ANNONCE TABELLER--------

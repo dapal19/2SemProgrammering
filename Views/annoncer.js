@@ -59,8 +59,8 @@ ChangeVareSubmit.addEventListener("click", (e) =>{
     let price = document.getElementById("changePrice").value;
     let location = document.getElementById("changeLocation").value;
     let oldTitle = document.getElementById("oldTitle").value;
-    let colour = document.getElementById("colour").value
-    let category = document.getElementById("category").value
+    let colour = document.getElementById("changeColour").value
+    let category = document.getElementById("changeCategory").value
     let user_id = localStorage.getItem("user_id")
     
     //obejkt der skal sendes
