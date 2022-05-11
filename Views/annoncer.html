@@ -19,31 +19,29 @@
 </head>
 <body>
         <h1> Opret Annonce </h1>
-        <form id="form1" method="POST"> 
-            <input type="text" id="title" placeholder="Titel">
-            <input type="text" id="price" placeholder="Pris">
-            <input type="text" id="colour" placeholder="Farve">
+        <form id="submitForm"> <h3>Opret vare</h3>
+          <input type="text" id="title" name="title" placeholder="Titel">
+            <input type="text" id="price" name="price" placeholder="Pris">
+            <input type="text" id="colour" name="colour" placeholder="Farve">
 
-            <select id = "category">
+            <select name="category">
                 <option value="andet"> Andet </option>
                 <option value = "Biler"> Biler </option>
                 <option value = "Fodboldkort"> Fodboldkort </option>
                 <option value = "Tøj"> Tøj </option>
               </select>
             
-              <select id = "location">
+              <select  name="location">
                 <option value="Hovedstanden"> Hovedstaden </option>
                 <option value = "Sjælland"> Sjælland </option>
                 <option value = "Fyn"> Fyn </option>
                 <option value = "Jylland"> Jylland </option>
                 <option value = "Midtjylland"> Midtjylland </option>
                 <option value = "Syd-danmark"> Syddanmark </option>
-
-                File <input type="file" id="billede"><br/>
-
               </select>
-            <button type="submit" name="submit11"> Opret Annonce</button>
-        </form>
+              File <input type="file" name="image" placeholder="pris"><br/>
+          <button type="submit"> Opret vare </button>
+       </form>
 
     <div>
         <h1> Slet Annonce </h1>

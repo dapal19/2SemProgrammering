@@ -8,13 +8,14 @@ app.use(express.static("../Views"));
 const connectTilDb = require('../Database/DBConfig')
 
 class Annonce {
-    constructor(title, price, location, category, colour, user_id) {
+    constructor(title, price, location, category, colour, user_id, billede) {
       this.title = title;
       this.price = price;
       this.location = location;
       this.category = category;
       this.colour = colour;
       this.user_id = user_id;
+      this.billede = billede;
   
     }
   
@@ -27,9 +28,9 @@ class Annonce {
   
   
     async lavAnnonce() {
-      await connectTilDb(`INSERT INTO dbo.annoncer (title, price, location, category, colour, user_id) VALUES (
+      await connectTilDb(`INSERT INTO dbo.annoncer (title, price, location, category, colour, user_id, billede) VALUES (
             '${this.title}', '${this.price}', '${this.location}', '${this.category}', 
-            '${this.colour}', '${this.user_id}');`)
+            '${this.colour}', '${this.user_id}', '${this.billede}');`)
     }
   
     async delAnnonce() {

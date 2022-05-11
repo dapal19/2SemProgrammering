@@ -10,6 +10,13 @@ app.use(express.static("../Views"));
 const connectTilDb = require('../Database/DBConfig')
 
 
+app.use("/uploads", express.static("uploads"))
+const imageUpload = {
+  uploadDir: './uploads'
+}
+
+
+
 const { User } = require('../Models/User.js')
 const { Annonce } = require('../Models/Annoncer.js')
 const { Admin } = require('../Models/Admin.js')
@@ -120,14 +127,18 @@ app.post('/loginBruger', async (req, res) => {
 //////------ANONCER ENDPOINTS HER-------
 
 //opret annonce
-app.post("/lavAnnonce", async (req, res) => {
+app.post('/item/:user_id', formData.parse(imageUpload), async (req,res) => {
+  //definere body'en fra requestet
+  let image = req.files.image.path.replace('\\', '/');
 
-  const nyAnnonce = new Annonce(req.body.title, req.body.price, req.body.location, req.body.category, req.body.colour, req.body.user_id, req.body.billede)
+  const nyAnnonce = new Annonce(req.body.title,req.body.price, req.body.colour, req.body.category, req.body.location, req.params.user_id, image)
 
   await nyAnnonce.lavAnnonce()
+  //tilføjer vare til array
 
+  res.send("det virker")
+}); 
 
-})
 
 //slet annonce
 app.delete("/sletAnnonce/:title/:user_id", async (req, res) => {

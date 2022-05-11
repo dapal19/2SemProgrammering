@@ -36,6 +36,7 @@ filtrer.addEventListener('click', () =>{
         <th>Farve</th>
         <th>Since_Posted</th>
         <th>User</th>
+        <th>Billlede</th>
         <th>Følg?</th>
     <tr/>
     `;
@@ -65,6 +66,7 @@ filtrer.addEventListener('click', () =>{
             <td> ${antal[i].colour} </td>
             <td> ${antal[i].age} </td>
             <td> ${antal[i].name} </td>
+            <td> <img src="${antal[i].billede}" width="193" height="130";</td>
             <td> <button onclick=følg("${antal[i].id}")> Følg?</button> </td>
         </tr>
         `

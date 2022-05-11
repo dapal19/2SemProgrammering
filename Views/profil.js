@@ -103,6 +103,7 @@ seVare.addEventListener('click', () =>{
             <td> ${annonce[i].location}</td>
             <td> ${annonce[i].category}</td>
             <td> ${annonce[i].colour}</td>
+            <td> <img src="${annonce[i].billede}" width="193" height="130";</td>
         </tr>`
         
         }

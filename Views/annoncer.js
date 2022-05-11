@@ -1,43 +1,20 @@
 //Opret en anonce
 
-var form = document.getElementById("form1")
+let form = document.getElementById("submitForm");
 
-form.addEventListener('submit', function(e) {
-    e.preventDefault()
-    
-    let title = document.getElementById("title").value
-    let price = document.getElementById("price").value
-    let colour = document.getElementById("colour").value
-    let category = document.getElementById("category").value
-    let location = document.getElementById("location").value
-    let billede = document.getElementById("billede").value
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
     let user_id = localStorage.getItem("user_id")
 
-    let payload = {
-        title: title,
-        price: price,
-        location: location,
-        colour: colour,
-        category: category,
-        billede: billede,
-        user_id: user_id
-    }
+    //formData representeret i key-values
+    const dataForm = new FormData(form)
+    console.log(dataForm)
 
-    fetch("http://localhost:1000/lavAnnonce",  {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload),
+    fetch(`http://localhost:1000/item/${user_id}`, {
+        method: 'POST',
+        body: dataForm
     }) 
-
-    .then((response) => {
-        return response
-    })
-    .catch((err) =>{
-        console.log(err)
-    })
-
 })
 
 
@@ -179,6 +156,7 @@ seVare.addEventListener('click', () =>{
             <td> ${annonce[i].location}</td>
             <td> ${annonce[i].category}</td>
             <td> ${annonce[i].colour}</td>
+            <td> <img src="${annonce[i].billede}" width="193" height="130";</td>
         </tr>`
         
         }
