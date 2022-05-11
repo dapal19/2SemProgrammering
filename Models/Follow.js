@@ -23,7 +23,8 @@ class Follow {
   
     async getFølge(user_id) {
   
-      let payload = await connectTilDb(`SELECT dbo.follow.user_id as follower_id, dbo.annoncer.* FROM dbo.annoncer
+      let payload = await connectTilDb(`
+        SELECT dbo.follow.user_id as follower_id, dbo.annoncer.* FROM dbo.annoncer
          INNER JOIN dbo.follow ON follow.annonce_id = annoncer.id
         WHERE dbo.follow.user_id = ${user_id}
     `)
