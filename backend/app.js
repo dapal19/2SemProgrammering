@@ -133,7 +133,7 @@ app.post('/item/:user_id', formData.parse(imageUpload), async (req,res) => {
   //definere body'en fra requestet
   let image = req.files.image.path.replace('\\', '/');
 
-  const nyAnnonce = new Annonce(req.body.title,req.body.price, req.body.colour, req.body.category, req.body.location, req.params.user_id, image)
+  const nyAnnonce = new Annonce(req.body.title,req.body.price, req.body.location, req.body.category, req.body.colour, req.params.user_id, image)
 
   await nyAnnonce.lavAnnonce()
   //tilføjer vare til array
@@ -161,7 +161,7 @@ app.put("/opdaterAnnonce", async (req, res) => {
 
   let oldTitle = req.body.oldTitle
 
-  let upAnnocne = new Annonce(req.body.title, req.body.price, req.body.colour, req.body.location, req.body.category, req.body.user_id, "hej")
+  let upAnnocne = new Annonce(req.body.title, req.body.price, req.body.location, req.body.category, req.body.colour, req.body.user_id, "hej")
 
   await upAnnocne.opdaterAnnonce(oldTitle)
 
@@ -189,7 +189,7 @@ app.post("/filter", async (req, res) => {
   let price1 = req.body.price1
   let age = req.body.age
 
-  const filterAnnonce = new Annonce("hej", req.body.price2, req.body.colour, req.body.location, req.body.category, 123)
+  const filterAnnonce = new Annonce("hej", req.body.price2, req.body.location, req.body.category, req.body.colour, "123")
 
   res.json(await filterAnnonce.filter(price1, age))
 })
